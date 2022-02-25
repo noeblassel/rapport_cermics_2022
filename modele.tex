@@ -1,0 +1,292 @@
+  %-------------------------------------------------------
+%
+%   Exemple de fichier Latex pour rapport stage
+%   (deni�re modification : Gabriel Stoltz, 17/04/08)
+%
+%            -----------------
+%
+%   Compilation : latex fichier.tex 
+%   Conversion  : dvipdf fichier.dvi 
+%   Lecture     : acroread fichier.pdf
+%
+%--------------------------------------------------------
+
+\documentclass[a4paper,10pt,twoside]{report}
+
+%--------------------------
+%  definitions et packages
+%--------------------------
+
+\usepackage[latin1]{inputenc} %Ligne PS
+\usepackage[T1]{fontenc} %Ligne PS
+\newlength{\minipagewidth}
+\setlength{\minipagewidth}{\textwidth}
+\setlength{\fboxsep}{3mm}
+\usepackage{a4wide}
+\usepackage[active]{srcltx} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{a4wide}
+\usepackage{graphicx} 
+\usepackage{color}
+\usepackage[french]{babel}
+
+\newtheorem{thm}{\bf Th�or�me}
+\newtheorem{prop}{Propri�t�}
+\newtheorem{definition}{D�finition}
+\newtheorem{proposition}{Proposition}
+\newcommand{\Rdeux}{\mathbb{R}^2}
+\newcommand{\kideux}{\Chi ^2}
+
+\newcommand{\dps}{\displaystyle}
+
+%-------------------
+%
+%  Page de garde
+%
+%------------------
+
+\title { 
+%\vspace{-3cm}\includegraphics{output_enpc.ps} \vspace{1cm} \\
+ \Large{\textbf{\underline{Ecole Nationale des Ponts et Chauss\'ees}\\}}
+ \vspace{0,7cm}
+  \large{\textbf{2005-2006\\}}
+  \vspace{1,5cm} \huge{\textbf{Stage Scientifique\\}}
+  \vspace{0,7cm}\Large{\textbf{Pr�nom Nom\\}}
+\vspace{1cm}
+\huge{\textbf{Titre \\}}
+\vspace{2cm}
+\large{\textbf{Projet r\'ealis\'e  en collaboration avec le CERMICS\\ 
+Ecole Nationale des Ponts et Chauss\'ees \\6 et 8 avenue Blaise Pascal\\
+Cit\'e Descartes - Champs sur Marne\\
+77455 Marne la Vall\'ee Cedex 2 \\}}
+\vspace{2cm}
+\Large{\textbf{Tuteur : Gabriel Stoltz}}
+}
+
+%-------------------
+% debut du document
+%------------------
+
+\begin{document}
+
+\maketitle
+
+%-----------------------
+%    Résumé
+%-----------------------
+\begin{abstract}
+R�sum� des travaux.
+\end{abstract}
+
+%---------------------
+%  Table des matières
+%---------------------
+\tableofcontents
+
+%------------------------------------------------
+%          Premier chapitre
+%------------------------------------------------
+
+\chapter{La simulation mol�culaire}
+
+Nous nous int�ressons dans le cadre de cette �tude � la mod�lisation
+de syst�mes mol�culaires. Par exemple, on pourrait appliquer les
+r�sultats obtenus � un gaz parfait, inerte, comme l'argon. 
+
+Il n'est pas possible de conna�tre les solutions exactes des �quations
+diff�rentielles qui r�gissent la dynamique mol�culaire. Ainsi, on a
+recours � la simulation num�rique, op�ration qui consiste en la
+discr�tisation des lois fondamentales du probl�me; on obtient alors
+pour r�sultats des photographies de la solution � des instants
+r�guliers. L'augmentation de la puissance des moyens informatiques
+permet de r�aliser des simulations sur des temps de plus en plus
+longs, et les sch�mas d'int�gration atteignent le million voire le
+milliard d'it�rations.
+
+Il est important alors que les m�thodes d'approximation choisies
+puissent conserver des propri�t�s qualitatives de la
+solution. L'approche g�om�trique de l'int�gration apportera des
+r�ponses � ce probl�me central. On insistera alors sur les notions
+cl�s qu'il convient de retenir comme crit�res de s�lection d'un bon
+int�grateur.  
+
+L'�tude par m�thodes num�riques des syst�mes mol�culaires pourra aussi
+�tre valid�e par le calcul de moyennes de grandeurs physiques du
+syst�me, comme la temp�rature, la capacit� calorifique ou la
+pression. Ainsi, on saura si la mod�lisation est bonne ou non lorsque
+les moyennes calcul�es correspondront � nos attentes th�oriques. 
+
+\section{Description des syst�mes mol�culaires}
+
+On consid�re un syst�me form� de $N$ particules (typiquement, des
+atomes), d�crit par une configuration $q=(q_{1},...,q_{N})$ (avec $q_i
+\in \mathbb{R}^d$, o� $d=1,2,3$ est la dimension de l'espace
+ambiant). Chaque particule, de masse $m_i$, a une impulsion $p_i = m_i
+\dot{q}_i$. On note $p=(p_{1},...,p_{N})$, et $M$ la matrice de masse
+du syst�me, c'est-�-dire $M = {\rm Diag}(m_1,\dots,m_N)$.
+
+Les interactions entre les particules sont d�crites par une fonction
+$V \equiv V(q)$, appel�e �nergie potentielle. Toute la physique du
+syst�me est contenue dans $V$. Ainsi, pour un gaz parfait tel que
+l'argon, les interactions entre les atomes sont bien d�crites par un
+potentiel de paire de type Lennard-Jones. Dans ce cas,
+\[
+V(q) = \sum_{1 \leq i < j \leq N} {\cal V}\left(|q_i-q_j| \right)), 
+\]
+avec 
+\[
+{\cal V}(r) = \epsilon \left ( \left(\frac{\sigma}{r}\right)^{12} - (\frac{\sigma}{r})^{6}\right ).
+\]
+Pour l'argon, $\epsilon/k_{\rm B} = 120$~K, et $\sigma = 3.405$~\AA.
+
+L'�nergie totale, somme de l'�nergie potentielle et de l'energie cin�tique, est suppos�e pouvoir s'�crire
+\[
+\label{hamiltonien}
+H(q,p) = V(q) + \frac12 p^T M^{-1} p.
+\]
+La fonction $H(q,p)$ est le Hamiltonien du syst�me.
+
+On postule que la dynamique du syst�me est r�gie par la dynamique de Newton : 
+\begin {equation}
+\label{equation_de_Newton}
+\left \{ 
+\begin{array}{c@{ \ = \ }l}
+\dot{q} & M^{-1} \, p \\
+\dot{p} & - \nabla V(q)  \\
+\end{array} \right.
+\end{equation}
+qui peut aussi s'�crire matriciellement sous la forme :
+\[
+\frac{dy}{dt} = J\nabla H
+\]
+o� J est la matrice r�elle carr�e de taille $2Nd$ :
+\[
+J = \begin{pmatrix}
+  0 & I  \\
+  -I & 0
+\end{pmatrix},
+\]
+$y$ repr�sentant le vecteur $(q,p)$ de $\mathbb{R}^{2Nd}$.
+ Par la suite, on fera l'hypoth�se qu'il y a une et une seule solution
+�~(\ref{equation_de_Newton}). Ceci est le cas par exemple si le champ
+de force $\nabla V$ est globalement lipschitzien (par application du
+th�or�me de Cauchy-Lipschitz).
+
+\section{Observables}
+
+\subsection{D�finition}
+
+On peut d�crire le syst�me de particules de $N$ particules de mani�re
+d�terministe en r�solvant les �quations de la m�canique. L'�volution
+du syst�me est alors d�crite par une trajectoire dans un espace �
+$6Nd$ dimensions appel� espace des phases. A chaque instant, le
+syst�me est compl�tement d�crit par la connaissance du $6Nd$-uplet
+$(q_1,...,q_N,p_1,...,p_N)$, o� $q_i, p_i \in \mathbb{R}^d$, o�
+$d=1,2,3$ est la dimension de l'espace ambiant.
+
+On peut r�soudre les �quations du mouvement. Mais ceci n'est possible
+que pour des syst�mes d'au mieux une centaine de milliers de mol�cules
+et sur des temps tr�s courts, de l'ordre de $10^{-8}$ s. Pour un
+syst�me macroscopique, le nombre de particules est de l'ordre du
+nombre d'Avogadro ${\cal N}_A=6,02 \times 10^{23}$. Il est donc totalement
+inenvisageable de simuler compl�tement un syst�me macroscopique.
+
+On adoptera ainsi une approche statistique du probl�me. On ne
+s'int�ressera pas aux micro-�tats, mais � leur probabilit�, ce qui
+nous permettra d'acc�der � des grandeurs moyenn�es sur l'ensemble du
+syst�me, aussi appel�es observables.
+
+A l'�chelle macroscopique, le syst�me est d�crit par des grandeurs
+globales $A$, comme par exemple la temp�rature $T$ ou la pression
+$P$. Chacune de ces grandeurs �volue vers sa moyenne $\langle A
+\rangle$. Si le syst�me subit une l�g�re fluctuation, ces grandeurs
+reviendront � leur valeur moyenne. Elles d�finissent un �tat
+d'�quilibre macroscopique, que l'on appellera macro-�tat.
+
+\subsection{Quelques exemples}
+
+\subsubsection{Chaleur sp�cifique � volume constant $C_V$}
+
+Pour un fluide dont le comportement est r�gi par un potentiel de paire
+de type Lennard-Jones, on d�finit la chaleur sp�cifique � volume
+constant par :
+\[
+C_V = \frac{N_A}{Nk_{b}T^{2}}(\langle H^2 \rangle - \langle H \rangle ^2).
+\]
+
+\subsubsection{Pression $P$ dans un liquide}
+
+La pression $P$ dans un liquide peut �tre d�finie comme une moyenne $P = \langle A \rangle$, o� 
+\[
+A = \frac{1}{3V} \sum_{i=1}^{N} \left(\frac{p_{i}^2}{m_{i}} - q_{i} \cdot \partial_{q_{i}} V (q) \right),
+\]
+o� $V$ est le volume occup� par le fluide.
+
+\section{Ensemble microcanonique}
+
+\subsection{D�finition}
+
+\begin{prop}[Conservation du Hamiltonien le long d'une trajectoire]
+On montre facilement que la dynamique~(\ref{equation_de_Newton}) est
+telle que l'�nergie totale $H(q,p)$ est pr�serv�e le long de la
+trajectoire. En effet,
+\[
+\frac{dH(q(t),p(t))}{dt} = \partial_q H(q(t),p(t)) \cdot \dot{q}(t) + \partial_p H(q(t),p(t)) \cdot \dot{p}(t).
+\]
+Utilisant alors~(\ref{equation_de_Newton}) et la d�finition~(\ref{hamiltonien}) du Hamiltonien $H$,
+\[
+\frac{dH(q(t),p(t))}{dt} = \nabla V(q(t)) \cdot M^{-1} p(t) + M^{-1} p(t) \cdot (- \nabla V(q(t)) ) = 0.
+\]
+Ceci montre que $H(q(t),p(t)) = H(q^0,p^0)$ pour tout temps $t$.
+\end{prop}
+
+%----------------------------
+%   ex. inclusion de figure
+%----------------------------
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=10cm,angle=270]{images/test.eps}
+\caption{ \label{fig:nom_figure}
+Exemple de figure.
+}
+\end{center}
+\end{figure}
+
+Voir la Figure~\ref{fig:nom_figure} ou~\ref{fig:nom_figure_autre}.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=5.cm,angle=270]{images/test.eps}
+    \includegraphics[width=5.cm,angle=270]{images/test.eps}
+    \caption{ \label{fig:nom_figure_autre}
+      Exemple de double figure (� pr�f�rer).
+    }
+  \end{center}
+\end{figure}
+
+%--------------------------------------
+%
+%     ECHANTILLONNAGE MICROCANONIQUE
+%
+%--------------------------------------
+
+\chapter{Echantillonnage de la mesure microcanonique}
+
+etc...
+
+%--------------------------
+%    BIBLIOGRAPHIE
+%-------------------------
+\begin{thebibliography}{10}
+
+\bibitem{HLW} {\sc E. Hairer, Ch. Lubich, and G. Wanner},
+{\emph Geometric Numerical Integration, Structure-Preserving 
+Algorithms For Ordinary Differential Equations},
+Springer Series in Computational Mathematics \textbf{31}
+(Springer-Verlag, Berlin, 2002). 
+
+\end{thebibliography}
+
+\end{document}
