@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k}{nction} \PYG{n}{ga}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
+  \PYG{k}{return} \PYG{n}{x}
+\PYG{k}{d}
+\end{Verbatim}

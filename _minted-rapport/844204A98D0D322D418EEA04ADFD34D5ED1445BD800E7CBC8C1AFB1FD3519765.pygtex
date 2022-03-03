@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{function} \PYG{n}{a}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{)}
+\PYG{k}{return} \PYG{n}{x}\PYG{o}{+}\PYG{n}{y}
+\PYG{k}{d}
+\end{Verbatim}

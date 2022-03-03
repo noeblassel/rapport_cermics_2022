@@ -1,0 +1,59 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n}{struct} \PYG{n}{LangevinTest}\PYG{p}{\PYGZob{}}\PYG{n}{C}\PYG{p}{\PYGZcb{}}
+    \PYG{n}{dt}\PYG{o}{::}\PYG{k+kt}{Real}
+    \PYG{n+nb}{γ}\PYG{o}{::}\PYG{k+kt}{Real}
+    \PYG{n}{β}\PYG{o}{::}\PYG{k+kt}{Real}
+    \PYG{n}{coupling}\PYG{o}{::}\PYG{n}{C}
+    \PYG{n}{rseed}\PYG{o}{::}\PYG{k+kt}{UInt32}
+    \PYG{n}{rng}\PYG{o}{::}\PYG{k+kt}{AbstractRNG}
+\PYG{k}{end}
+
+
+\PYG{k}{function} \PYG{n}{LangevinTest}\PYG{p}{(;} \PYG{n}{dt}\PYG{p}{,} \PYG{n+nb}{γ}\PYG{p}{,} \PYG{n}{T}\PYG{p}{,} \PYG{n}{coupling} \PYG{o}{=} \PYG{n}{NoCoupling}\PYG{p}{(),} \PYG{n}{rseed} \PYG{o}{=} \PYG{k+kt}{UInt32}\PYG{p}{(}\PYG{n}{round}\PYG{p}{(}\PYG{n}{time}\PYG{p}{())),} \PYG{n}{rng} \PYG{o}{=} \PYG{k+kt}{MersenneTwister}\PYG{p}{(}\PYG{n}{rseed}\PYG{p}{))}
+
+    \PYG{n}{β} \PYG{o}{=} \PYG{n}{inv}\PYG{p}{(}\PYG{n}{T}\PYG{p}{)} \PYG{c}{\PYGZsh{}todo work with units, i.e. kb !=1}
+    \PYG{n}{LangevinTest}\PYG{p}{\PYGZob{}}\PYG{n}{typeof}\PYG{p}{(}\PYG{n}{coupling}\PYG{p}{)\PYGZcb{}(}\PYG{n}{dt}\PYG{p}{,} \PYG{n+nb}{γ}\PYG{p}{,} \PYG{n}{β}\PYG{p}{,} \PYG{n}{coupling}\PYG{p}{,} \PYG{n}{rseed}\PYG{p}{,} \PYG{n}{rng}\PYG{p}{)}
+\PYG{k}{end}
+
+\PYG{k}{function} \PYG{n}{Molly}\PYG{o}{.}\PYG{n}{simulate!}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{::}\PYG{n}{System}\PYG{p}{\PYGZob{}}\PYG{n}{D}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{sim}\PYG{o}{::}\PYG{n}{LangevinTest}\PYG{p}{,}
+    \PYG{n}{n\PYGZus{}steps}\PYG{o}{::}\PYG{k+kt}{Integer}\PYG{p}{;}
+    \PYG{n}{parallel}\PYG{o}{::}\PYG{k+kt}{Bool} \PYG{o}{=} \PYG{k+kc}{true}\PYG{p}{)} \PYG{n}{where} \PYG{p}{\PYGZob{}}\PYG{n}{D}\PYG{p}{\PYGZcb{}}
+
+    \PYG{n}{M\PYGZus{}inv}\PYG{o}{=}\PYG{n}{inv}\PYG{o}{.}\PYG{p}{(}\PYG{n}{mass}\PYG{o}{.}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{atoms}\PYG{p}{))}
+
+    \PYG{n}{α}\PYG{o}{=}\PYG{n}{zero}\PYG{p}{(}\PYG{n}{M\PYGZus{}inv}\PYG{p}{)}
+    \PYG{n}{σ}\PYG{o}{=}\PYG{n}{zero}\PYG{p}{(}\PYG{n}{M\PYGZus{}inv}\PYG{p}{)}
+
+    \PYG{err}{@}\PYG{o}{.} \PYG{n}{α}\PYG{o}{=}\PYG{n}{exp}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{sim}\PYG{o}{.}\PYG{n+nb}{γ}\PYG{o}{*}\PYG{n}{sim}\PYG{o}{.}\PYG{n}{dt}\PYG{o}{*}\PYG{n}{M\PYGZus{}inv}\PYG{p}{)}
+    \PYG{err}{@}\PYG{o}{.} \PYG{n}{σ}\PYG{o}{=}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{M\PYGZus{}inv}\PYG{o}{*}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{\PYGZhy{}}\PYG{n}{α}\PYG{o}{\PYGZca{}}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{/}\PYG{n}{sim}\PYG{o}{.}\PYG{n}{β}\PYG{p}{)} \PYG{c}{\PYGZsh{}noise acting on velocities, not momenta}
+
+    \PYG{k}{if} \PYG{n}{any}\PYG{p}{(}\PYG{n}{inter} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{o}{!}\PYG{n}{inter}\PYG{o}{.}\PYG{n}{nl\PYGZus{}only}\PYG{p}{,} \PYG{n}{values}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{general\PYGZus{}inters}\PYG{p}{))}
+        \PYG{n}{neighbors\PYGZus{}all} \PYG{o}{=} \PYG{n}{Molly}\PYG{o}{.}\PYG{n}{all\PYGZus{}neighbors}\PYG{p}{(}\PYG{n}{length}\PYG{p}{(}\PYG{n}{sys}\PYG{p}{))}
+    \PYG{k}{else}
+        \PYG{n}{neighbors\PYGZus{}all} \PYG{o}{=} \PYG{n+nb}{nothing}
+    \PYG{k}{end}
+
+    \PYG{n}{neighbors} \PYG{o}{=} \PYG{n}{find\PYGZus{}neighbors}\PYG{p}{(}\PYG{n}{sys}\PYG{p}{,} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{neighbor\PYGZus{}finder}\PYG{p}{;} \PYG{n}{parallel} \PYG{o}{=} \PYG{n}{parallel}\PYG{p}{)}
+
+    \PYG{n}{accels\PYGZus{}t} \PYG{o}{=} \PYG{n}{accelerations}\PYG{p}{(}\PYG{n}{sys}\PYG{p}{,} \PYG{n}{neighbors}\PYG{p}{;} \PYG{n}{parallel} \PYG{o}{=} \PYG{n}{parallel}\PYG{p}{)}
+    \PYG{n}{accels\PYGZus{}t\PYGZus{}dt} \PYG{o}{=} \PYG{n}{zero}\PYG{p}{(}\PYG{n}{accels\PYGZus{}t}\PYG{p}{)}
+    \PYG{n}{dW} \PYG{o}{=} \PYG{n}{zero}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{velocities}\PYG{p}{)}
+    \PYG{n+nd}{@showprogress} \PYG{k}{for} \PYG{n}{step\PYGZus{}n} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{n\PYGZus{}steps}
+        \PYG{n}{run\PYGZus{}loggers!}\PYG{p}{(}\PYG{n}{sys}\PYG{p}{,} \PYG{n}{neighbors}\PYG{p}{,} \PYG{n}{step\PYGZus{}n}\PYG{p}{)}
+
+        \PYG{err}{@}\PYG{o}{.} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{coords} \PYG{o}{+=} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{velocities} \PYG{o}{*} \PYG{n}{sim}\PYG{o}{.}\PYG{n}{dt} \PYG{o}{+} \PYG{n}{accels\PYGZus{}t} \PYG{o}{*} \PYG{n}{sim}\PYG{o}{.}\PYG{n}{dt}\PYG{o}{\PYGZca{}}\PYG{l+m+mi}{2} \PYG{o}{/} \PYG{l+m+mi}{2}
+        \PYG{n}{wrap\PYGZus{}coords\PYGZus{}vec}\PYG{o}{.}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{coords}\PYG{p}{,} \PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{box\PYGZus{}size}\PYG{p}{,))}
+
+        \PYG{n}{accels\PYGZus{}t\PYGZus{}dt} \PYG{o}{=} \PYG{n}{accelerations}\PYG{p}{(}\PYG{n}{sys}\PYG{p}{,} \PYG{n}{neighbors}\PYG{p}{;} \PYG{n}{parallel} \PYG{o}{=} \PYG{n}{parallel}\PYG{p}{)}
+
+        \PYG{n}{dW} \PYG{o}{=} \PYG{n}{SVector}\PYG{p}{\PYGZob{}}\PYG{n}{D}\PYG{p}{\PYGZcb{}}\PYG{o}{.}\PYG{p}{(}\PYG{n}{eachrow}\PYG{p}{(}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{sim}\PYG{o}{.}\PYG{n}{rng}\PYG{p}{,} \PYG{k+kt}{Float64}\PYG{p}{,} \PYG{p}{(}\PYG{n}{length}\PYG{p}{(}\PYG{n}{sys}\PYG{p}{),} \PYG{n}{D}\PYG{p}{))))}
+
+        \PYG{err}{@}\PYG{o}{.} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{velocities} \PYG{o}{=} \PYG{n}{α} \PYG{o}{*} \PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{velocities} \PYG{o}{+} \PYG{p}{(}\PYG{n}{accels\PYGZus{}t} \PYG{o}{+} \PYG{n}{accels\PYGZus{}t\PYGZus{}dt}\PYG{p}{)} \PYG{o}{*} \PYG{n}{sim}\PYG{o}{.}\PYG{n}{dt} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{+} \PYG{n}{σ} \PYG{o}{*} \PYG{n}{dW}
+
+        \PYG{n}{accels\PYGZus{}t} \PYG{o}{=} \PYG{n}{accels\PYGZus{}t\PYGZus{}dt}
+        \PYG{n}{neighbors} \PYG{o}{=} \PYG{n}{find\PYGZus{}neighbors}\PYG{p}{(}\PYG{n}{sys}\PYG{p}{,} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{neighbor\PYGZus{}finder}\PYG{p}{,} \PYG{n}{neighbors}\PYG{p}{,} \PYG{n}{step\PYGZus{}n}\PYG{p}{;} \PYG{n}{parallel} \PYG{o}{=} \PYG{n}{parallel}\PYG{p}{)}
+    \PYG{k}{end}
+
+\PYG{k}{end}
+\end{Verbatim}

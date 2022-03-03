@@ -1,8 +1,7 @@
 
-\documentclass[a4paper,10pt,twoside]{report}
+\documentclass[a4paper,10pt,twoside,leqno]{report}
 
 \usepackage[utf8]{inputenc} %Ligne PS
-\usepackage[T1]{fontenc} %Ligne PS
 
 \newlength{\minipagewidth}
 \setlength{\minipagewidth}{\textwidth}
@@ -13,20 +12,19 @@
 \usepackage{a4wide} 
 \usepackage{graphicx}
 \usepackage{physics}
-\usepackage{color,subfigure} 
+\usepackage{xcolor,subfigure} 
 \usepackage{enumerate}
-\usepackage{todonotes}
 \usepackage[normalem]{ulem}
 \usepackage{cancel}
 
 %------- styles ---------
-\newtheorem{theorem}{Théorème}
-\newtheorem{lemma}{Lemme}
-\newtheorem{assumption}{Hypothèse}
-\newtheorem{definition}{Définition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Hypothesis}
+\newtheorem{definition}{Definition}
 \newtheorem{prop}{Proposition}
-\newtheorem{remark}{Remarque}
-\newtheorem{corollary}{Corollaire}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
 
 %----- definitions ----------
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
@@ -36,6 +34,7 @@
 \newcommand{\cL}{\mathcal{L}}
 % \newcommand{\cLs}{\mathcal{L}_\mathrm{s}}
 % \newcommand{\cLa}{\mathcal{L}_\mathrm{a}}
+\newcommand{\cC}{\mathcal{C}}
 \newcommand{\cLs}{\mathcal{S}}
 \newcommand{\cLa}{\mathcal{A}}
 \newcommand{\Schur}{\mathfrak{S}_0}
@@ -48,6 +47,7 @@
 \newcommand{\cD}{\mathcal{D}}
 \newcommand{\eps}{\varepsilon}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
 \newcommand{\Id}{\mathrm{Id}} 
 \newcommand{\Ran}{\mathrm{Ran}}
 \newcommand{\cR}{\mathcal{R}}
@@ -59,7 +59,16 @@
 \renewcommand{\geq}{\geqslant}
 \renewcommand{\le}{\leqslant}
 \renewcommand{\ge}{\geqslant}
+\newcommand{\dt}{\text dt}
+\newcommand{\defeq}{\mathrel{\mathop:}=}
+\newcommand{\eqdef}{\mathrel{\mathop=}:}
 
+
+%-------------- Code ----------------
+\usepackage[chapter]{minted}
+\newminted{julia}{linenos,mathescape,frame=lines,breaklines=true}
+\input{./definitions/unicode.tex}
+%------------------------------------
 \title { 
   %\vspace{-3cm}\includegraphics{output_enpc.ps} \vspace{1cm} \\
   \Large{\textbf{\underline{Sorbonne Université}\\}}
@@ -82,19 +91,17 @@
 \begin{document}
 
 \maketitle
-
+ 
 \tableofcontents
 
+\chapter*{Introduction }
+\input{intro.tex}
+\chapter{Classical ensembles}
+\input{equilibrium.tex}
+\chapter{Transport properties}
+\input{non_equilibrium.tex}
+\chapter{Norton methods}
+\input{norton.tex}
+\chapter*{Performance analysis}
 
-\chapter{Dynamiqes à l'équilibre}
-\section{Dynamique Hamiltonienne}
-\begin{lemma}[Conservation du Hamiltonien]
-\end{lemma}
-
-\begin{lemma}
-\end{lemma}
-\chapter{Coefficents de transport}
-\chapter{Méthode de Norton}
-
-\chapter{Appendice: Étude de performance}
 \end{document}

@@ -1,0 +1,22 @@
+\section*{The aim of molecular simulation}
+\section*{Notational conventions}
+We convene that the gradient of a function $\varphi : \R^n \mapsto \R$ is a column vector-valued function
+$$\nabla \varphi : \R^n \mapsto \R^n \defeq \R^{n\times 1}$$
+Notationally,
+$$\nabla = \begin{pmatrix} \partial x_1 \\ \vdots \\ \partial x_n\end{pmatrix}$$
+So that the Hessian operator writes
+$$\nabla^2 \defeq \nabla\nabla^\intercal = \begin{pmatrix}
+\partial{x_1}\partial_{x_1} & \dotsm & \partial{x_1}\partial{x_n} \\
+ \vdots & \ddots & \vdots \\
+ \partial{x_n}\partial{x_1} & \dotsm & \partial{x_n}\partial{x_1}    
+\end{pmatrix}$$
+And for $f=(f_1,\dotsm, f_n)^\intercal: \R^n \mapsto \R^n$
+
+\begin{align*}
+Jf=\begin{pmatrix}
+    \nabla^\intercal f_1 \\ \vdots \\ \nabla^\intercal f_n
+\end{pmatrix}=(\nabla f^\intercal)^\intercal && 
+\operatorname{div} f=\partial_{x_1}f_1+\dotsm+\partial_{x_n}f_n=\nabla^\intercal f
+\end{align*}
+
+are respectively the Jacobian and divergence of $f$.
