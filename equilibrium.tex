@@ -1,5 +1,7 @@
 \section{Hamiltonian averages}
 \subsection{Classical Hamiltonian dynamics}
+
+
     \begin{definition}[Phase space coordinates]
     We describe the state of a system of $N$ particles by a tuple 
     $$(q,p)\in \cM^N\times \R^{dN} \defeq \cLs$$
@@ -7,13 +9,13 @@
     The momentum of a particle is its velocity multiplied by its mass, thus we may write 
     $$v=M^{-1}p$$
     where $M$ is a diagonal matrix encoding the masses of each particle, and $v$ is the velocity coordinate.\\
-    As we are interested in the evolution of systems through time, we will be interested in trajectories through the phase space $\cLs$, that is functions
+    As we are interested in the evolution of systems through time, we will be considering trajectories through the phase space $\cLs$, functions
     $$\begin{cases}\R_+\mapsto \cLs\\
         t\mapsto (q_t,p_t)
     \end{cases}$$
     \end{definition}
         \begin{definition}[Hamiltonian]
-            The Hamiltonian of a system is the function defined on $\cLs$ by\\
+            The Hamiltonian of an atomic system is the function defined on $\cLs$ by\\
 
             \begin{equation}
                 \label{Hamiltonian}
@@ -23,7 +25,7 @@
             It is the total energy of the system in state $(q,p)$, sum of its \textcolor{blue}{kinetic energy} and \textcolor{purple}{potential energy}
         \end{definition}
 
-        Under this description, Newton's second law admits the following reformulation, which defines Hamiltonian dynamics.
+        Using this description, Newton's second law has the following form, which defines Hamiltonian dynamics.
 
         \begin{equation}
             \label{Hamiltonian dynamics}
@@ -43,23 +45,63 @@
             -I_{dN} & 0_{dN}
         \end{pmatrix}$$
         is the symplectic matrix. By the chain rule, we have
-        $$ \text d H(X_t)=\text d X_t^{\intercal}\nabla H(X_t)=(J\nabla H(X_t))^\intercal \nabla H(X_t)\dt=0$$
-        This relation expresses the fact that the total energy is conserved along trajectories of the system under Hamilton's equation.
-        Note this property is only due to the form of $J$, and not to the particular expression (\ref{Hamiltonian}) of the classical Hamiltonian.
-        In full generality, we may consider any dynamics of the form (\ref{general hamiltonian equation}), where we are free to choose $H$, and note that the conservation property holds.\\
-        However, one key property of the classical Hamiltonian is that it is a sum of two terms each involving only one of the coordinate and momentum variable. Such Hamiltonian are called separable, and we shall see that separability proves a useful property to construct numerical schemes dedicated to the integration of such dynamics.
+
+        \begin{equation}
+        \label{conservation of energy} \text d H(X_t)=\text d X_t^{\intercal}\nabla H(X_t)=(J\nabla H(X_t))^\intercal \nabla H(X_t)\dt=0
+        \end{equation}
+        This relation expresses the fact that the Hamiltonian map is invariant under the flow of equation (\ref{general hamiltonian equation}). This, in turn, is the mathematical translation of the principle of conservation of energy in physics.
         \end{remark}
-        
+    
+        More generally, we may apply the chain rule to smooth functions $\varphi: \cLs \mapsto \R$.
+        We obtain 
+        $$ \text d \varphi(X_t)= \text d X_t^{\intercal} \nabla \varphi(X_t)=(J \nabla H(X_t))^\intercal \nabla \varphi(X_t)\dt=(\nabla_p H \cdot \nabla_q - \nabla_q H \cdot \nabla_p)\varphi(X_t)\dt$$
+
+        This motivates the following.
+        \begin{definition}[Generator of the Hamiltonian dynamics]
+            We define the generator associated with the Hamiltonian dynamics to be the operator $\cL_{\text{H}}$ defined on smooth functions by
         \begin{equation}
             \label{Hamiltonian generator}
+            \cL_{\text{H}}\varphi=(\nabla_p H \cdot \nabla_q - \nabla_q H \cdot \nabla_p)\varphi
         \end{equation}
+    \end{definition}
 
+    \begin{remark}
         \label{non-separable hamiltonian}
+        Property (\ref{conservation of energy}) is only due to the form of $J$, and not to the particular expression for $H$.
+        Thus, we may consider any dynamics of the form (\ref{general hamiltonian equation}), to devise a dynamical system whose orbits are restricted to the level set $H^{-1}\{H(q_0,p_0)\}$.\\
+        Conversely, given a dynamical system, if through a change of coordinates one is able to write the system under the form (\ref{general hamiltonian equation}), one has found a conservation law.
+    \end{remark}
+
+    One key property of the classical Hamiltonian is that it is \textit{separable}: it splits into a kinetic part involving only the momentum variable and a potential part involving only the coordinate variable. We will see when implementing numerical schemes for Hamiltonian systems that separability permits one to construct a number of schemes based on explicit splittings of the evolution operator over a timestep, which turn out to display interesting qualitative properties.
+    
         \label{evolution operator exponential notation}
 
     \subsection{The Lennard-Jones Model}
 
     \subsection{Numerical integration of Hamiltonian dynamics}
+    \subsection{Symplecticity}
+    \subsection{Symplectic Euler}
+    \subsubsection{Energy conservation properties}
+    \begin{figure}[htbp]
+        \begin{center}
+          \includegraphics[width=0.49\linewidth]{figures/chapter1/energy_fluctuations_SEA.pdf}
+          \includegraphics[width=0.49\linewidth]{figures/chapter1/energy_fluctuations_SEB.pdf}
+          \caption{ \label{fig:energy_symplectic_euler}
+            Absolute variation of the Hamiltonian $ \left\lVert H-\operatorname{min} H\right\rVert_{\infty}$ as a function of the time step over 1000 iterations of the symplectic Euler schemes (A on the left and B on the right). A linear regression line is plotted in red.
+          }
+        \end{center}
+      \end{figure}
+
+    \subsubsection{The Verlet scheme}
+
+    \begin{figure}[htbp]
+        \begin{center}
+          \includegraphics[width=0.7\linewidth]{figures/chapter1/energy_fluctuations_verlet.pdf}
+          \caption{ \label{fig:energy_verlet}
+            Absolute variation of the Hamiltonian as a function of the time step over 1000 iterations of the Velocity Verlet scheme. A quadratic regression curve is plotted in red.
+          }
+        \end{center}
+      \end{figure}
 
     \subsection{Examples of instantaneous observables}
         
@@ -182,8 +224,32 @@ Where $\nabla$, $\nabla^2$ are with respect to the spatial coordinates. In other
     \end{lemma}
 
 \subsection{Numerical integration of the Langevin dynamics}
+text
     \subsubsection{Splitting methods}
+    text
     \subsubsection{Implementation}
+    text
+    \begin{figure}[htbp]
+        \begin{center}
+            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_20.pdf}
+            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_200.pdf}
+            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_400.pdf}
+            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_1000.pdf}
+          \caption{ \label{fig:velocity_histograms}
+            Convergence of the velocity distribution to a mixture of Maxwell-Boltzmann distributions for a mixture of two ideal gases with different atomic masses, starting from a Dirac distribution $\delta_{\sqrt 3}$. Snapshots of the empirical distribution are shown after 20,\ 200,\ 400 and 1000 steps ($\dt=5\times 10^{-3} \tau ^*, T=T^*$)          }
+        \end{center}
+      \end{figure}
+
 
 \subsection{Illustration: the equation of state of Argon}
+text
+\begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_150K.pdf}
+      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_300K_sparse.pdf}
+      \caption{ \label{fig:eos_argon}
+        Simulated equations of state of Argon at 150 K (liquid phase) on the left and 300K (supercritical phase) on the right. Simulated data points are shown in blue, and the red dotted curve shows the results of experimental measurements.
+      }
+    \end{center}
+  \end{figure}
 \subsection{The Metropolis method}
