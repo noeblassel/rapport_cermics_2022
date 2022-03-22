@@ -1,58 +1,31 @@
-\section{Hamiltonian averages}
-\subsection{Classical Hamiltonian dynamics}
 
 
-    \begin{definition}[Phase space coordinates]
-    We describe the state of a system of $N$ particles by a tuple 
-    $$(q,p)\in \cM^N\times \R^{dN} \defeq \cLs$$
-    Where $\cM$ is a $d$-dimensional manifold on which lives the coordinate variable $q$, and $p$ is the momentum coordinate.\\
-    The momentum of a particle is its velocity multiplied by its mass, thus we may write 
-    $$v=M^{-1}p$$
-    where $M$ is a diagonal matrix encoding the masses of each particle, and $v$ is the velocity coordinate.\\
-    As we are interested in the evolution of systems through time, we will be considering trajectories through the phase space $\cLs$, functions
-    $$\begin{cases}\R_+\mapsto \cLs\\
-        t\mapsto (q_t,p_t)
-    \end{cases}$$
-    \end{definition}
-        \begin{definition}[Hamiltonian]
-            The Hamiltonian of an atomic system is the function defined on $\cLs$ by\\
 
-            \begin{equation}
-                \label{Hamiltonian}
-                H(q,p)=\color{blue}{\frac12p^\intercal M^{-1}p}+\color{purple}{V(q)}
-            \end{equation}
-            
-            It is the total energy of the system in state $(q,p)$, sum of its \textcolor{blue}{kinetic energy} and \textcolor{purple}{potential energy}
-        \end{definition}
-
-        Using this description, Newton's second law has the following form, which defines Hamiltonian dynamics.
-
-        \begin{equation}
-            \label{Hamiltonian dynamics}
-            \begin{cases}
-                \text d q_t=M^{-1}p_t\dt=\nabla_p H(q_t,p_t)\dt\\
-                \text d p_t=-\nabla V(q_t)\dt=-\nabla_q H(q_t,p_t)\dt
-            \end{cases}
-        \end{equation}
+\section{Microcanonical averages}
+\subsection{Properties of Hamiltonian dynamics}
 
 
-        \begin{remark}
-        Equation (\ref{Hamiltonian dynamics}) concisely writes, for $X_t\defeq (q_t,p_t)$, 
-        \begin{equation}\label{general hamiltonian equation} \text d X_t=J\nabla H(X_t)\dt\end{equation}
-        Where
-        $$J=\begin{pmatrix}
-            0_{dN} & I_{dN}\\
-            -I_{dN} & 0_{dN}
-        \end{pmatrix}$$
-        is the symplectic matrix. By the chain rule, we have
+The Hamiltonian dynamics (\ref{Hamiltonian dynamics}) rewrites in matrix form, writing $X_t=(q_t,p_t)$:
 
-        \begin{equation}
-        \label{conservation of energy} \text d H(X_t)=\text d X_t^{\intercal}\nabla H(X_t)=(J\nabla H(X_t))^\intercal \nabla H(X_t)\dt=0
-        \end{equation}
-        This relation expresses the fact that the Hamiltonian map is invariant under the flow of equation (\ref{general hamiltonian equation}). This, in turn, is the mathematical translation of the principle of conservation of energy in physics.
-        \end{remark}
+\begin{equation}\label{Hamiltonian dynamics matrix form} \text d X_t=J\nabla H(X_t)\dt,\end{equation}
+
+where $J$ is the symplectic matrix
+
+$$J = \begin{pmatrix}
+    0_{dN} & \Id_{dN}\\ -\Id_{dN} & 0_{dN}
+\end{pmatrix}$$
+
+This will be useful to investigate properties of the Hamiltonian dynamics. First, using the chain rule, we obtain the following property.
+
+\begin{prop}[Energy conservation]
+    \begin{equation}
+    \label{conservation of energy} \text d H(X_t)=\text d X_t^{\intercal}\nabla H(X_t)=(J\nabla H(X_t))^\intercal \nabla H(X_t)\dt=0
+    \end{equation}
+\end{prop}
+
+    This relation expresses the fact that the Hamiltonian is invariant under the flow of (\ref{Hamiltonian dynamics}). This, in turn, is the mathematical translation of the physical principle of conservation of energy.
     
-        More generally, we may apply the chain rule to smooth functions $\varphi: \cLs \mapsto \R$.
+        More generally, we may apply the chain rule to any smooth function $\varphi: \cLs \mapsto \R$.
         We obtain 
         $$ \text d \varphi(X_t)= \text d X_t^{\intercal} \nabla \varphi(X_t)=(J \nabla H(X_t))^\intercal \nabla \varphi(X_t)\dt=(\nabla_p H \cdot \nabla_q - \nabla_q H \cdot \nabla_p)\varphi(X_t)\dt$$
 
@@ -65,40 +38,76 @@
         \end{equation}
     \end{definition}
 
+    The generator quantifies the rate of change of a property $\varphi$ under the evolution of the system. Formally, if we define, for $t\geq 0$, the following operators 
+    $$P_t \varphi (q_0,p_0) = \varphi(q_t^{q_0},p_t^{p_0})$$
+    Where $(q_t^{q_0},p_t^{p_0})$ is the Hamiltonian trajectory whose value at time 0 is $(q_0,p_0)$. We also use the following standard notation:
+
     \begin{remark}
         \label{non-separable hamiltonian}
-        Property (\ref{conservation of energy}) is only due to the form of $J$, and not to the particular expression for $H$.
-        Thus, we may consider any dynamics of the form (\ref{general hamiltonian equation}), to devise a dynamical system whose orbits are restricted to the level set $H^{-1}\{H(q_0,p_0)\}$.\\
-        Conversely, given a dynamical system, if through a change of coordinates one is able to write the system under the form (\ref{general hamiltonian equation}), one has found a conservation law.
+        The property (\ref{conservation of energy}) is only due to the form of $J$, and not to the specific expression for $H$.
+        Thus any $H$, we may consider any dynamics of the form (\ref{Hamiltonian dynamics matrix form}), to devise a dynamical system whose orbits are restricted to the level set $H^{-1}\{H(q_0,p_0)\}$.\\
+        Conversely, given a differential dynamical system, if through a change of coordinates one is able to write the system under this form, one has found a conservation law.
     \end{remark}
 
-    One key property of the classical Hamiltonian is that it is \textit{separable}: it splits into a kinetic part involving only the momentum variable and a potential part involving only the coordinate variable. We will see when implementing numerical schemes for Hamiltonian systems that separability permits one to construct a number of schemes based on explicit splittings of the evolution operator over a timestep, which turn out to display interesting qualitative properties.
-    
+
+
+    One key property of the classical Hamiltonian is that it is \textit{separable}: it splits into a kinetic part involving only the momentum variable and a potential part involving only the coordinate variable, a property which is especially useful for constructing explicit numerical schemes for the Hamiltonian dynamics.
         \label{evolution operator exponential notation}
 
-    \subsection{The Lennard-Jones Model}
+    \subsection{Numerical schemes for Hamiltonian dynamics}
 
-    \subsection{Numerical integration of Hamiltonian dynamics}
-    \subsection{Symplecticity}
-    \subsection{Symplectic Euler}
-    \subsubsection{Energy conservation properties}
+    It is impossible, except for a very restricted class of systems, which do not occur in practical settings anyhow, to analytically integrate Hamilton's equation (\ref{Hamiltonian dynamics}). For this reason, one must revert to numerical schemes, which we may interpret as discrete approximations of the Hamiltonian flow.
+    In most common applications, the aim is to approximate the exact solution of an evolution equation as precisely as possible over a given time domain.
+    In the case of molecular dynamics, however, the time domain is usually very large, because simulating long trajectories is a requirement to ensure that a representative portion of phase space is explored. As a consequence, it is in practice impossible to obtain precise solutions over a long time, because of the evolution's sensitivity to the initial conditions. 
+    Furthermore, one does not even care about the exact evolution, since the dynamics are merely used as a sampling device. Instead, one key requirement is that the dynamics stay on or close to the initial level set of the Hamiltonian. It can be shown through eigenanalysis that even for simple linear systems, this requirement is not satisfied by standard ODE numerical methods such as the explicit and implicit Euler schemes, or the RK4 method, for which the energy may explode or implode geometrically.
+    This has the practical effect that for reasonably sized atomic systems, numerical instabilities render the simulations nonsensical after only a few time steps, a far cry from what is needed to obtain good estimates.
+    One must then devise dedicated numerical methods, guided by the aim to preserve qualitative properties of the Hamiltonian evolution.
+
+    It turns out that the symplecticity of the Hamiltonian flow is the key property one should aim to preserve. Many symplectic schemes may then be constructed using splitting approximations of the evolution operator over one time step associated with the Hamiltonian flow. This is motivated by the following straightforward lemma:
+
+    \begin{lemma}[Composition of symplectic maps]
+        Let $U \subset \R^d$ be an open set, $g: U\mapsto \R^d$ and $f: g(U) \mapsto \R^d$ be $C^1$ symplectic mappings. Then the composition $f \circ g$ is symplectic.
+    \end{lemma}
+
+    Let us fix a timestep $\Delta t>0$. The evolution operator over one timestep associated with the Hamiltonian flow is the operator defined by
+
+    $$e^{\Delta t \cLham}\varphi =\varphi \circ \Phi_{\Delta t}$$
+    
+
+
+
+    \paragraph{Symplectic Euler schemes}
+    
+    \begin{equation}\label{symplectic_euler_A}
+    \left\{\begin{aligned}
+         p^{n+1} &=p^n -\nabla V(q^n)\Delta t\\
+         q^{n+1} &=q^n + M^{-1}p^{n+1}\Delta t
+    \end{aligned}\right.
+    \end{equation}
+
+    \begin{equation}\label{symplectic_euler_B}
+        \left\{\begin{aligned}
+             q^{n+1} &=q^n +M^{-1}p^n\Delta t\\
+             p^{n+1} &=p^n - \nabla V(q^{n+1})\Delta t
+        \end{aligned}\right.
+    \end{equation}
+    
+    \paragraph{Verlet scheme}
+
+    \begin{equation}\label{verlet}
+        \left\{\begin{aligned}
+             q^{n+1} &=q^n +M^{-1}p^n\Delta t\\
+             p^{n+1} &=p^n - \nabla V(q^{n+1})\Delta t
+        \end{aligned}\right.
+    \end{equation}
+
+    \subsection{Energy conservation properties}
+
     \begin{figure}[htbp]
         \begin{center}
-          \includegraphics[width=0.49\linewidth]{figures/chapter1/energy_fluctuations_SEA.pdf}
-          \includegraphics[width=0.49\linewidth]{figures/chapter1/energy_fluctuations_SEB.pdf}
-          \caption{ \label{fig:energy_symplectic_euler}
-            Absolute variation of the Hamiltonian $ \left\lVert H-\operatorname{min} H\right\rVert_{\infty}$ as a function of the time step over 1000 iterations of the symplectic Euler schemes (A on the left and B on the right). A linear regression line is plotted in red.
-          }
-        \end{center}
-      \end{figure}
-
-    \subsubsection{The Verlet scheme}
-
-    \begin{figure}[htbp]
-        \begin{center}
-          \includegraphics[width=0.7\linewidth]{figures/chapter1/energy_fluctuations_verlet.pdf}
-          \caption{ \label{fig:energy_verlet}
-            Absolute variation of the Hamiltonian as a function of the time step over 1000 iterations of the Velocity Verlet scheme. A quadratic regression curve is plotted in red.
+          \includegraphics[width=0.7\linewidth]{figures/chapter1/hamiltonian_conservation.pdf}
+          \caption{ \label{fig:hamiltonian_conservation}
+            Effect of the time step on absolute variation of the Hamiltonian for the symplectic Euler (red and green) and the Verlet (blue) schemes. As expected, total variation scales as $\Delta t$ for symplectic Euler, and as $\Delta t^2$ for Verlet.
           }
         \end{center}
       \end{figure}
@@ -108,36 +117,35 @@
     \subsection{Shortcomings of the Hamiltonian approach}
 
 \section{Canonical averages}
-    \subsection{The notion of ensemble}
 
 \subsection{Langevin dynamics}
 We consider a special case of the inertial Langevin dynamics, defined by the following stochastic differential equation (SDE), where $\gamma, \beta$ are set real constants.
 
 \begin{equation}
     \label{Langevin}
-    \begin{cases}
-        \text dq_t=M^{-1}p_t\dt \\
-        \text dp_t= -\nabla V(q_t)\dt \textcolor{blue}{-\gamma M^{-1}p_t\dt}+\textcolor{purple}{\sqrt{\frac{2\gamma}\beta}\text dW_t}
-    \end{cases}
+    \left\{\begin{aligned}
+        \text dq_t&=M^{-1}p_t\dt,\\
+        \text dp_t&= -\nabla V(q_t)\dt \textcolor{blue}{-\gamma M^{-1}p_t\dt}+\textcolor{purple}{\sqrt{\frac{2\gamma}\beta}\text dW_t},
+    \end{aligned}\right.
 \end{equation}
 
-Where $(W_t)_{t\geq 0}$ is a standard $dN$-dimensional Brownian motion.\\
+where $(W_t)_{t\geq 0}$ is a standard $dN$-dimensional Brownian motion.
+
 This process is a combination of a Hamiltonian evolution with an additional action on the momenta which, if isolated, defines a $dN$-dimensional Ornstein-Uhlenbeck process.\\
 This additional term be interpreted physically as the combination of two effects: a \textcolor{blue}{dissipation term} which can be understood as the effect of a viscous friction force on the particles, and a \textcolor{purple}{fluctuation term}, which corresponds to the input of kinetic energy into the system as thermal agitation induced by a surrounding heat bath at temperature $1/(k_B\beta)$.\\
-However, the physical meaning can be forgotten thanks to the fact that, \textit{in fine}, we only require that the canonical measure be ergodic under this dynamic: as we shall shortly see, this is indeed the case.
+However, the physical meaning can be forgotten thanks to the fact that, \textit{in fine}, we only require that the canonical measure be invariant under this dynamic: as we shall shortly see, this is indeed the case.
 
 \begin{remark}
-    There are several ways to generalize this process.\\
-    One way is to consider more general, possibly non-separable, Hamiltonians, as in (\ref{non-separable hamiltonian}), rather than the classical Hamiltonian used above.\\
-    The other is to allow the fluctuation-dissipation term to be parametrized by coefficients $\gamma$ and $\sigma$ depending on the state variable, and which obey a relation ensuring ergodicity.\\
+    There are several ways to generalize this process: one is to consider more general, possibly non-separable, Hamiltonians, as in (\ref{non-separable hamiltonian}), rather than the classical Hamiltonian used above.
+    The other is to allow the fluctuation-dissipation term to be parametrized by coefficients $\gamma$ and $\sigma$ depending on the state variable, and which obey a relation ensuring the invariance of $\mu$.
     Hence in full generality, we could consider the following Langevin dynamic:
     
     \begin{equation}
         \label{general Langevin}
-        \begin{cases}
-            \text dq_t=\nabla_p H(q_t,p_t)\dt \\
-            \text dp_t= -\nabla_q H(q_t,p_t)\dt -\gamma(q_t,p_t)\nabla_pH(q_t,p_t)\dt+\sigma(q_t,p_t)\text dW_t
-        \end{cases}
+        \left\{\begin{aligned}
+            \text dq_t &=\nabla_p H(q_t,p_t)\dt,\\
+            \text dp_t &= -\nabla_q H(q_t,p_t)\dt -\gamma(q_t,p_t)\nabla_pH(q_t,p_t)\dt+\sigma(q_t,p_t)\text dW_t.
+        \end{aligned}\right.
     \end{equation}
 \end{remark}
 
@@ -158,15 +166,15 @@ Where $b$ is a $\R^n$-valued function, $W$ is a standard $d$-dimensional Brownia
 For $\varphi$ a smooth bounded function, Itô's lemma allows us to compute:
 \begin{align*}
     d\varphi(t,X_t) &=\frac{\partial \varphi}{\partial t}(t,X_t)\text dt + \nabla^\intercal \varphi(t,X_t) \text dX_t + \frac12 \operatorname{Tr}(\nabla^{2\intercal}\varphi(t,X_t)\text d\langle X ,X\rangle _t)\\
-    &=\left( \frac{\partial \varphi}{\partial t} + \nabla^{\intercal}\varphi b + \frac12 \operatorname{Tr}(\nabla^2\varphi \sigma\sigma^\intercal) \right)(t,X_t) \text dt+ (\nabla^\intercal \varphi\sigma )(t,X_t)\text dW_t
+    &=\left( \frac{\partial \varphi}{\partial t} + \nabla^{\intercal}\varphi b + \frac12 \operatorname{Tr}(\nabla^2\varphi \sigma\sigma^\intercal) \right)(t,X_t) \text dt+ (\nabla^\intercal \varphi\sigma )(t,X_t)\text dW_t,
 \end{align*}
 
-Where $\nabla$, $\nabla^2$ are with respect to the spatial coordinates. In other words,\\
+where $\nabla$, $\nabla^2$ are with respect to the spatial coordinates. In other words,
 
 
 \begin{equation}
     \label{Ito}
-    \varphi(t,X_t)= \varphi(0,X_0)+\int_0^t\left( \frac{\partial \varphi}{\partial t} + \nabla^\intercal\varphi b + \frac12 \operatorname{Tr}(\nabla^2\varphi\sigma\sigma^\intercal) \right)(s,X_s) \text ds + \int_0^t\nabla^\intercal \varphi\sigma(s,X_s)\text dW_s
+    \varphi(t,X_t)= \varphi(0,X_0)+\int_0^t\left( \frac{\partial \varphi}{\partial t} + \nabla^\intercal\varphi b + \frac12 \operatorname{Tr}(\nabla^2\varphi\sigma\sigma^\intercal) \right)(s,X_s) \text ds + \int_0^t\nabla^\intercal \varphi\sigma(s,X_s)\text dW_s.
 \end{equation}
 %----invariance of $\mu$
 
@@ -219,11 +227,7 @@ Where $\nabla$, $\nabla^2$ are with respect to the spatial coordinates. In other
     $$ \cL=\cL_{H}+\gamma \cL_{\text{ou}}$$
     where $\cL_{\text{ou}}\varphi =-M^{-1}\nabla^\intercal_p\varphi p + \frac1{\beta}\Delta_p\varphi$
 
-    \begin{lemma}
-        Let $\varphi,\psi$ be smooth compactly supported functions on $\cLs$. Then
-    \end{lemma}
-
-\subsection{Numerical integration of the Langevin dynamics}
+\section{Numerical schemes for the Langevin dynamics}
 text
     \subsubsection{Splitting methods}
     text
@@ -236,19 +240,91 @@ text
             \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_400.pdf}
             \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_1000.pdf}
           \caption{ \label{fig:velocity_histograms}
-            Convergence of the velocity distribution to a mixture of Maxwell-Boltzmann distributions for a mixture of two ideal gases with different atomic masses, starting from a Dirac distribution $\delta_{\sqrt 3}$. Snapshots of the empirical distribution are shown after 20,\ 200,\ 400 and 1000 steps ($\dt=5\times 10^{-3} \tau ^*, T=T^*$)          }
+            Convergence of the velocity distribution to a mixture of Maxwell-Boltzmann distributions (plotted in red) for a mixture of two ideal gases with different atomic masses, starting from a Dirac distribution $\delta_{\sqrt 3}^{\otimes N}$. Snapshots of the empirical distribution are shown after 20,\ 200,\ 400 and 1000 steps ($\Delta t=5\times 10^{-3} \tau ^*, T=T^*$)          }
         \end{center}
       \end{figure}
 
 
-\subsection{Illustration: the equation of state of Argon}
+\subsection{Error analysis for splitting schemes}
+\begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.49\linewidth]{figures/chapter1/potential_energy_bias.pdf}
+      \includegraphics[width=0.49\linewidth]{figures/chapter1/virial_bias.pdf}
+      \caption{ \label{fig:configurational_bias}
+        Effect of the time step on average potential energy and virial for a Lennard-Jones system of 27 particles.
+      }
+    \end{center}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.7\linewidth]{figures/chapter1/kinetic_energy_bias.pdf}
+      \caption{ \label{fig:kinetic_energy_bias}
+        Effect of the time step on average kinetic energy for a Lennard-Jones system of 27 particles.
+      }
+    \end{center}
+  \end{figure}
+
+To explain the overlap of bias between the BAOAB and the BAOA schemes observed for the potential energy and virial on Figure \ref{fig:configurational bias}, we use the following result, which is a variation on the TU lemma.
+\begin{lemma}\label{TU_like_lemma}
+    Let $P_{\Delta t}, Q_{\Delta t}$ be bounded operators on $B^\infty(\mathcal E)$.
+    Assume that, for any $n\geq 1$,
+    $$ A P_{\Delta t}^n = Q_{\Delta t}^n B,$$
+    where $A$ and $B$ are bounded operators on $B^\infty (\mathcal E)$, such that $A\1=\1$, and that the following ergodic condition holds: for any $\varphi \in B^\infty(\mathcal E)$, and almost all $(q,p) \in \mathcal E$,
+
+    $$ \underset{n\to\infty}\lim P_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p) $$
+    $$ \underset{n\to\infty}\lim Q_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p).$$
+
+    Then  we can relate $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ via the following relation:
+
+    \begin{equation}
+        \label{TU_like_lemma_ccl}
+    \int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\text d q,\text d p)=\int_{\mathcal E} B\varphi(q,p) \mu_{\Delta t,Q}(\text d q,\text d p)
+    \end{equation}
+    \begin{proof}
+        Fix an initial probability measure $\rho$ on $\mathcal E$, absolutely continuous with respect to the Lebesgue measure. Then we may write, using dominated convergence to pass to the limit:
+
+        \begin{align*}
+            &\int_{\mathcal E}AP_{\Delta t}^n \varphi(q,p)\rho(\text d q,\text d p)\\
+            &=\int_{\mathcal E}P_{\Delta t}^n \varphi(q,p)A^{\dagger}\rho(\text d q,\text d p)\\
+            &\underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left (\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\right) A^\dagger \rho(\text d \tilde q,\text d \tilde p)\\
+            &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\int_{\mathcal E}A\1 \text d \rho\\
+            &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)
+        \end{align*}
+        Furthermore, applying the ergodic condition to the bounded function $B\varphi$ gives
+
+        $$ \int_{\mathcal E} Q_{\Delta t}^n (B\varphi)(q,p) \rho(\text d q,\text d p) \text d q \text d p \underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left (\int_{\mathcal E}B\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p)\right)\rho(\text d \tilde q,\text d \tilde p)=\int_{\mathcal E}B\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p).$$
+
+        Since $AP_{\Delta t}^n=Q_{\Delta t}^n B$, identifying the two limits yields (\ref{TU_like_lemma_ccl})
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+Let $ \pi_{\Delta t}$ and $\pi_{\Delta t}'$ be the invariant measures for the Markov transition operators defined respectively by the BAOA and BAOAB schemes for a fixed timestep $\Delta t$. Then the corresponding marginal distributions on $\mathcal D$ are equal.
+
+\begin{proof}
+    We denote by $P_{\Delta t}$ the transition operator for the BAOA scheme, and similarly $Q_{\Delta t}$ for the BAOAB scheme. It is straightforward to check that 
+    $$ e^{\frac{\Delta t}2 B}P_{\Delta t}^n=Q_{\Delta t}^n e^{\frac{\Delta t}2 B}.$$
+
+    Assuming the ergodic condition of Lemma \ref{TU_like_lemma} (TODO check doeblin condition), we can apply the result to get, for any bounded measurable observable $\varphi$,
+
+    $$ \int_{\mathcal E} \varphi(q,p)\pi_{\Delta t}(\text d q,\text d p)=\int_{\mathcal E} e^{\frac{\Delta t}2 B}\varphi(q,p)\pi'_{\Delta t}(\text d q,\text d p)$$
+
+    Now if $\varphi (q,p)= \varphi (q,0) \defeq \varphi(q)$ for all $p$, then $e^{\frac{\Delta t}2 B}\varphi=\varphi$, which yields the desired conclusion:
+
+    $$\forall \varphi \in B^\infty(\mathcal D),\ \int_{\mathcal E} \varphi(q)\pi_{\Delta t}(\text d q,\text d p)=\int_{\mathcal E}\varphi(q)\pi'_{\Delta t}(\text d q,\text d p).$$
+\end{proof}
+
+\end{corollary}
+
+\subsection{Application: the equation of state of Argon}
 text
 \begin{figure}[htbp]
     \begin{center}
-      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_150K.pdf}
-      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_300K_sparse.pdf}
+      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_nvt_150K.pdf}
+      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_nvt_300K.pdf}
       \caption{ \label{fig:eos_argon}
-        Simulated equations of state of Argon at 150 K (liquid phase) on the left and 300K (supercritical phase) on the right. Simulated data points are shown in blue, and the red dotted curve shows the results of experimental measurements.
+        Simulated equations of state of Argon at 150 K (liquid phase, left) and 300 K (supercritical phase, right). Experimental reference curves are plotted in red, simulated data points are scattered in blue.
       }
     \end{center}
   \end{figure}
