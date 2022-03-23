@@ -164,5 +164,28 @@ One can go further and observe that when observing a fixed volume of unconfined 
 The main interest in obtaining such a description is that one can then express the macroscopic state of a system in terms of averages of microscopic observables with respect to the ensemble measure.
 
 \section{From microscopic dynamics to macroscopic observables}
-As we stated above, the aim of molecular dynamics is to infer from computer simulations at the microscopic level the macroscopic behavior physical systems.
-Even if systems which are within the reach of computer simulations are much smaller than macroscopic systems, the hope is that one can derive from the observation of certain quantities 
+
+\begin{definition}[Observables]
+    An observable is simply a measurable function 
+    $$\varphi : \mathcal E \mapsto \R$$
+
+\end{definition}
+
+One can also consider vector-valued observables, such as the velocity. The potential energy $V$ (viewed as a function on $\mathcal E$), the kinetic energy $(q,p) \mapsto p^\intercal M^{-1}p/2$ and the Hamiltonian $H$ are obvious examples of observables.
+Observables relate the microscopic state of the system to macroscopic quantities, through ensemble averages. Given a macroscopic system defined by an equilibrium ensemble $\mu$ and an observable $\varphi$, we are interested in computing its average over the ensemble
+
+\begin{equation}
+    \label{ensemble_averages}
+\E_\mu[\varphi] \defeq \int_{\mathcal E} \varphi(q,p) \mu(\text dq,\text dp).
+\end{equation}
+Two problems arise. One is, for a given macroscopic quantity of interest, how to define the microscopic observable $\varphi$ which corresponds to this quantity. The second, once we have properly defined $\varphi$, is how to compute averages (\ref{ensemble_averages}). 
+This second problem is one of statistically sampling a high-dimensional measure, which is a difficult problem in general. Our broad strategy, which will remain the same in the NVE and NVT case, is to define dynamical processes $(X_t)_{t\geq 0}$ on $\mathcal E$ which are invariant for the target measure $\mu$, and then consider estimates of $\E_{\mu}[\varphi]$ through the computation of ergodic averages:
+
+\begin{equation}
+\label{ergodic_averages}
+ \frac{1}{T}\int_{0}^T \varphi(X_t)dt,
+\end{equation}
+
+which we may hope will converge to the target value. The convergence of ergodic averages can be shown not to hold in generality, and is something which must be proven on a case by case basis, though general criteria can be derived.
+Furthermore, if the underlying dynamic is stochastic, then the variance of the random variables (\ref{ergodic_averages}) becomes an issue, which one must control.
+However, empirical practice shows that ergodic averages obtained from computer simulations, even for a modest number of atoms, agrees very well with experimental data for certain types of systems, even in the absence of theoretical guarantees. We will demonstrate an example in the next chapter.

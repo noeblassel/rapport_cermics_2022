@@ -38,9 +38,22 @@ This will be useful to investigate properties of the Hamiltonian dynamics. First
         \end{equation}
     \end{definition}
 
-    The generator quantifies the rate of change of a property $\varphi$ under the evolution of the system. Formally, if we define, for $t\geq 0$, the following operators 
-    $$P_t \varphi (q_0,p_0) = \varphi(q_t^{q_0},p_t^{p_0})$$
-    Where $(q_t^{q_0},p_t^{p_0})$ is the Hamiltonian trajectory whose value at time 0 is $(q_0,p_0)$. We also use the following standard notation:
+    The generator quantifies the rate of change of a property $\varphi$ under the evolution of the system. If we define, for $t\geq 0$, the evolution operators 
+    $$P_t \varphi (q_0,p_0) = \varphi(\Phi_t(q_0,p_0)),$$
+
+where $\Phi$ is the flow associated with the Hamiltonian dynamics, that is the collection of maps $(\Phi_t)_{t\geq 0}$, defined by
+    $\Phi_t (q_0,p_0) = (q_t,p_t)$, the solution to (\ref{Hamiltonian dynamics}) with initial conditions  $(q_0,p_0)$, then we have formally:
+
+    $$ \frac \partial{\partial t} P_t \varphi (q,p)= \partial_t \varphi(q_t,p_t)= \cLham \varphi(q_t,p_t)=\cLham P_t \varphi(q,p)=P_t\cLham \varphi(q,p).$$
+
+    This motivates the alternative definition for the semi-group of evolutions operators:
+
+    \begin{equation}
+        \label{hamiltonian_evolution_operator}
+        P_t=e^{t\cLham}
+    \end{equation}
+
+  
 
     \begin{remark}
         \label{non-separable hamiltonian}
@@ -94,13 +107,6 @@ This will be useful to investigate properties of the Hamiltonian dynamics. First
     
     \paragraph{Verlet scheme}
 
-    \begin{equation}\label{verlet}
-        \left\{\begin{aligned}
-             q^{n+1} &=q^n +M^{-1}p^n\Delta t\\
-             p^{n+1} &=p^n - \nabla V(q^{n+1})\Delta t
-        \end{aligned}\right.
-    \end{equation}
-
     \subsection{Energy conservation properties}
 
     \begin{figure}[htbp]
@@ -118,21 +124,25 @@ This will be useful to investigate properties of the Hamiltonian dynamics. First
 
 \section{Canonical averages}
 
-\subsection{Langevin dynamics}
+\paragraph{Langevin dynamics}
 We consider a special case of the inertial Langevin dynamics, defined by the following stochastic differential equation (SDE), where $\gamma, \beta$ are set real constants.
 
 \begin{equation}
     \label{Langevin}
     \left\{\begin{aligned}
         \text dq_t&=M^{-1}p_t\dt,\\
-        \text dp_t&= -\nabla V(q_t)\dt \textcolor{blue}{-\gamma M^{-1}p_t\dt}+\textcolor{purple}{\sqrt{\frac{2\gamma}\beta}\text dW_t},
+        \text dp_t&= -\nabla V(q_t)\dt -\gamma M^{-1}p_t\dt+\sqrt{\frac{2\gamma}\beta}\text dW_t,
     \end{aligned}\right.
 \end{equation}
 
 where $(W_t)_{t\geq 0}$ is a standard $dN$-dimensional Brownian motion.
 
 This process is a combination of a Hamiltonian evolution with an additional action on the momenta which, if isolated, defines a $dN$-dimensional Ornstein-Uhlenbeck process.\\
-This additional term be interpreted physically as the combination of two effects: a \textcolor{blue}{dissipation term} which can be understood as the effect of a viscous friction force on the particles, and a \textcolor{purple}{fluctuation term}, which corresponds to the input of kinetic energy into the system as thermal agitation induced by a surrounding heat bath at temperature $1/(k_B\beta)$.\\
+This additional term be interpreted physically as the combination of two effects: a dissipation term 
+$$-\gamma M^{-1}p_t\dt,$$
+which can be understood as the effect of a viscous friction force on the particles, and a fluctuation term, 
+$$\sqrt{\frac{2\gamma}\beta}\text dW_t,$$
+which corresponds to the input of kinetic energy into the system as thermal agitation induced by a surrounding heat bath at temperature $1/(k_B\beta)$.\\
 However, the physical meaning can be forgotten thanks to the fact that, \textit{in fine}, we only require that the canonical measure be invariant under this dynamic: as we shall shortly see, this is indeed the case.
 
 \begin{remark}
@@ -154,7 +164,7 @@ However, the physical meaning can be forgotten thanks to the fact that, \textit{
 \subsection{Properties of the Langevin dynamics}
 
 To investigate some of the properties of the dynamics, it is useful to introduce the notion of a generator for a process defined by a possibly inhomogeneous SDE.
-\subsubsection{The generator}
+\paragraph{The generator}
 We consider a general process defined by a SDE of the form:
 
 \begin{equation}
@@ -212,7 +222,7 @@ where $\nabla$, $\nabla^2$ are with respect to the spatial coordinates. In other
     $e^{t\cL}\defeq P_t$
 
 
-    \subsubsection{Invariance of the canonical measure}
+    \paragraph{Invariance of the canonical measure}
 
     The Langevin dynamics (\ref{Langevin}), when written under the form (\ref{SDE}), corresponds to the case 
 
@@ -224,28 +234,27 @@ where $\nabla$, $\nabla^2$ are with respect to the spatial coordinates. In other
     $$ \cL_q \varphi= \nabla^\intercal_q\varphi M^{-1}p$$
     $$ \cL_p\varphi =-\nabla^\intercal_{p}\varphi (\nabla V(q)+\gamma M^{-1}p) +\frac{\gamma}{\beta}\Delta_p $$
     which we may rewrite, recognizing the generator for the Hamiltonian dynamics \ref{Hamiltonian generator}
-    $$ \cL=\cL_{H}+\gamma \cL_{\text{ou}}$$
-    where $\cL_{\text{ou}}\varphi =-M^{-1}\nabla^\intercal_p\varphi p + \frac1{\beta}\Delta_p\varphi$
+    $$ \cL=\cL_{\mathrm{ham}}+\gamma \cL_{\mathrm{O}}$$
+    where $\cL_{\mathrm{O}}\varphi =-M^{-1}\nabla^\intercal_p\varphi p + \frac1{\beta}\Delta_p\varphi$
 
-\section{Numerical schemes for the Langevin dynamics}
-text
-    \subsubsection{Splitting methods}
-    text
-    \subsubsection{Implementation}
-    text
-    \begin{figure}[htbp]
-        \begin{center}
-            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_20.pdf}
-            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_200.pdf}
-            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_400.pdf}
-            \includegraphics[width=0.49\linewidth]{figures/chapter1/velocities_1000.pdf}
-          \caption{ \label{fig:velocity_histograms}
-            Convergence of the velocity distribution to a mixture of Maxwell-Boltzmann distributions (plotted in red) for a mixture of two ideal gases with different atomic masses, starting from a Dirac distribution $\delta_{\sqrt 3}^{\otimes N}$. Snapshots of the empirical distribution are shown after 20,\ 200,\ 400 and 1000 steps ($\Delta t=5\times 10^{-3} \tau ^*, T=T^*$)          }
-        \end{center}
-      \end{figure}
+    \paragraph{Convergence to equilibrium}
+\subsection{Numerical schemes for the Langevin dynamics}
+Just as in the Hamiltonian case, we can define schemes for the Langevin dynamics based on approximating the evolution operator over one timestep by splitting the full dynamics into elementary integrable dynamics, and combining their corresponding evolution operators in a sequence.
+    \paragraph{Lie-Trotter splittings}
 
 
-\subsection{Error analysis for splitting schemes}
+    \begin{example}[BAO scheme]
+    \end{example}
+    \paragraph{Strang splittings}
+
+    \begin{example}[BAOAB scheme]
+
+    \end{example}
+
+
+\subsection{Choosing a scheme}
+\paragraph{Asymptotic variance}
+\paragraph{Bias}
 \begin{figure}[htbp]
     \begin{center}
       \includegraphics[width=0.49\linewidth]{figures/chapter1/potential_energy_bias.pdf}
@@ -317,8 +326,13 @@ Let $ \pi_{\Delta t}$ and $\pi_{\Delta t}'$ be the invariant measures for the Ma
 
 \end{corollary}
 
-\subsection{Application: the equation of state of Argon}
-text
+The corollary also gives an relation between the marginal distributions in momentum space, which explains the difference displayed on (Figure \ref{fig:kinetic_energy_bias}) between those two schemes.
+
+\subsection{Unbiased sampling}
+\paragraph{The Metropolis-Hastings algorithm}
+
+
+\subsection{Illustration: the equation of state of Argon}
 \begin{figure}[htbp]
     \begin{center}
       \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_nvt_150K.pdf}
@@ -328,4 +342,3 @@ text
       }
     \end{center}
   \end{figure}
-\subsection{The Metropolis method}
