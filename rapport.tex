@@ -18,6 +18,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{csquotes}
 \usepackage{cancel}
+\usepackage{hyperref}
 
 %------- styles ---------
 \newtheorem{theorem}{Theorem}
@@ -28,7 +29,8 @@
 \newtheorem{remark}{Remark}
 \newtheorem{corollary}{Corollary}
 \newtheorem{example}{Example}
-
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{algorithm}{Algorithm}
 %----- definitions ----------
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
 \newcommand{\dps}{\displaystyle } 
@@ -62,13 +64,17 @@
 \renewcommand{\geq}{\geqslant}
 \renewcommand{\le}{\leqslant}
 \renewcommand{\ge}{\geqslant}
-\newcommand{\dt}{\text{d}t}
-\newcommand{\dx}{\text{d}x}
+\newcommand{\dt}{\mathrm{d}t}
+\newcommand{\dx}{\mathrm{d}x}
 %\renewcommand{\dp}{\text{d}p}
-\newcommand{\dq}{\text{d}q}
+\newcommand{\dq}{\mathrm{d}q}
+\newcommand{\dif}{\mathrm{d}}
 \newcommand{\defeq}{\mathrel{\mathop:}=}
 \newcommand{\eqdef}{\mathrel{\mathop=}:}
 \newcommand{\1}{\mathbbm{1}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\Dt}{{\Delta t}}
+\newcommand{\iid}{{\textit{i.i.d.} }}
 
 %------------------------------------
 \title { 
@@ -107,8 +113,12 @@
 \input{norton.tex}
 
 \appendix
-\chapter{Performance analysis}
-\chapter{Conventions}
+\chapter{Implementation details}
+\chapter{Study of the BAOA scheme}
+\input{baoa_vs_baoab.tex}
+\chapter{Notational conventions}
+
+
 
 \section*{Notational conventions}
 We convene that the gradient of a function $\varphi : \R^n \mapsto \R$ is a column vector-valued function
@@ -123,12 +133,18 @@ $$\nabla^2 \defeq \nabla\nabla^\intercal = \begin{pmatrix}
 \end{pmatrix}$$
 And for $f=(f_1,\dotsm, f_n)^\intercal: \R^n \mapsto \R^n$
 
-\begin{align*}
-Jf=\begin{pmatrix}
-    \nabla^\intercal f_1 \\ \vdots \\ \nabla^\intercal f_n
-\end{pmatrix}=(\nabla f^\intercal)^\intercal && 
-\operatorname{div} f=\partial_{x_1}f_1+\dotsm+\partial_{x_n}f_n=\nabla^\intercal f
-\end{align*}
+\begin{equation}
+  \label{eq:jacobian}
+  \begin{aligned}
+    \nabla f=\begin{pmatrix}
+        \nabla^\intercal f_1 \\ \vdots \\ \nabla^\intercal f_n
+    \end{pmatrix}=(\nabla \otimes f)^\intercal && 
+    \operatorname{div} f=\partial_{x_1}f_1+\dotsm+\partial_{x_n}f_n=\nabla^\intercal f
+    \end{aligned}
+\end{equation}
 
-are respectively the Jacobian and divergence of $f$.
+
+are respectively the Jacobian matrix and divergence of $f$.
+
+\input{bibilography.tex}
 \end{document}

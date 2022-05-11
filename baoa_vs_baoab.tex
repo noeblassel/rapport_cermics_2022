@@ -1,0 +1,574 @@
+We consider time discretization schemes of underdamped Langevin dynamics known as the BAOA and BAOAB schemes, in order to compare the sampling bias induced by the timestep $\Delta t$ for these two methods.
+Analysis of the timestep bias for the BAOAB scheme is given in \cite{LMS13}, however it does not appear that the BAOA bias is so well understood.
+It has been observed numerically in \cite{KK22} (Section III.B) that the bias on the kinetic marginal distribution is much lower using the BAOA method. We attempt to explain this from a theoretical point of view, before illustrating our results in numerical examples.
+ Building on known results for the BAOAB scheme, we show the following results.
+\begin{enumerate}[(i)]
+  \item In section \ref{relating invariant measures}, we express the invariant measure of the BAOA scheme in terms of the invariant measure of the BAOAB scheme (Proposition \ref{prop:mup_expression}), and using this expression, we show, as in \cite{KK22} (Section II.C), the equality between their respective configurational marginal distributions (Corollary \ref{corr marginal equality}). 
+  \item In section \ref{BAOA first order estimate}, we show that the dominant error term for BAOA averages is only of order one in $\Delta t$, confirming that the BAOAB method is in general of higher order (Corollary \ref{corr2 baoa expansion}). 
+  \item We show in section \ref{second order on the marginals} that for kinetic observables, however, the error is of second order in $\Delta t$, so that both marginal distibutions are second-order accurate (Corollary \ref{corr3 second order marginals}). 
+  \item In section \ref{BAOA kinetic second order estimate}, we give an expression for the dominant error term in the kinetic marginal distribution of the BAOA scheme (Proposition \ref{prop:kappa_p_second_order}). In fact, we conjecture that, at least in dimension one, this term cancels, leading to an order of at least $\Delta t^3$ (Conjecture \ref{conjecture}).
+  \item Lastly, in section \ref{discrepancy term kinetic}, we analyze the difference between the kinetic marginal distribution under the BAOA and BAOAB scheme (Proposition \ref{prop discrepancy term}), and explain why this difference leads to a systematic underestimation of the kinetic variance in BAOAB trajectories (Remark \ref{remark}).
+\end{enumerate}
+
+\subsection{Definitions and notations}\label{defs}
+The underdamped Langevin dynamics is defined by the following stochastic differential equation:
+
+\begin{equation}\label{Langevin}
+  \left\{\begin{aligned}
+      \mathrm{d}q_t&=M^{-1}p_t\dt,\\
+      \mathrm{d}p_t&= -\nabla V(q_t)\dt -\gamma M^{-1}p_t\dt+\sqrt{\frac{2\gamma}\beta}\mathrm{d}W_t,
+  \end{aligned}\right.
+\end{equation}
+where $M\in \R^{dN\times dN}$ is a symmetric mass matrix, $(q_t,p_t)\in \mathcal D\times \R^{dN}\defeq \mathcal E$, $(W_t)_{t\geq 0}$ is a standard $dN$-dimensional Brownian motion, 
+and $\gamma, \beta$ are positive real parameters, respectively the friction coefficient and the inverse temperature. $\mathcal D$ is the configuration space, which is either the torus $(L(\R / \mathbb Z))^{dN}$ or the full space $\R^{dN}$.
+
+The canonical measure, which we denote with the same symbol as its density, 
+
+\begin{equation}
+\label{canonical measure}
+\int_{\mathcal E} \varphi\,\mathrm{d}\mu=\int _{\mathcal E}\varphi(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p =\frac 1 Z\int_{\mathcal E} \varphi(q,p) \mathrm{e}^{-\beta\left(\frac 12 p\cdot M^{-1}p + V(q)\right)}\,\mathrm{d}q\,\mathrm{d}p
+\end{equation}
+is invariant for this dynamics.
+
+We can write $\mu$ as a product measure on $\R^{dN}\times \mathcal D$
+
+\begin{equation}
+\label{tensor form}
+\mu(q,p)=\kappa(p)\nu(q), \qquad \nu(q)=Z_{\nu}^{-1}\mathrm{e}^{-\beta V(q)},\qquad \kappa(p)=\det\left(2\pi\beta M^{-1}\right)^{-\frac 12}\mathrm{e}^{-\frac\beta 2\langle M^{-1}p,p\rangle}.
+\end{equation}
+
+Notice $\kappa$ corresponds to a centered Gaussian law, the Maxwell-Boltzmann distribution.
+The generator of the Langevin dynamics is the operator
+\begin{equation}
+  \label{Langevin generator}
+\mathcal L_\gamma=M^{-1}p\cdot \nabla_q-\nabla V(q) \cdot \nabla_p- \gamma M^{-1} p \cdot \nabla_p+\frac\gamma\beta \Delta_p,
+\end{equation}
+which splits into three elementary generators, namely 
+$$\mathcal L_\gamma= A+B+\gamma C,$$
+with
+\begin{equation}
+  \label{Langevin generator splitting}
+\qquad A=M^{-1}p\cdot \nabla_q,\qquad B=-\nabla V(q) \cdot \nabla_p,\qquad C=-M^{-1}p\cdot \nabla_p +\frac1\beta \Delta_p.
+\end{equation}
+These generators give rise to dynamics which we can express explicitly, defined by the following evolution operators:
+
+\begin{equation}
+  \label{propagators}
+  \left\{\begin{aligned}
+    &\mathrm{e}^{tA}\varphi(q,p)=\varphi(q+tM^{-1}p,p),\\
+    &\mathrm{e}^{tB}\varphi(q,p)=\varphi(q,p-t\nabla V(q)),\\
+   &\mathrm{e}^{t\gamma C}\varphi(q,p)=\mathbbm E \left[\varphi \left(q, \mathrm e^{-\gamma M^{-1}t}p + \sqrt{\frac{\gamma M^{-1}}{\beta}(1-\mathrm{e}^{-2M^{-1}t})}G\right)\right],
+\end{aligned}\right.
+\end{equation}
+where $G$ is a standard $dN$-dimensional Gaussian. The dynamics associated with the A and B part are deterministic Hamiltonian dynamics, and the C part gives rise to an Ornstein-Uhlenbeck process on momentum coordinates. We consider two splitting schemes for \eqref{Langevin}, as defined by the following evolution operators:
+
+\begin{equation}
+  \label{schemes}
+  \left\{\begin{aligned}
+    &P_{\Delta t}=\e^{\Delta t B}\e^{\frac{\Delta t}2A}\e^{\Delta t \gamma C}\e^{\frac{\Delta t}2A},\\
+    &Q_{\Delta t}=\e^{\frac{\Delta t}2B}\e^{\frac{\Delta t}2A}\e^{\Delta t \gamma C}\e^{\frac{\Delta t}2A}\e^{\frac{\Delta t}2B}.\\
+\end{aligned}\right.
+\end{equation}
+These correspond respectively to the BAOA and the BAOAB scheme.
+We also denote $\mu_{\Delta t,P}, \mu_{\Delta t, Q}$ the invariant measures for the Markov chains associated with \eqref{schemes}. We assume these have smooth densities which we also denote $\mu_{\Delta t,P}, \mu_{\Delta t,Q}$, and that a certain ergodicity condition holds (see Lemma 1).
+Additionally we denote by $\nu_{\Delta t,P},\nu_{\Delta t,Q},\kappa_{\Delta t,P},\kappa_{\Delta t,Q}$ the associated marginals and densities with obvious notation inspired by \eqref{tensor form}.
+
+
+\subsection{Relating invariant measures of discretization schemes}\label{relating invariant measures}
+In this paragraph, we provide a formula for $\mu_{\Delta t,P}$ in terms of $\mu_{\Delta t,Q}$. This result allows one to very simply show the equality in the configurational marginals between these two measures, as noted in \cite{KK22}.
+The main tool is the following result, which is a reformulation of the TU lemma (Lemma 9 from \cite{LMS13}).
+
+\begin{lemma}
+  Let $P_{\Delta t}, Q_{\Delta t}$ be bounded operators on $B^\infty(\mathcal E)$.
+    Assume that, for any $n\geq 1$,
+    $$ R_{\Delta t} P_{\Delta t}^n = Q_{\Delta t}^n S_{\Delta t},$$
+    where $R_{\Delta t}$ and $S_{\Delta t}$ are bounded operators on $B^\infty (\mathcal E)$, such that $R_{\Delta t}\1=\1$, and that the following ergodic condition holds: for any $\varphi \in B^\infty(\mathcal E)$, and almost all $(q,p) \in \mathcal E$,
+    $$ \underset{n\to\infty}\lim P_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\,\mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p) $$
+    $$ \underset{n\to\infty}\lim Q_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\,\mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p).$$
+    Then  we have the relation $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ via the following relation:
+
+    \begin{equation*}
+    \int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p)=\int_{\mathcal E} \left(S_{\Delta t}\right)\varphi(q,p) \mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p)
+    \end{equation*}
+\end{lemma}
+
+Applying Lemma 1 to \eqref{schemes} yields the following result.
+\begin{prop}\label{prop:mup_expression}
+  The following relation between the densities $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ holds.
+
+  \begin{equation}
+    \label{mu P expression}
+    \mu_{\Delta t,P}(q,p) = \mu_{\Delta t,Q}\left(q,p-\frac{\Delta t}2V(q)\right).
+  \end{equation}
+\end{prop}
+\begin{proof}
+  From the expressions \eqref{schemes}, we immediately get:
+
+\begin{equation}
+  \label{TU relation}
+  P_{\Delta t}^n\e^{\frac{\Delta t}2B}=\e^{\frac{\Delta t}2B}Q_{\Delta t}^n,
+\end{equation}
+whereby applying Lemma 1, we get for any test function $\varphi$,
+\begin{equation}
+  \label{TU ccl}
+  \int_{\mathcal E}\mathrm e^{\frac{\Delta t}2B}\varphi\, \mathrm{d}\mu_{P,\Delta t}=\int_{\mathcal E}\varphi\, \mathrm{d}\mu_{Q,\Delta t}
+\end{equation}
+Using equation \eqref{TU ccl} with $\psi=\e^{-\frac{\Delta t}2B}\varphi$ yields an exact expression for $\mu_{\Delta t,P}$ in terms of $\mu_{\Delta t,Q}$:
+\begin{equation}
+  \label{pi P expression}
+  \int_{\mathcal E}\varphi\, \mathrm{d}\mu_{\Delta t,P} = \int_{\mathcal E}\e^{-\frac{\Delta t}2B}\varphi \mathrm{d}\mu_{\Delta t,Q}.
+\end{equation}
+Since $\varphi$ is arbitrary, we infer that at the level of densities,
+\begin{equation}
+  \mu_{\Delta t,P}(q,p)=\left(\mathrm{e}^{-\frac{\Delta t}2B}\right)^\dagger\mu_{\Delta t,Q}(q,p),
+\end{equation}
+where $\dagger$ denotes the adjoint on the flat space $L^2(\mathcal E)$. A simple computation shows that 
+$$\mathrm e^{-\frac{\Delta t}2 B^\dagger}=\mathrm{e}^{\frac{\Delta t}2B},$$
+since $B^\dagger=-B$.
+Hence,
+\begin{equation}\label{prop1 ccl}
+  \mu_{\Delta t,P}(q,p) = \mathrm{e}^{\frac{\Delta t B}2}\mu_{\Delta t,Q}(q,p)=\mu_{\Delta t,Q}\left(q,p-\frac{\Delta t}2V(q)\right),
+\end{equation}
+which is the desired conclusion.
+\end{proof}
+
+Relation \eqref{prop1 ccl} is enough to show an equality between the configurational marginal distributions $\nu_{\Delta t,P}$ and $\nu_{\Delta t,Q}$, as noted in \cite{KK22}.
+\begin{corollary}\label{corr marginal equality}
+  The marginal distributions in the $q$ variable of $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ coincide:
+  \begin{equation}
+    \label{marginal distributions equality}
+    \nu_{\Delta t,Q}(q)= \nu_{\Delta t,P}(q).
+  \end{equation}
+\end{corollary}
+\begin{proof}
+  Write, for any $q\in \mathcal D$,
+  \begin{equation*}
+    \label{corrolary 1 proof}
+    \begin{aligned}
+    \nu_{\Delta t,Q}(q) &= \int_{\R^{dN}}\mu_{\Delta t,Q}(q,p)\mathrm{d}p\\
+    &=\int_{\R^{dN}}\mu_{\Delta t,Q}\left(q,p-\frac{\Delta t}2 \nabla V(q)\right)\mathrm{d}p\\
+    &=\int_{\R^{dN}}\mu_{\Delta t,P}(q,p)\,\mathrm{d}p\\
+    &= \nu_{\Delta t,P}(q),
+    \end{aligned}
+  \end{equation*}
+  which proves the claim.
+\end{proof}
+
+
+\subsection{Error estimate on the phase space measure}\label{BAOA first order estimate}
+
+We now turn to obtaining the dominant order in the sampling bias of $\mu_{\Delta t,P}$, building on previously known results for $\mu_{\Delta t,Q}$, and the relation \eqref{mu P expression}.
+Error estimates on $\mu_{\Delta t,Q}$ have been investigated in \cite{LMS13} (Section 1.4). In particular, the following expansion of $\mu_{\Delta t,Q}$ is derived, which will be central in our analysis.
+
+\begin{theorem}[Theorem 13 in \cite{LMS13}]
+  There exists a smooth function $f_2$ such that for any smooth $\psi$,
+
+  \begin{equation}
+    \label{BAOAB expansion}
+   \int_{\mathcal E}\psi(q,p) \mu_{\Delta t,Q}(q,p) \text  dq \mathrm{d}p=\int_{\mathcal E}\psi(q,p)\mu(q,p)\mathrm{d}q \mathrm{d}p+\Delta t^2\int_{\mathcal E}\varphi(q,p) f_2(q,p)\mu(q,p)\mathrm{d}q \mathrm{d}p + \Delta t^4 r_{\psi,\gamma,\Delta t},
+  \end{equation}
+  where the remainder $r_{\psi,\gamma,\Delta t}$ is uniformly bounded for $\Delta t$ sufficiently small. Moreover, an expression for the dominant error term is obtained, 
+  
+  \begin{equation}
+    \label{remainder term}
+    \left\{\begin{aligned}
+    &f_2=\tilde f_2-\frac18(A+B)g\\
+    &\mathcal L^{*}_\gamma\tilde f_2=\frac1{12}(A+B)\left[\left(A+\frac B2\right)g\right]\\
+    &g\defeq\beta(M^{-1}p)\cdot \nabla V(q)
+    \end{aligned}\right.,
+  \end{equation}
+  where $\mathcal L^*_\gamma$ is the adjoint of $\mathcal L_\gamma$ on the weighted space $L^2(\mu)$.  
+\end{theorem}
+ Smoothness here is meant in a technical sense (see Definition 8 in \cite{LMS13}), which we refrain from detailing here. Using this expansion, one can derive the dominant order error for the BAOA scheme.
+
+
+\begin{corollary}\label{corr2 baoa expansion}
+  For any smooth observable $\varphi$,
+  \begin{equation}
+    \label{corr2 ccl}
+    \int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(q,p)\mathrm{d}q \mathrm{d}p=\int_{\mathcal E}\varphi(q,p)\left(1+\frac{\Delta t}2g(q,p)\right)\mu(q,p)\mathrm{d}q \mathrm{d}p +O(\Delta t^2),
+    \end{equation}
+where $g$ is given by \eqref{remainder term}.
+\end{corollary}
+\begin{proof}
+  Combining \eqref{BAOAB expansion} with \eqref{mu P expression}, we get the following estimation for averages with respect to $\mu_{\Delta t,P}$:
+  \begin{equation}
+    \label{}
+   \int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(q,p)\,\mathrm{d}q\, \mathrm{d}p= \int_{\mathcal E}\varphi(q,p)\mu\left(q,p-\frac{\Delta t}2\nabla V(q)\right)\,\mathrm{d}q\, \mathrm{d}p+ \mathrm{O}(\Delta t^2).
+  \end{equation}
+  Taylor expanding $\mu$ gives
+$$\mu\left(q,p-\frac{\Delta t}2\nabla V(q)\right)=\mu(q,p)\left(1+\frac{\Delta t}2\beta(M^{-1}p)\cdot \nabla V(q) +\mathrm{O}(\Delta t^2)\right)=\mu(q,p)\left(1+\frac{\Delta t}2g+\mathrm{O}(\Delta t^2)\right),$$
+hence we get 
+\begin{equation}
+\label{BAOA first order}
+\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(q,p)\,\mathrm{d}q\, \mathrm{d}p=\int_{\mathcal E}\varphi(q,p)\mu(q,p)\left(1+\frac{\Delta t}2g(q,p)+\mathrm{O}(\Delta t^2)\right)\,\mathrm{d}q\, \mathrm{d}p,
+\end{equation}
+which proves the claim.
+\end{proof}
+
+
+\subsection{Error estimates on the kinetic marginal distributions}\label{second order on the marginals}
+Equation \eqref{corr2 ccl} expresses the fact that the invariant measure $\mu_{\Delta t,P}$ is only exact at first order in $\Delta t$, which is one less that $\mu_{\Delta t,Q}$.
+So in full generality, one can expect an error of order $\Delta t$ on averages obtained from BAOA trajectories, versus $\Delta t^2$ for averages computed from BAOAB trajectories. However, if we restrict ourselves to marginal observables, that is observables which only depend on the configurational coordinate or the kinetic coordinate, the first order error term vanishes.
+Indeed, we have the following.
+\begin{corollary}\label{corr3 second order marginals}
+Let $\varphi(q,p)=\varphi(q)$ or $\varphi(q,p)=\varphi(p)$ be a marginal observable. Then
+$$\int_{\mathcal E}\varphi\, \mathrm{d} \mu_{\Delta t,P}=\int_{\mathcal E}\varphi\, \mathrm{d}\mu +\mathrm{O}(\Delta t^2).$$
+\end{corollary}
+\begin{proof}
+  By \eqref{corr2 ccl}, it is sufficient to show
+  \begin{equation}\label{corr2 term}\int_{\mathcal E}\varphi g\, \mathrm{d}\mu=0.\end{equation}
+  This follows from the following cancellations.
+  \begin{equation}
+    \label{g cancellations}
+      \int_{\R^{dN}}g(q,p)\mu(q,p)\,\mathrm{d}p=\int_{\mathcal D}g(q,p)\mu(q,p)\,\mathrm{d}q=0.
+  \end{equation}
+  Indeed,
+  $$\int_{\R^{dN}}\beta (M^{-1}p)\cdot \nabla V(q)\mu(q,p)\,\mathrm{d}p=0,$$
+since the integrand is an odd function of $p$, and the marginal of $\mu$ in $p$ is a centered Gaussian density. Also,
+$$\int_{\mathcal D}\beta(M^{-1}p)\cdot \nabla V(q)\mu(q,p)\,\mathrm{d}q=-\int_{\mathcal D}(M^{-1}p)\cdot \nabla_q\mu(q,p)\,\mathrm{d}q=0,$$
+by an integration by parts. By first integrating \eqref{corr2 term} over the coordinate independent of $\varphi$, one of the cancellations \eqref{g cancellations} yields the result.
+\end{proof}
+
+Corollary 2 gives no new information concerning configurational observables, since we already know by Corollary 1 that these have the same averages under $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$, and that by Theorem 1, these have error of order $\Delta t^2$.
+However, kinetic observables may yield different averages.
+
+\subsection{Analysis of the second order error term for kinetic averages under $\mu_{\Delta t,P}$}\label{BAOA kinetic second order estimate}
+It was observed numerically in \cite{KK22} that the averages of the kinetic and configurational temperatures computed with a BAOA scheme have a bias of order greater than $\Delta t$, as expected from the argument above.
+In fact, for the kinetic temperature, the order appears to  be greater than $\Delta t^2$, in contrast to averages computed with the BAOAB method.
+Understanding this behavior theoretically requires comparing second order error terms.
+
+We show the following result, which identifies the second-order error term for kinetic observables.
+
+\begin{prop}\label{prop:kappa_p_second_order}
+  Let $\psi(q,p)=\psi(p)$ be a smooth kinetic observable. 
+   Then,
+  \begin{equation}
+    \label{prop 2}
+    \int_{\mathcal E} \psi(p) \mu_{\Delta t,P}(q,p)\,\mathrm{d}q\, \mathrm{d}p=\int_{\mathcal E}\psi(p)\mu(q,p)\,\mathrm{d}p\, \mathrm{d}q+\Delta t^2\int_{\mathcal E} \psi(p)\tilde f_2(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p + \mathrm{O}(\Delta t^3),
+  \end{equation}
+  where $\tilde f_2$ is given by \eqref{remainder term}.
+\end{prop}
+From Theorem 13 of \cite{LMS13}, this error term is identical to the dominant error term for OBABO averages, and minus the dominant error term for OABAO averages.
+\begin{proof}
+  By writing
+  $$\int_\mathcal{E}\psi(q,p)\mu_{\Delta t,P}(q,p)\,\mathrm{d} q\,\mathrm{d} p-\int_\mathcal{E}\psi(q,p)\mu(q,p)\,\mathrm{d}p\,\mathrm{d}q=\int_\mathcal{E}\left(\psi(q,p)-\int_{\mathcal E}\psi\,\mathrm{d}\mu\right)\mu_{\Delta t,P}(q,p)\,\mathrm{d} q\,\mathrm{d} p,$$
+  we may assume without loss of generality that $\psi$ has average 0 with respect to $\mu$.
+
+  Using \eqref{BAOAB expansion}, we get 
+  $$\int_{\mathcal E} \psi(p) \mu_{\Delta t,Q}(q,p)\,\mathrm{d}q\,\mathrm{d}p =\Delta t^2 \int_{\mathcal E}\psi(p)f_2(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p + \mathrm{O}(\Delta t^3),$$
+  so that using our relation \eqref{mu P expression}, we get
+  $$ \int_{\mathcal E} \psi(p) \mu_{\Delta t,P}(q,p)\,\mathrm{d}q\,\mathrm{d}p=\int_{\mathcal E}\psi(p)\mathrm e^{\frac{\Delta t}2B}\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p + \Delta t^2 \int_{\mathcal E}\psi(p)\mathrm e^{\frac{\Delta t}2B}\left [ f_2(q,p)\mu(q,p)\right]\,\mathrm{d}q\,\mathrm{d}p + \mathrm{O}(\Delta t^3).$$
+  This rewrites, at dominant order,
+  $$\int_{\mathcal E}\psi(p)\mu\left(q,p-\frac{\Delta t}2\nabla V(q)\right)\,\mathrm{d}q\,\mathrm{d}p + \Delta t^2 \int_{\mathcal E}\psi(p)f_2(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p + \mathrm{O}(\Delta t^3).$$
+  Expanding $\mu$ to the second order yields
+
+\begin{align*}
+  \label{mu 2-expansion}
+  &\ \mu\left(q,p-\frac{\Delta t}2\nabla V(q)\right)+\mathrm{O}(\Delta t^3)\\
+  &=\mu(q,p)\left[1+\beta\frac{\Delta t}2(M^{-1}p)\cdot \nabla V(q)+\frac {\Delta t^2}8\left[(\beta M^{-1}p)\otimes(\beta M^{-1}p)\nabla V(q)\right]\cdot \nabla V(q)-\beta\frac{\Delta t^2}8\left(M^{-1}\nabla V(q)\right)\cdot \nabla V(q)\right]\\
+   &=\mu(q,p)\left[1+\beta\frac{\Delta t}2(M^{-1}p)\cdot \nabla V(q)+\frac{\Delta t^2}{8}\left(g^2(q,p)-\beta (M^{-1}\nabla V(q))\cdot \nabla V(q)\right)\right].
+\end{align*}
+Using $\int \psi \mathrm{d}\mu=0$ and the cancellation \eqref{g cancellations} on $q$ to remove the first order term, we obtain:
+
+\begin{equation}
+\label{BAOA second order}
+\int_{\mathcal E} \psi(p) \mu_{\Delta t,P}(q,p)\,\mathrm{d}q\,\mathrm{d}p=\Delta t^2\int_{\mathcal E} \psi(p)\left(\frac 18\left(g^2(q,p)-\beta \left(M^{-1}\nabla V(q)\right)\cdot \nabla V(q)\right)+f_2(q,p)\right)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p+\mathrm{O}(\Delta t^3).
+\end{equation}
+Simplifications are possible. First, observe that 
+$$-\beta\left(M^{-1}\nabla V(q)\right)\cdot \nabla V(q)=Bg(q,p),$$
+so that, using the expression for $f_2$ given in \eqref{remainder term}, we get
+\begin{equation}
+  \int_{\mathcal E} \psi(p) \mu_{\Delta t,P}(q,p)\,\mathrm{d}q\,\mathrm{d}p=\Delta t^2\int_{\mathcal E} \psi(p)\left(\frac 18\left(g^2(q,p)-Ag(q,p)\right)+\tilde f_2(q,p)\right)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p+\mathrm{O}(\Delta t^3).
+\end{equation}
+Next, we examine the term
+$$\left(g^2(q,p)-Ag(q,p)\right)\mu(q,p)=\left[\beta^2 \left( (M^{-1}p)\cdot \nabla V(q)\right)^2-\beta (M^{-1}p)\cdot(\nabla^2 V(q)M^{-1}p)\right]\mu(q,p),$$
+by a straightforward calculation, where $\nabla^2$ denotes the Hessian matrix.
+This expression is a finite sum of diagonal terms coming from both terms inside the brackets, and off-diagonal terms coming only from the rightmost term inside the bracket.
+Importantly, these all vanish when integrated against the configurational marginal of $\mu$. To make this precise, we index $p$ and $q$ as 
+$$p= (p_{i})_{1\leq i\leq dN},\ q= (q_{i})_{1\leq i\leq dN}.$$
+Fixing indices $i\neq j$, the diagonal term corresponding to $i$ is 
+\begin{equation}\label{diagonal term} \left[\beta^2\left(M^{-1}p\right)^2_i \left(\frac{\partial}{\partial q_i}V(q)\right)^2-\beta\left(M^{-1}p\right)^2_i\frac{\partial^2}{\partial q_i^2}V(q)\right]\mu(q,p)=\left(M^{-1}p\right)_i^2\frac{\partial^2}{\partial q_i^2}\mu(q,p), \end{equation}
+and the off-diagonal term corresponding to $(i,j)$ is 
+\begin{equation}
+ \label{off diagonal term} -\beta \left(M^{-1}p\right)_i\left(M^{-1}p\right)_j\frac{\partial}{\partial q_i}V(q)\frac{\partial}{\partial q_j}V(q)\mu(q,p)=-\frac1{\beta}\left(M^{-1}p\right)_i\left(M^{-1}p\right)_j\frac{\partial^2}{\partial q_i\partial q_j}\mu(q,p).
+\end{equation}
+Factoring out the $q$-independent terms, and using the cancellations
+
+\begin{equation}
+  \label{second order cancellations on mu}
+  \int_{\mathcal D}\frac{\partial^2}{\partial q_i^2}\mu(q,p)\,\mathrm{d}q=\int_{\mathcal D}\frac{\partial^2}{\partial q_i\partial q_j}\mu(q,p)\,\mathrm{d}q=0,
+\end{equation}
+which follow by integration by parts, we infer
+
+\begin{equation}
+  \int_{\mathcal E} \psi(p) \mu_{\Delta t,P}(q,p)\,\mathrm{d}q\,\mathrm{d}p=\Delta t^2\int_{\mathcal E} \psi(p)\tilde f_2(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p + \mathrm{O}(\Delta t^3),
+\end{equation}
+which concludes the proof.
+\end{proof}
+
+\begin{remark}
+Using exponential decay estimates on the evolution semigroup $(\mathrm{e}^{t\mathcal L_\gamma})_{t\geq 0}$, (see \cite{LMS13}, paragraph 1.1.1 and references therein for more detail) one can show that the inverse operator $\mathcal L_\gamma^{-1}$ is well-defined for smooth centered observables.
+Thus $\mathcal L_\gamma^{-1} \psi$ is well defined, say $\mathcal L_\gamma \Psi(q,p)=\psi(p)$.
+Hence, \eqref{prop 2} rewrites 
+\begin{align*}
+  \int_{\mathcal E} \psi(p) \mu_{\Delta t,P}(q,p)\,\mathrm{d}q\,\mathrm{d}p&=\Delta t^2\int_\mathcal{E}\mathcal L_\gamma \Psi(q,p)\tilde f_2(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p+\mathrm{O}(\Delta t^3)\\
+  &=\Delta t^2\int_\mathcal{E}\Psi(q,p)\mathcal L_\gamma^*\tilde f_2(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p+\mathrm{O}(\Delta t^3)\\
+  &=\frac{\Delta t^2}{12}\int_\mathcal{E}\Psi(q,p)\left[\left(A+B\right)\left(A+\frac B2\right)g\right](q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p+\mathrm{O}(\Delta t^3),
+\end{align*}
+using \eqref{remainder term}, which provides an alternative expression for the dominant error term.
+Numerical evidence (see Figure \ref{fig:gamma_effect}) suggests that the error on BAOA and BAOAB averages is at dominant order independent of $\gamma$. Since the error term on BAOA given in \eqref{prop 2} depends on $\gamma$, this suggests that this term is zero, motivating the following conjecture.
+\end{remark}
+
+\begin{conjecture}\label{conjecture}
+  For any smooth centered kinetic observable $\psi(p)$, we have
+  
+  \begin{equation}
+    \int_{\mathcal E}\left(\mathcal L_\gamma ^{-1}\psi\right)(q,p)\left[\left(A+B\right)\left(A+\frac B2\right)g\right](q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p=0.
+  \end{equation}
+  This would in particular imply that the kinetic marginal $\kappa_{\Delta t,P}$ is correct at order at least three in $\Delta t$, and is the subject of further investigation.
+\end{conjecture}
+
+\subsection{Analysis of the discrepancy between the dominant error terms on the kinetic marginals.}\label{discrepancy term kinetic}
+Numerical evidence presented in \cite{KK22} shows a significant discrepancy between $\kappa_{\Delta t,P}$ and $\kappa_{\Delta t,Q}$.
+Specifically, $\kappa_{\Delta t,Q}$ in the case $d=N=1$ tends to present a sharper peak than $\kappa_{\Delta t,P}$, thus underestimating the variance in the kinetic marginal.
+ We show this in this paragraph this behavior is generic, in the sense that it does not, up to a shape parameter, depend on $V$.
+The arguments above show that
+\begin{equation}
+  \begin{aligned}
+    \int_{\mathcal E}\psi(p)\mu_{\Delta t,P}(q,p)\,\mathrm{d}q\,\mathrm{d}p&=\int_{\R^{dN}}\psi(p)\kappa_{\Delta t,P}(p)\,\mathrm{d}p\\
+    &=\int_{\R^{dN}}\psi(p)\kappa(p)\,\mathrm{d}p+\Delta t^2\int_{\R^{dN}}\psi(p)\left(\int_{\mathcal D} \tilde f_2(q,p)\nu(q)\,\mathrm{d}q\right)\kappa(p)\,\mathrm{d}p +\mathrm{O}(\Delta t^3),  
+  \end{aligned}
+\end{equation}
+where we used the product form \eqref{tensor form} for $\mu$. Similarly,
+\begin{equation}
+  \int_{\mathcal E}\psi(p)\kappa_{\Delta t,Q}(p)\,\mathrm{d}p=\int_{\R^{dN}}\psi(p)\kappa(p)\,\mathrm{d}p+\Delta t^2\int_{\R^{dN}}\psi(p)\left(\int_{\mathcal D}f_2(q,p)\nu(q)\,\mathrm{d}q\right)\kappa(p)\,\mathrm{d}p +\mathrm{O}(\Delta t^3),
+\end{equation}
+so that 
+
+\begin{align*}
+  \int_{\mathcal E}\psi(p)\left(\kappa_{\Delta t,P}(p)-\kappa_{\Delta t,Q}(p)\right)\,\mathrm{d}p&=\Delta t^2\int_{\R^{dN}}\psi(p)\left(\int_{\mathcal D}\left(\tilde f_2(q,p)-f_2(q,p)\right)\nu(q)\,\mathrm{d}q\right)\kappa(p)\,\mathrm{d}p +\mathrm{O}(\Delta t^3)\\
+  &=\frac{\Delta t^2}8\int_{\R^{dN}}\psi(p)\left(\int_{\mathcal D}\left(A+B\right)g(q,p)\nu(q)\,\mathrm{d}q\right)\kappa(p)\,\mathrm{d}p +\mathrm{O}(\Delta t^3).
+\end{align*}
+Hence at the level of densities, we have at dominant order,
+
+$$ \kappa_{\Delta t,P}(p)- \kappa_{\Delta t,Q}(p)=\frac{\Delta t^2\kappa(p)}8\int_{\mathcal D}\left(A+B\right)g(q,p)\nu(q)\,\mathrm{d}q + \mathrm{O}(\Delta t^3),$$
+using the expressions for $f_2$ and $\tilde f_2$ given in \eqref{remainder term}. The following proposition gives an alternative expression for this discrepancy term.
+
+\begin{prop}\label{prop discrepancy term}
+  We have the following expression for the discrepancy term.
+
+  \begin{equation}
+    \label{discrepancy term}
+    \kappa_{\Delta t,P}(p)- \kappa_{\Delta t,Q}(p)=\frac{\Delta t^2}8\mathrm{Tr}\left(\left(\left(\beta M^{-1}p\right)^{\otimes 2}-\beta M^{-1}\right)^\intercal\mathrm{Cov}_\nu(\nabla V)\right)\kappa(p) +\mathrm{O}(\Delta t^3).
+  \end{equation}
+\end{prop}
+\begin{proof}
+  For simplicity we assume $Z_\nu=\frac{\Delta t^2}8=\kappa(p)=1$. This has no incidence on our computations. We write:
+  \begin{equation}
+    (A+B)g(q,p)\nu(q)=\beta\left[\left(M^{-1}p\right)\cdot \left(\nabla^2V(q)M^{-1}p\right)-\left(M^{-1}\nabla V(q)\right)\cdot \nabla V(q)\right]\mathrm e^{-\beta V(q)}.
+  \end{equation}
+Setting $\tilde p= M^{-1}p$, we get 
+
+\begin{equation}
+  (A+B)g(q,M\tilde p)\nu(q)=\beta\left[\tilde p\cdot \left(\nabla^2V(q)\tilde p\right)-\left(M^{-1}\nabla V(q)\right)\cdot \nabla V(q)\right]\mathrm e^{-\beta V(q)}.
+\end{equation}
+This is a sum of terms of the form
+
+$$T_{ij}(q,p)=\left[\beta \tilde p_i \tilde p_j \frac{\partial^2}{\partial q_i\partial q_j}V(q) - \beta M^{-1}_{i,j}\frac{\partial}{\partial q_i}V(q)\frac{\partial}{\partial q_j}V(q)\right]\mathrm e^{-\beta V(q)}.$$
+
+Upon integrating this term over $\mathcal D$, we can integrate the left-most term by parts (boundary terms cancel out by periodicity or by growth conditions on $V$), to obtain
+$$\int_{\mathcal D}T_{ij}(q,p)\,\mathrm{d}q=\int_{\mathcal D}\left[\beta^2\tilde p_i\tilde p_j \frac{\partial}{\partial q_i}V(q)\frac{\partial}{\partial q_j}V(q)-\beta M^{-1}_{i,j}\frac{\partial}{\partial q_i}V(q)\frac{\partial}{\partial q_j}V(q)\right]\mathrm e^{-\beta V(q)}\,\mathrm{d}q.$$
+Hence,
+$$\int_{\mathcal D}T_{ij}(q,p)\,\mathrm{d}q=\left(\beta^2\tilde p_i\tilde p_j -\beta M^{-1}_{i,j}\right)\int_{\mathcal D}\frac{\partial}{\partial q_i}V(q)\frac{\partial}{\partial q_j}V(q)\mathrm e^{-\beta V(q)}\,\mathrm{d}q,$$
+so that
+$$\int_{\mathcal D}(A+B)g(q,p)\nu(q)\,\mathrm{d}q=\sum_{i,j}\left(\beta^2\tilde p_i\tilde p_j -\beta M^{-1}_{i,j}\right)\int_{\mathcal D}\frac{\partial}{\partial q_i}V(q)\frac{\partial}{\partial q_j}V(q)\mathrm e^{-\beta V(q)}\,\mathrm{d}q,$$
+which we rewrite
+
+\begin{equation}
+\left( \left(\beta M^{-1}p\right)^{\otimes 2}-\beta M^{-1}\right) : \int_{\mathcal D} \left(\nabla V \otimes \nabla V\right) (q) \nu(q)\,\mathrm{d}q=\mathrm{Tr}\left(\left(\left(\beta M^{-1}p\right)^{\otimes 2}-\beta M^{-1}\right)^\intercal\mathrm{Cov}_\nu(\nabla V)\right),
+\end{equation}
+
+using the fact that $\nabla V$ is a centered observable with respect to $\nu$, and concluding the proof.
+\end{proof}
+
+\begin{remark}\label{remark}
+  This expression for the discrepancy term is not particularly wieldy, however it does explain the behavior observed in \cite{KK22}. In the case $d=N=\beta=M=1$, it becomes,
+
+  $$\kappa_{\Delta t,P}(p)- \kappa_{\Delta t,Q}(p)=\frac{\Delta t^2}8(p^2-1)\mathrm{Var}_\nu(V')\kappa(p)+O(\Delta t^3),$$
+  which is, up to a constant, the same correction term for any potential $V$. We plot this correction profile in figure \ref{fig:discrepancy_term}. The shape of this profile explains the higher peak observed in $\kappa_{\Delta t,Q}$.
+\end{remark}
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/discrepancy_term.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/discrepancy_term2D.pdf}
+    \caption{ \label{fig:discrepancy_term}
+      Profile of the discrepancy term in one and two dimension, in the case of identity covariances for $\nabla V$.
+    }
+  \end{center}
+\end{figure}
+
+\section{Numerical results}
+We propose illustrating our computations with numerical examples, on toy one dimensional systems.
+\begin{enumerate}[(i)]
+  \item In section \ref{models}, we define the potentials used for all the following experiments, and describe the sampling method used.
+  \item In section \ref{nuP equals nuQ}, we verify numerically the relation \eqref{marginal distributions equality}.
+  \item In section \ref{kappaP neq kappaQ}, we show that there is a significant discrepancy between the two kinetic marginal distributions. We also pinpoint the main, and possibly only source of this error, namely the $\gamma$-independent term \eqref{discrepancy term}.
+  \item In section \ref{muP bad muQ good}, we numerically verify that the first order behavior \eqref{BAOA first order} is correct.
+  \item In section \ref{why muP bad}, we give an explicit example of an observable for which the BAOA scheme yields a bias of order $\Delta t$.
+  \item Finally, in section \ref{gamma does not count}, we show that the effect of the parameter $\gamma$ is undetectable at the level of the kinetic marginals, motivating Conjecture \ref{conjecture}.
+\end{enumerate}
+
+
+\subsection{Models}\label{models}
+ We take $\beta=1$, $M=\mathrm{Id}$, and consider four potentials:
+\begin{itemize}
+  \item Periodic potential $$ \mathcal D = L(\R/\mathbb Z),\ L=1,\ V(q)=\sin(2\pi q/L), $$
+  \item Quadratic potential $$ \mathcal D = \R,\ V(q)=\alpha \frac{q^2}2,\ \alpha=1,$$
+  \item Double well potential $$ \mathcal D = \R,\ V(q)=\alpha \frac{q^2}2 +\beta\mathrm{e}^{-\frac{q^2}{2\sigma^2}},\ \alpha=1,\ \beta=4,\ \sigma=0.5,$$
+  \item Tilted double well potential $$ \mathcal D = \R,\ V(q)=\alpha \frac{q^2}2 + \gamma q+\beta\mathrm{e}^{-\frac{q^2}{2\sigma^2}},\ \alpha=1,\ \beta=4,\ \gamma=1,\ \sigma=0.5.$$
+\end{itemize}
+Analytically unknown normalizing constants and reference quantities were obtained through numerical integration of $\mu$, using trapezoid rules with a mesh size of $10^{-6}$. For unbounded coordinates, we truncated the domain to the interval $[-5,5]$.
+Approximations of $\mu_{\Delta t,P},\mu_{\Delta t,Q}$ were computed by recording the states of 10,000 independently evolving trajectories over $2\times 10^6$ timesteps in a $1000\times1000$ two-dimensional histogram on the truncated domain. The rare sample points outside of the truncated domain were discarded.
+
+\subsection{Equality of marginal configurational distributions}\label{nuP equals nuQ}
+On Figures  \ref{fig:marginal_q_periodic} and \ref{fig:marginal_q_wells}, we verify numerically the equality \eqref{marginal distributions equality} between the configurational marginal distributions $\nu_{\Delta t,Q}$ and $\nu_{\Delta t,P}$, which holds for any $\Delta t$. This point was demonstrated in \cite{KK22}.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_PERIODIC_0.2.pdf}
+    
+    \caption{ \label{fig:marginal_q_periodic}
+      Marginal configurational distributions for the periodic potential. Left: $\Delta t=0.1$. Right: $\Delta t=0.2$. Even for large timesteps, the distributions coincide perfectly.
+    }
+  \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf}
+    
+    \caption{ \label{fig:marginal_q_wells}
+      Marginal configurational distributions for $\Delta t=0.4$. Left: double well potential. Right: tilted double well potential.
+    }
+  \end{center}
+\end{figure}
+
+
+\subsection{Comparison of marginal kinetic distributions}\label{kappaP neq kappaQ}
+We observe, as in \cite{KK22}, that the kinetic marginal distribution $\kappa_{\Delta t,Q}$ departs from the reference at a faster rate than $\kappa_{\Delta t,P}$, and more precisely appears to underestimate the variance, leading to a sharper distribution.
+Additionally we observe that removing the part of the bias on BAOAB due to the discrepancy term \eqref{discrepancy term} leads to a significant improvement. These corrected marginals are plotted under the label "correction".
+See Figures \ref{fig:marginal_p_periodic} and \ref{fig:marginal_p_double_well}.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_PERIODIC_0.2.pdf}
+    
+    \caption{ \label{fig:marginal_p_periodic}
+      Marginal kinetic distributions for the periodic potential. Left: $\Delta t=0.1$. Right: $\Delta t=0.2$.
+    }
+  \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_DOUBLE_WELL_0.3.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_DOUBLE_WELL_0.4.pdf}
+    
+    \caption{ \label{fig:marginal_p_double_well}
+      Marginal kinetic distributions for the double well potential. Left: $\Delta t=0.3$. Right: $\Delta t=0.4$.
+    }
+  \end{center}
+\end{figure}
+
+
+\subsection{Verification of the first-order expansion}\label{muP bad muQ good}
+We verify the correctness first-order expansion of $\mu_{\Delta,P}$ obtained in \eqref{BAOA first order}, by comparing the joint distributions obtained from Monte-Carlo simulations with a reference calculation of the first-order expansion for $\mu_{\Delta t,P}$. Additionally, we plot the empirical estimate of $\mu_{\Delta t,Q}$ and $\mu$.
+The plots show joint likelihoods as a function of the state, using a color mapping. Empirical joint distributions for BAOA and BAOAB trajectories are plotted on the top row of each figure.
+On the bottom row, a reference computation of $\mu$ is plotted on the right, as well as a reference computation of
+$$\left(1+\frac{\Delta t}2g\right)\mu$$
+on the left. The results visually confirm our result, while suggesting that, as a whole, $\mu_{\Delta t,Q}$ is the superior approximation of $\mu$.
+See Figures \ref{fig:joint_periodic}, \ref{fig:joint_quadratic} and \ref{fig:joint_double_well}.
+
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOA_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOAB_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_theoretical_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_reference_PERIODIC.pdf}
+    \caption{ \label{fig:joint_periodic}
+      Joint distributions for the periodic potential, $\Delta t=0.1$.
+    }
+  \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOA_QUADRATIC_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOAB_QUADRATIC_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_theoretical_QUADRATIC_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_reference_QUADRATIC.pdf}
+    \caption{ \label{fig:joint_quadratic}
+      Joint distributions for the quadratic potential, $\Delta t=0.4$.
+    }
+  \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_reference_DOUBLE_WELL.pdf}
+    \caption{ \label{fig:joint_double_well}
+      Joint distributions for the double well potential, $\Delta t=0.4$.
+    }
+  \end{center}
+\end{figure}
+
+\subsection{Example of first-order bias in a BAOA average}\label{why muP bad}
+We demonstrate that for certain observables, BAOA is drastically outperformed by BAOAB, by calculating the average of $g$ for increasing timesteps. Note by \eqref{g cancellations}, the true average is 0. Figures \ref{fig:double_well_bias} and \ref{fig:tilted_double_well_bias} show the estimated averages as a function of the timestep on the left, and the same data on a log-log plot on the right. The order of the error on the BAOAB averages suggest that the second order error term
+$$\int_{\mathcal E}gf_2\,\mathrm{d}\mu$$
+given in \eqref{BAOAB expansion} cancels out, yielding a fourth-order bias in $\Delta t$ for BAOAB averages of $g$.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/DOUBLE_WELL_bias_g.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/DOUBLE_WELL_bias_loglog_g.pdf}
+    \caption{ \label{fig:double_well_bias}
+      Averages of $g$ for the double well potential.
+    }
+  \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/TILTED_DOUBLE_WELL_bias_g.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf}
+    \caption{ \label{fig:tilted_double_well_bias}
+      Averages of $g$ for the tilted double well potential.
+    }
+  \end{center}
+\end{figure}
+
+
+\subsection{Effect of the friction parameter}\label{gamma does not count}
+All experiments shown above used a value of $\gamma=1$ for the friction parameter. In this final experiment, we examine the effect of changing $\gamma$
+We show the marginal kinetic distributions for three values of $\gamma\in \{0.1,1,10\}$.
+The results show that there is no visually discernable effect of the parameter $\gamma$: all $\kappa_{\Delta t,P}$s are superposed close to the reference curve, and all $\kappa_{\Delta t,Q}$s are superposed above. This suggest that most of the error on $\kappa_{\Delta t,Q}$ arises from the additional term
+$$-\frac{\Delta t^2}8\int_{\mathcal E} \varphi (A+B)g\, \mathrm{d}\mu,$$
+which is the dominant discrepancy term in \eqref{discrepancy term}, and which is independent of $\gamma$. This is the fact we observed numerically on figures \ref{fig:marginal_p_double_well} and \ref{fig:marginal_p_periodic}.
+See figure \ref{fig:gamma_effect}.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.90\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/gamma_effect_DOUBLE_WELL_0.3.pdf}
+    \caption{ \label{fig:gamma_effect}
+      Kinetic marginal distributions for $\Delta t=0.3$ on the double well potential.
+    }
+  \end{center}
+\end{figure}

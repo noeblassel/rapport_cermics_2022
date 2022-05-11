@@ -1,0 +1,76 @@
+To investigate some of the properties of the dynamics, it is useful to introduce the notion of a generator for a process defined by a possibly inhomogeneous SDE.
+\paragraph{The generator}
+We consider a general process defined by a SDE of the form:
+
+\begin{equation}
+    \label{eq:sde}
+    \mathrm{d}X_t=b(t,X_t)\dt + \sigma(t,X_t)\mathrm{d}W_t,
+\end{equation}
+where $b$ is a $\R^n$-valued function, $W$ is a standard $d$-dimensional Brownian motion and $\sigma$ is a $n\times d$ matrix-valued function.\\
+For $\varphi$ a smooth bounded function, Itô's lemma allows us to compute:
+\begin{align*}
+    d\varphi(t,X_t) &=\frac{\partial \varphi}{\partial t}(t,X_t)\text dt + \nabla^\intercal \varphi(t,X_t) \text dX_t + \frac12 \operatorname{Tr}(\nabla^{2\intercal}\varphi(t,X_t)\text d\langle X ,X\rangle _t)\\
+    &=\left( \frac{\partial \varphi}{\partial t} + \nabla^{\intercal}\varphi b + \frac12 \operatorname{Tr}(\nabla^2\varphi \sigma\sigma^\intercal) \right)(t,X_t) \text dt+ (\nabla^\intercal \varphi\sigma )(t,X_t)\text dW_t,
+\end{align*}
+where $\nabla$, $\nabla^2$ are with respect to the spatial coordinates. In other words,
+
+
+\begin{equation}
+    \label{eq:ito}
+    \varphi(t,X_t)= \varphi(0,X_0)+\int_0^t\left( \frac{\partial \varphi}{\partial t} + \nabla^\intercal\varphi b + \frac12 \operatorname{Tr}(\nabla^2\varphi\sigma\sigma^\intercal) \right)(s,X_s) \text ds + \int_0^t\nabla^\intercal \varphi\sigma(s,X_s)\text dW_s.
+\end{equation}
+%----invariance of $\mu$
+
+    \begin{definition}[Generator of an Itô process]
+        Let $X_t$ be a $\R^n$-valued process defined by \ref{eq:sde}. We define its generator at time $t$ as the operator defined by
+
+        \begin{equation}
+            \label{Generator}
+            \cL_t \varphi(x)=\left(\frac{\partial \varphi}{\partial t} + \nabla^\intercal\varphi b + \frac12 \operatorname{Tr}(\nabla^2\varphi \sigma\sigma^\intercal)\right)(t,x)
+        \end{equation}
+
+    \end{definition}
+
+    In view of \eqref{eq:ito}, we have, provided regularity conditions on $\sigma$ and $\varphi$,
+    $$\E\left[\varphi(t,X_t)\right|X_s=x]=x+\int_s^t \E[\cL_u\varphi(X_u)] \text du$$
+    so that, at least formally,
+    \begin{equation}
+    \label{generator formal motivation}
+    \frac{\partial}{\partial t}\E[\varphi(t,X_t) | X_{s}=x]=\E[\cL_{t} \varphi(X_{t})|X_{s}=x]=\cL_{t}\E[\varphi(t,X_{t})|X_{s}=x]
+    \end{equation}
+
+    If we define a family of evolution operators $(P_{s,t})_{s\leq t}$ by the formula
+    $$P_{s,t} \varphi (x)= \E[ \varphi (t,X_t) | X_s=x] $$
+    (\ref{generator formal motivation}) rewrites
+    $$ \frac{\partial}{\partial t} P_{s,t} \varphi (x)=P_{s,t}\cL_t\varphi(x)=\cL_t P_{s,t}\varphi(x)$$
+    
+    An important special case occurs when $b,\ \sigma$ and $\varphi$ do not depend on time. In this case the generator is a single operator $\cL$, defined by
+    $$\cL \varphi = \nabla^\intercal \varphi b + \frac12 \operatorname{Tr}(\nabla^2 \varphi \sigma \sigma ^\intercal)$$ 
+    The evolution operators $P_t \defeq P_{0,t}$ ($ = P_{s,s+t}\ \forall s$ by stationarity) form a semi-group, and act on the space of smooth functions as
+    $$ P_t \varphi(x)= \E[\varphi(X_t)| X_0=x]$$
+    The formal derivative is given by
+    $$ \frac{\partial}{\partial t}P_t=P_t\cL=\cL P_t$$
+    
+    We may write, by analogy with the finite-dimensional setting,
+    $\rme^{t\cL}\defeq P_t$
+
+    The Langevin dynamics \eqref{eq:langevin}, when written under the form \eqref{eq:sde}, corresponds to the case 
+
+    $$ b(q,p)= \begin{pmatrix} M^{-1}p \\ -
+    \nabla V(q)-\gamma M^{-1}p\end{pmatrix},\ \sigma(q,p)= \sqrt{\frac{2\gamma}\beta}\begin{pmatrix} 0_{dN} &  0_{dN} \\  0_{dN} & \text{I}_{dN} \end{pmatrix}$$
+    Hence, applying \ref{Generator}, we obtain the generator for the dynamics
+    $$ \cL=  \cL_q + \cL_p $$
+    where
+    $$ \cL_q \varphi= \nabla^\intercal_q\varphi M^{-1}p$$
+    $$ \cL_p\varphi =-\nabla^\intercal_{p}\varphi (\nabla V(q)+\gamma M^{-1}p) +\frac{\gamma}{\beta}\Delta_p $$
+    which we may rewrite, recognizing the generator for the Hamiltonian dynamics \eqref{eq:hamiltonian_generator}
+
+    \begin{equation}
+        \label{Langevin operator}
+    \cL=\cL_{\mathrm{ham}}+\gamma \cL_{\mathrm{O}}=\cL_{\mathrm A}+\cL_{\mathrm B}+\gamma \cL_{\mathrm O},
+    \end{equation}
+    where 
+    $$\cL_{\mathrm{O}}\varphi =-M^{-1}\nabla^\intercal_p\varphi p + \frac1{\beta}\Delta_p\varphi,$$
+    and recalling 
+
+    $$\cL_{\mathrm{ham}}=\cL_{\mathrm A}+\cL_{\mathrm B}$$
