@@ -88,7 +88,7 @@ The main tool is the following result, which is a reformulation of the TU lemma 
     Then  we have the relation $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ via the following relation:
 
     \begin{equation*}
-    \int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p)=\int_{\mathcal E} \left(S_{\Delta t}\right)\varphi(q,p) \mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p)
+    \int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p)=\int_{\mathcal E} \left(S_{\Delta t}\varphi\right)(q,p) \mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p)
     \end{equation*}
 \end{lemma}
 
@@ -127,7 +127,7 @@ $$\mathrm e^{-\frac{\Delta t}2 B^\dagger}=\mathrm{e}^{\frac{\Delta t}2B},$$
 since $B^\dagger=-B$.
 Hence,
 \begin{equation}\label{prop1 ccl}
-  \mu_{\Delta t,P}(q,p) = \mathrm{e}^{\frac{\Delta t B}2}\mu_{\Delta t,Q}(q,p)=\mu_{\Delta t,Q}\left(q,p-\frac{\Delta t}2V(q)\right),
+  \mu_{\Delta t,P}(q,p) = \mathrm{e}^{\frac{\Delta t B}2}\mu_{\Delta t,Q}(q,p)=\mu_{\Delta t,Q}\left(q,p-\frac{\Delta t}2\nabla V(q)\right),
 \end{equation}
 which is the desired conclusion.
 \end{proof}
@@ -401,8 +401,8 @@ using the fact that $\nabla V$ is a centered observable with respect to $\nu$, a
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/discrepancy_term.pdf}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/discrepancy_term2D.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term2D.pdf}
     \caption{ \label{fig:discrepancy_term}
       Profile of the discrepancy term in one and two dimension, in the case of identity covariances for $\nabla V$.
     }
@@ -436,8 +436,8 @@ Approximations of $\mu_{\Delta t,P},\mu_{\Delta t,Q}$ were computed by recording
 On Figures  \ref{fig:marginal_q_periodic} and \ref{fig:marginal_q_wells}, we verify numerically the equality \eqref{marginal distributions equality} between the configurational marginal distributions $\nu_{\Delta t,Q}$ and $\nu_{\Delta t,P}$, which holds for any $\Delta t$. This point was demonstrated in \cite{KK22}.
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_PERIODIC_0.1.pdf}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_PERIODIC_0.2.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.2.pdf}
     
     \caption{ \label{fig:marginal_q_periodic}
       Marginal configurational distributions for the periodic potential. Left: $\Delta t=0.1$. Right: $\Delta t=0.2$. Even for large timesteps, the distributions coincide perfectly.
@@ -447,8 +447,8 @@ On Figures  \ref{fig:marginal_q_periodic} and \ref{fig:marginal_q_wells}, we ver
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_DOUBLE_WELL_0.4.pdf}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf}
     
     \caption{ \label{fig:marginal_q_wells}
       Marginal configurational distributions for $\Delta t=0.4$. Left: double well potential. Right: tilted double well potential.
@@ -464,8 +464,8 @@ See Figures \ref{fig:marginal_p_periodic} and \ref{fig:marginal_p_double_well}.
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_PERIODIC_0.1.pdf}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_PERIODIC_0.2.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.2.pdf}
     
     \caption{ \label{fig:marginal_p_periodic}
       Marginal kinetic distributions for the periodic potential. Left: $\Delta t=0.1$. Right: $\Delta t=0.2$.
@@ -475,8 +475,8 @@ See Figures \ref{fig:marginal_p_periodic} and \ref{fig:marginal_p_double_well}.
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_DOUBLE_WELL_0.3.pdf}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/marginal/marginal_p_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.3.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.4.pdf}
     
     \caption{ \label{fig:marginal_p_double_well}
       Marginal kinetic distributions for the double well potential. Left: $\Delta t=0.3$. Right: $\Delta t=0.4$.
@@ -496,10 +496,10 @@ See Figures \ref{fig:joint_periodic}, \ref{fig:joint_quadratic} and \ref{fig:joi
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOA_PERIODIC_0.1.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOAB_PERIODIC_0.1.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_theoretical_PERIODIC_0.1.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_reference_PERIODIC.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_PERIODIC_0.1.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_PERIODIC.pdf}
     \caption{ \label{fig:joint_periodic}
       Joint distributions for the periodic potential, $\Delta t=0.1$.
     }
@@ -508,10 +508,10 @@ See Figures \ref{fig:joint_periodic}, \ref{fig:joint_quadratic} and \ref{fig:joi
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOA_QUADRATIC_0.4.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOAB_QUADRATIC_0.4.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_theoretical_QUADRATIC_0.4.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_reference_QUADRATIC.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_QUADRATIC_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_QUADRATIC_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_QUADRATIC_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_QUADRATIC.pdf}
     \caption{ \label{fig:joint_quadratic}
       Joint distributions for the quadratic potential, $\Delta t=0.4$.
     }
@@ -520,10 +520,10 @@ See Figures \ref{fig:joint_periodic}, \ref{fig:joint_quadratic} and \ref{fig:joi
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf}
-    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/joint/joint_reference_DOUBLE_WELL.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf}
+    \includegraphics[width=0.45\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_DOUBLE_WELL.pdf}
     \caption{ \label{fig:joint_double_well}
       Joint distributions for the double well potential, $\Delta t=0.4$.
     }
@@ -537,8 +537,8 @@ given in \eqref{BAOAB expansion} cancels out, yielding a fourth-order bias in $\
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/DOUBLE_WELL_bias_g.pdf}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/DOUBLE_WELL_bias_loglog_g.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_g.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_loglog_g.pdf}
     \caption{ \label{fig:double_well_bias}
       Averages of $g$ for the double well potential.
     }
@@ -547,8 +547,8 @@ given in \eqref{BAOAB expansion} cancels out, yielding a fourth-order bias in $\
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/TILTED_DOUBLE_WELL_bias_g.pdf}
-    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_g.pdf}
+    \includegraphics[width=0.49\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf}
     \caption{ \label{fig:tilted_double_well_bias}
       Averages of $g$ for the tilted double well potential.
     }
@@ -566,7 +566,7 @@ See figure \ref{fig:gamma_effect}.
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.90\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots/bias/gamma_effect_DOUBLE_WELL_0.3.pdf}
+    \includegraphics[width=0.90\linewidth]{/home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/gamma_effect_DOUBLE_WELL_0.3.pdf}
     \caption{ \label{fig:gamma_effect}
       Kinetic marginal distributions for $\Delta t=0.3$ on the double well potential.
     }

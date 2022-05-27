@@ -1,0 +1,22 @@
+\section{Non-equilibrium dynamics}
+In the previous chapter, we investigated various numerical strategies to sample states from thermodynamic ensembles.
+The object now is to go beyond the computation of average observables, to consider dynamical behavior of molecular systems.
+One way to define question we may ask is how the system responds to small perturbations of the equilibrium.
+For instance we may think of applying a small non-gradient force $\eta F$ to the equilibrium force $-\nabla V(q)$, which amounts to considering the following equation:
+\begin{equation}
+    \label{eq:nemd_langevin}
+    \left\{\begin{aligned}
+        \dif q_t &= M^{-1}p_t\dif t\\
+        \dif p_t &= -\nabla V(q_t)\dif t +\eta F\dif t -\gamma M^{-1}p_t\dif t +\sqrt{\frac{2\gamma}{\beta}}\dif W_t
+    \end{aligned}\right.
+\end{equation}
+We can think of this as effectively tilting the potential landscape so that we expect the steady-state of this perturbed dynamics to feature a measurable flux of particles in the direction $F$,
+which we measure by looking at the average velocity in the direction $F$,
+\begin{equation}
+    \label{eq:mobility}
+    \E_\eta\left[F\cdot \left(M^{-1}p\right)\right],
+\end{equation}
+where $\E_\eta$ denotes the average with respect to the steady-state for the dynamics \eqref{eq:nemd_langevin}, which we take to be a probability measure on $\mathcal E$,
+ for which we have no closed form, in contrast to the equilibrium setting.
+\section{Linear response theory}
+\section{Numerical schemes}

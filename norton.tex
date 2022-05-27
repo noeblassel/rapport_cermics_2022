@@ -1,0 +1,177 @@
+\section{Introduction}
+So far, the non-equilibrium setting we considered was one in which we perturbed the dynamics by a constant forcing,
+ and measured the linear relationship between the magnitude of the forcing and the induced response.
+An alternative idea would be to consider fixing the response, and measuring the magnitude of the forcing needed to induce it. This is the core of the Norton method.
+
+
+\section{Norton dynamics for the mobility observable}
+Let us fix a direction defined by a vector $F\in \R^{dN}$. The response we consider is the velocity in the direction $F$, which is the observable \[F\cdot \left(M^{-1} p\right).\]
+Again, we consider perturbed Langevin dynamics, but this time the magnitude of the non-gradient force $\eta$ is replaced by a fluctuating magnitude $\Lambda_t$, which is determined in order to ensure that the response
+\[v=F\cdot\left(M^{-1}p\right)=p\cdot\left(M^{-1}F\right)\]
+is a constant.
+
+\subsection{The dynamics}
+Thus, we consider the dynamics
+\begin{equation}
+    \label{eq:norton_method}
+    \left\{\begin{aligned}
+        \dif q_t&=\left(M^{-1}p_t\right)\dif t\\
+        \dif p_t&=-\nabla V(q_t)\dif t -\gamma\left(M^{-1}p_t\right)\dif t+\sqrt{\frac{2\gamma}\beta}\dif W_t+F\dif \Lambda_t,
+    \end{aligned}\right.
+\end{equation}
+where $\Lambda_t$ is a real-valued stochastic process. We make the tacit assumption that for fixed $v$, the process $\Lambda_t$ is well-defined and that ergodic averages
+\[\frac1 T\int_0^T \dif\Lambda_t=\frac{\Lambda_T-\Lambda_0}T\]
+converge almost surely to some average value $R_v$ under an invariant measure for the dynamics. We can easily write an equation for $\Lambda_t$, as follows.
+Our aim is to determine
+\[\underset{v\to 0}\lim \frac{v}{R_v}\]
+Using Itô's formula on the response, we get
+\begin{equation}
+    \label{eq:formula_response}
+\dif \left(\left(M^{-1}F\right)\cdot p\right)_t=\left(M^{-1}F\right)\cdot\left(-\nabla V(q_t)\dif t -\gamma M^{-1}p_t\dif t+\sqrt{\frac{2\gamma}\beta}\dif W_t\right)+\left( \left(M^{-1}F\right)\cdot F\right)\dif\Lambda_t=0,
+\end{equation}
+which gives $\Lambda_t$ as an Itô process,
+\begin{equation}
+    \label{eq:norton_multiplier_ito_decomposition}
+    \dif \Lambda_t=\left( \left(M^{-1}F\right)\cdot F\right)^{-1}\left(M^{-1}F\right)\cdot\left(\nabla V(q_t)\dif t +\gamma M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}\beta}\dif W_t\right).
+\end{equation}
+At this point, let us introduce the linear maps
+\begin{equation}
+    \label{eq:norton_projector}
+    \begin{aligned}
+        &P_{M,F}\,u=\frac{\left(M^{-1}F\right)\cdot u}{\left(M^{-1}F\right)\cdot F}F\qquad\forall\,u\in\R^{dN}\\
+        &P_{M,F}^\perp=\Id-P_{M,F}
+    \end{aligned}
+\end{equation}
+which are simply the orthogonal projectors onto the subspace spanned by $F$ and its orthogonal complement, with respect to the weighted scalar product
+\begin{equation}
+    \label{eq:norton_weighted_scalar_product}
+    \left\langle x,y\right\rangle_{M}=\left\langle M^{-1}x,y\right\rangle.
+\end{equation}
+Using this projector and substituting $\dif \Lambda_t$ for its value, we get the equation for the augmented dynamics $(q_t,p_t,\Lambda_t)\in \mathcal E\times \R$.
+\begin{equation}
+    \label{eq:norton_final_sde}
+    \left\{\begin{aligned}
+        \dif q_t &= M^{-1}p_t\dif t\\
+        \dif p_t &= P_{M,F}^\perp\left(-\nabla V(q_t)\dif t -\gamma M^{-1}p_t\dif t +\sqrt{\frac{2\gamma}\beta}\dif W_t\right)\\
+        \dif \Lambda_t &=\frac{M^{-1}F}{\left(M^{-1}F\right)\cdot F}\cdot\left(\nabla V(q_t)\dif t +\gamma M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}\beta}\dif W_t\right)
+    \end{aligned}\right.
+\end{equation}
+Notice this equation is almost the same as for the Langevin dynamics.
+The kinetic part is projected onto the $F$-subspace with respect to $\langle \cdot,\cdot\rangle_M$, and $\dif\Lambda_t$ is minus the coordinate in the $F$ direction of the standard Langevin equation for $\dif p_t$, again with respect to $\langle \cdot ,\cdot \rangle_M$.
+The Brownian motions $W_t$ are the same in the last two equations, hence $p_t$ and $\Lambda_t$ are coupled processes.[GENERATOR FOR THE FULL DYNAMICS?]
+
+\begin{equation}
+    \label{eq:norton_generator}
+---
+\end{equation}
+
+\subsection{Analytic calculations for the kinetic dynamics}
+
+The kinetic part of the dynamics writes as the combination of a ballistic Hamiltonian evolution
+\begin{equation}
+    \label{eq:elem_hamiltonian_equation}
+    \left\{\begin{aligned}
+        \dif q_t&=0\\
+        \dif p_t&=-P_{M,F}^\perp\nabla V(q_t)
+    \end{aligned}\right.\implies\left\{\begin{aligned}
+        q_t&=q_0\\
+        p_t&=p_0-tP_{M,F}^\perp\nabla V(q_0)
+    \end{aligned}\right.
+\end{equation}
+and a fluctuation-dissipation part,
+\begin{equation}
+    \label{eq:projected_OU}
+    \dif p_t=-\gamma P_{M,F}^\perp M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}{\beta}}P_{M,F}^\perp\dif W_t,
+\end{equation}
+which can also be analytically solved.
+Indeed, applying Itô's formula to the rescaled process $\e^{\gamma P_{M,F}^\perp M^{-1}t}p_t$ yields
+\[\mathrm{e}^{\gamma P_{M,F}^\perp M^{-1}t}\left(\gamma P_{M,F}^\perp M^{-1}p_t\dif t - \gamma P_{M,F}^\perp M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}{\beta}} P_{M,F}^\perp\dif W_t\right),\]
+hence we get 
+\begin{equation}
+    \label{eq:projected_ou_analytical_form}
+    \begin{aligned}
+    p_t&=\mathrm{e}^{-\gamma P_{M,F}^\perp M^{-1}t}p_0-\sqrt{\frac{2\gamma}{\beta}}\int_0^t\mathrm{e}^{\gamma P_{M,F}^\perp M^{-1}(s-t)} P_{M,F}^\perp\dif W_s\\
+    &=\mathrm{e}^{-\gamma P_{M,F}^\perp M^{-1}t}p_0-\sqrt{\frac{2\gamma}{\beta}}\left(\int_0^t\e^{-\gamma P_{M,F}^\perp M^{-1}s}P_{M,F}^\perp\e^{-\gamma P_{M,F}^\perp M^{-1}s} \dif s\right)^{\frac12}G,
+    \end{aligned}
+\end{equation}
+where the last equality holds in law if $G$ is a standard $dN$-dimensional Gaussian, using Itô's isometry and the symmetry of $\e^{\gamma P_{M,F}^\perp M^{-1}t}$ for all $t$.
+The matrix exponentials and integrals can be computed, however there is no concise expression like \eqref{eq:propagators} because $P_{M,F}^\perp M^{-1}$ is not invertible.
+
+In the case of a homogeneous system with $M=\alpha\Id$ (in which case we can assume by a judicious choice of mass unit that $M=\Id$), a more concise expression can be found, using the identity
+\[\e^{r\Pi}=\sum_{k=0}^\infty \frac{r^k}{k!}\Pi^k=\Id+\left(\sum_{k=1}^\infty\frac{r^k}{k!}\right)\Pi=\Id+\left(\e^r-1\right)\Pi.\]
+This identity follows, for $\Pi$ a linear projector, from applying the projector identity \[\Pi=\Pi^2=\Pi^3=\dotsm.\]
+We write the following derivation in the case of a general projector $\Pi$, and conclude by taking the case $\Pi=P_{M,F}^\perp$. We also note $\Pi^\perp=\Id-\Pi$.
+
+\begin{equation}
+    \begin{aligned}
+        \mathrm{e}^{-\gamma \Pi t}p_0-\sqrt{\frac{2\gamma}{\beta}} \Pi\left(\int_0^t\e^{2\gamma s \Pi }\dif s\right)^{\frac12}G&=\left(\Id+\left(\e^{-\gamma t}-1\right)\Pi\right)p_0-\sqrt{\frac{2\gamma}{\beta}}\Pi\left(\int_0^t\left(\Id+\left(\e^{-2\gamma s}-1\right)\Pi\right)\dif s\right)^\frac{1}{2}G\\
+        &=\left(\Pi^\perp +\e^{-\gamma t}\Pi\right)p_0-\sqrt{\frac{2\gamma}{\beta}}\Pi\left(t\Pi^\perp+\frac{1-\e^{-2\gamma t}}{2\gamma}\Pi\right)^{\frac 12}G.
+    \end{aligned}
+\end{equation}
+Now, observe that $\R^{dN}$ writes as the sum of two orthogonal spaces, each of which is an eigenspace for both $\Pi$ and $\Pi^\perp$, and correspond respectively to the eigenvalues $0$ and $1$ (this correspondence being flipped upon passing from $\Pi$ to $\Pi^\perp$). By an easy spectral calculation, we also have $\Pi^\alpha=\Pi$ for any $\alpha>0$,
+which allows to conclude that 
+\[(a\Pi^\perp+b\Pi)^\alpha=a^\alpha\Pi^\perp+b^\alpha\Pi\qquad \forall\,a,b,\alpha>0,\]
+and finally
+\begin{equation}
+    \label{eq:norton_ou_solved_no_mass}
+    \begin{aligned}
+    \mathrm{e}^{-\gamma \Pi t}p_0-\sqrt{\frac{2\gamma}{\beta}} \Pi\left(\int_0^t\e^{2\gamma s \Pi }\dif s\right)^{\frac12}G&=\Pi^\perp p_0+\e^{-\gamma t}\Pi p_0-\sqrt{\frac{2\gamma t}{\beta}}\Pi\Pi^\perp G-\sqrt{\frac{1-\e^{-2\gamma t}}{\beta}}\Pi G\\
+    &=\Pi^\perp p_0+\e^{-\gamma t}\Pi p_0-\sqrt{\frac{1-\e^{-2\gamma t}}{\beta}}\Pi G,
+    \end{aligned}
+\end{equation}
+where we use $\Pi\Pi^\perp=0$ for the last equality.
+Comparing equation \eqref{eq:norton_ou_solved_no_mass} and equation \eqref{eq:propagators} yields a clear interpretation of the action of the fluctuation-dissipation term on the dynamics: there is no effect in the direction tangent to $F$, and a standard Ornstein-Uhlenbeck process applies to the dynamics projected onto the subspace orthogonal to $F$ (note $\Pi G$ can then be viewed as a $(dN-1)$-dimensional standard Gaussian by isotropy).
+We also note that a similar computation may be performed in the case where both $M$ and $P_{M,F}$ are simultaneously diagonalizable, for instance if $M$ is a diagonal matrix and $F$ has a single non-zero component.
+
+\section{Splitting schemes}
+Consider the Norton dynamics on the state variable $(q_t,p_t)$. Its generator is given by the operator
+
+\begin{equation}
+    \label{eq:norton_generator}
+    \cL_F\varphi(q,p)=(M^{-1}p)\cdot \nabla_q\varphi(q,p)-(P_{M,F}^\perp\nabla V(q)-\gamma P_{M,F}^\perp M^{-1}p)\cdot\nabla_p\varphi(q,p)-\frac{\gamma}\beta\mathrm{Tr}\left(P_{M,F}^\perp\nabla_p^2\varphi(q,p)\right),
+\end{equation}
+which we rewrite as 
+\begin{equation}
+    \label{eq:norton_generator_splitting}
+    \cL_F=A+B_F+\gamma C_F,\qquad \text{with} \qquad
+    \left\{\begin{aligned}
+        B_F\varphi(q,p)&=\left(P_{M,F}^\perp\nabla V(q)\right)\cdot \nabla_p\varphi(q,p)\\
+        C_F\varphi(q,p)&=-\left(P_{M,F}^\perp M^{-1}p\right)\cdot\nabla_p\varphi(q,p)+\frac1\beta\mathrm{Tr}\left(P_{M,F}^\perp\nabla_p^2\varphi(q,p)\right).
+    \end{aligned}\right.
+\end{equation}
+The $A$ and $B_F$ operators are the generators of exactly integrable dynamics (namely ballistic Hamiltonian dynamics), and $C_F$ generates an analytically solvable diffusion process given in \eqref{eq:projected_ou_analytical_form}. Hence we can use a splitting scheme exactly as we did in the case of the Langevin dynamics, as discussed in section \ref{section:splitting_schemes_langevin}. 
+We will use the exact same terminology in this context, referring to a scheme by the order in which the elementary dynamics are integrated.
+For instance, the BAO scheme associated with the Norton dynamics for $F$ is the following. We fix a timestep $\Dt>0$.
+
+\begin{example}[Norton BAO scheme]
+    \begin{equation}
+        \left\{
+            \begin{aligned}
+                p^{n+\frac12}&=p^n-\Dt P_{M,F}^\perp \nabla V(q^n)\\
+                q^{n+1}&=q^n+\Dt M^{-1}p^{n+\frac12}\\
+                p^{n+1}&=\mathrm{e}^{-\gamma P_{M,F}^\perp M^{-1}\Dt}p^{n+\frac12}-\sqrt{\frac{2\gamma}{\beta}}\left(\int_0^\Dt\e^{-\gamma P_{M,F}^\perp M^{-1}s}P_{M,F}^\perp\e^{-\gamma P_{M,F}^\perp M^{-1}s} \dif s\right)^{\frac12}G^n
+            \end{aligned}\right.
+    \end{equation}
+\end{example}
+The $\gamma C_F$-step is cumbersome to write in full, but it is always of the form 
+\[p^{n+1}=R_\Dt p^n + S_\Dt G^n\]
+for fixed matrices $R_\Dt$ and $S_\Dt$ which only have to be computed once.
+
+\section{Estimating transport coefficients}
+To estimate the transport coefficient $\rho_F$ using this method, we need to estimate the average forcing. Recalling the SDE \eqref{eq:norton_final_sde} for $\dif \Lambda$, the martingale term involving the Brownian motion cancels out under steady-state averaging.
+Hence we can estimate the average forcing using the following ergodic average:
+\begin{equation}
+    \label{eq:norton_ergodic_forcing}
+    \frac{1}T\int_0^T\frac{M^{-1}F}{\left(M^{-1}F\right)\cdot F}\cdot\left(\nabla V(q_t)+\gamma M^{-1}p_t\right)\dif t.
+\end{equation}
+In the case of a mass matrix $M=m\Id$ and $|F|=1$, which we now assume on to lighten notation, this becomes
+\begin{equation}
+    \label{eq:norton_ergodic_forcing_homogeneous}
+    \frac{1}{T}\int_0^T F\cdot\left(\nabla V(q_t)\right)\dif t + \gamma v,
+\end{equation}
+using the expression for the response, so that the finite difference estimator of $\rho_F$ is given by
+\begin{equation}
+    \label{eq:norton_transport estimator}
+    \widehat{\rho}_{F,T}=\frac{v}{\gamma v+\frac{1}{T}\int_0^T F\cdot\left(\nabla V(q_t)\right)\dif t}.
+\end{equation}
+In practice, we approximate the continuous ergodic average in the denominator by discrete averages.

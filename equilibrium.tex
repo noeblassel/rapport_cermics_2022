@@ -1,6 +1,10 @@
-\section{Microcanonical averages}
-\subsection{Properties of Hamiltonian dynamics}
+\section{Properties of Hamiltonian dynamics}
 
+
+
+\section{Microcanonical averages}
+Our aim in this section will be to describe methods to sample microcanonical averages. We will always consider microcanonical averages as ergodic averages under Hamiltonian trajectories.
+To justify this approach, we should make sure that the microcanonical measure is invariant under the Hamiltonian dynamics. Indeed, this is the case:
 
 The Hamiltonian dynamics \eqref{eq:hamiltonian_dynamics} rewrites in matrix form, writing $X_t=(q_t,p_t)$:
 
@@ -326,9 +330,9 @@ where $X_t$ is the Ornstein-Uhlenbeck process:
     thus integrating gives
     \[q_t-q_0=\frac{p_0-p_t}\gamma -\frac{1}\gamma\int_0^t\nabla V(q_s)\dif s +\sqrt{\frac{2}{\gamma\beta}}W_t.\]
     The scaling invariance of the Brownian motion $(\sqrt{\alpha}W_{t/\alpha^2})_{t\geq 0}\sim (W_t)_{t\geq 0}$ suggests considering the timescale $\gamma\beta t$, thus
-    \[q_{\gamma\beta t}-q_0=\frac{p_0-p_{\gamma\beta t}}\gamma-\frac1{\gamma}\int_0^{\gamma\beta t}\nabla V(q_s)\dif s +\sqrt{2}\tilde{W_t},\]
-    where $\tilde W$ is again a Brownian motion. Using the change of variables $s=\gamma \beta u$ in the integral term yields
-    \begin{equation}\label{eq:rescaled_langevin}q_{\gamma\beta t}-q_0=\frac{p_0-p_{\gamma\beta t}}\gamma-\beta\int_0^{t}\nabla V(q_{\gamma\beta u})\dif u +\sqrt{2}\tilde{W_t},\end{equation}
+    \[q_{\gamma\beta t}-q_0=\frac{p_0-p_{\gamma\beta t}}\gamma-\frac1{\gamma}\int_0^{\gamma\beta t}\nabla V(q_s)\dif s +\sqrt{2}\widetilde{W_t},\]
+    where $\widetilde W$ is again a Brownian motion. Using the change of variables $s=\gamma \beta u$ in the integral term yields
+    \begin{equation}\label{eq:rescaled_langevin}q_{\gamma\beta t}-q_0=\frac{p_0-p_{\gamma\beta t}}\gamma-\beta\int_0^{t}\nabla V(q_{\gamma\beta u})\dif u +\sqrt{2}\widetilde{W_t},\end{equation}
     At this point, we formally take $\gamma\to\infty$, which suggests the following SDE for the rescaled in time process,
     \begin{equation}
         \label{eq:overdamped_langevin}
@@ -344,7 +348,7 @@ where $X_t$ is the Ornstein-Uhlenbeck process:
         The configurational Gibbs measure $\nu$ is invariant under the dynamics \eqref{eq:overdamped_langevin}.
     \end{prop}
 
-    This result follows along the same lines as for the Langevin dynamics. The generator (now acting on functions with domain $\mathcal D$) is the operator
+    This follows along the same lines as for the Langevin dynamics. The generator (now acting on observables defined on $\mathcal D$) is the operator
     \begin{equation}
         \label{eq:overdamped_langevin_generator}
         \cL\varphi=-\beta\nabla V\cdot \nabla\varphi + \Delta \varphi.
@@ -369,7 +373,7 @@ where $X_t$ is the Ornstein-Uhlenbeck process:
     As for the Langevin dynamics, it is possible to show tha
 
 
-\subsection{Splitting schemes for the Langevin dynamics}
+\subsection{Splitting schemes for the Langevin dynamics}\label{section:splitting_schemes_langevin}
 Just as in the Hamiltonian case, we can define schemes for the Langevin dynamics based on approximating the evolution operator over one timestep by splitting the generator $\cL_\gamma$, and combining the corresponding evolution operators \eqref{eq:propagators} in a sequence.
 We refer to such a splitting approximation by the sequence in which the individual propagators are composed. It is useful at this point to introduce the stochastic flow map associated with the Ornstein-Uhlenbeck dynamics.
 \begin{equation}

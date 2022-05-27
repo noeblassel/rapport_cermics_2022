@@ -147,12 +147,17 @@ The specification of a probability distribution over states is called a thermody
     The microcanonical ensemble is the suitable model for an isolated system in thermodynamic equilibrium, evolving under Hamiltonian dynamics. The number of particles $N$, the volume $V=L^3$, and the energy $E$ is fixed. We will alternatively refer to the microcanonical ensemble as the NVE ensemble.
      Because the constant energy condition constrains the compatible microstates to level sets of $H$, which in general will be negligible subsets of $\mathcal E$, some care must be taken in defining the microcanonical measure, since one cannot express the macroscopic constraints by a family of probability densities.
       However, under suitable assumptions on $V$, one can define the microcanonical measure as a weak limit of uniform distributions over level \textquote{shells} of $H$:
-    $$\int_\mathcal{E} \varphi \mathrm{d}\mu_{NVE} \defeq \underset{\varepsilon \to 0}{\mathrm{lim}} \frac{1}{|S(E,\varepsilon)|}\int_{S(E,\varepsilon)} \varphi(q,p) \mathrm{d} q \mathrm{d} p,$$
+    $$\int_\mathcal{E} \varphi \mathrm{d}\mu_{\mathrm{NVE}} \defeq \underset{\varepsilon \to 0}{\mathrm{lim}} \frac{1}{|S(E,\varepsilon)|}\int_{S(E,\varepsilon)} \varphi(q,p) \mathrm{d} q \mathrm{d} p,$$
     where 
     $$S(E,\varepsilon) = \{ (q,p) \in \mathcal E |\ H(q,p) \in [E-\varepsilon,E+\varepsilon]\}.$$
     
     This is consistent with the fact that, for a set $A$ with finite Lebesgue measure, the probability distribution on $A$ which maximizes the entropy is the uniform distribution on $A$. 
-    It is possible, using the coarea formula, to derive a precise expression for this limit, which is, however, of limited practical interest.
+    It is possible, using the coarea formula, to derive a precise expression for this limit, namely,
+
+    \begin{equation}
+        \label{eq:microcanonical_measure}
+        \mu_{\mathrm{NVE}}(\dif q,\dif p)=\frac{\sigma_{\E}(\dif q,\dif p)}{|\nabla H(q,p)|}
+    \end{equation}
     
 
 
