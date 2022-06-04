@@ -1,0 +1,1203 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.10.7)  3 JUN 2022 14:23
+entering extended mode
+**/home/noeblassel/Documents/stage_docs/Rapport/rapport.tex
+(/home/noeblassel/Documents/stage_docs/Rapport/rapport.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-18> (/usr/local/share/miktex-texmf/tex/latex/base/report.cls
+Document Class: report 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/local/share/miktex-texmf/tex/latex/base/leqno.clo
+File: leqno.clo 2016/12/29 v1.2b Standard LaTeX option (left equation numbers)
+) (/usr/local/share/miktex-texmf/tex/latex/base/size10.clo
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@chapter=\count168
+\c@section=\count169
+\c@subsection=\count170
+\c@subsubsection=\count171
+\c@paragraph=\count172
+\c@subparagraph=\count173
+\c@figure=\count174
+\c@table=\count175
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+) (/usr/local/share/miktex-texmf/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks15
+\inpenc@posthook=\toks16
+)
+\minipagewidth=\skip49
+ (/usr/local/share/miktex-texmf/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip50
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/share/miktex-texmf/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+ (/usr/local/share/miktex-texmf/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks17
+\ex@=\dimen135
+)) (/usr/local/share/miktex-texmf/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen136
+) (/usr/local/share/miktex-texmf/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count176
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count177
+\leftroot@=\count178
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count179
+\DOTSCASE@=\count180
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box45
+\strutbox@=\box46
+\big@size=\dimen137
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count181
+\c@MaxMatrixCols=\count182
+\dotsspace@=\muskip16
+\c@parentequation=\count183
+\dspbrk@lvl=\count184
+\tag@help=\toks18
+\row@=\count185
+\column@=\count186
+\maxfields@=\count187
+\andhelp@=\toks19
+\eqnshift@=\dimen138
+\alignsep@=\dimen139
+\tagshift@=\dimen140
+\tagwidth@=\dimen141
+\totwidth@=\dimen142
+\lineht@=\dimen143
+\@envbody=\toks20
+\multlinegap=\skip51
+\multlinetaggap=\skip52
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+) (/usr/local/share/miktex-texmf/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks22
+\thm@bodyfont=\toks23
+\thm@headfont=\toks24
+\thm@notefont=\toks25
+\thm@headpunct=\toks26
+\thm@preskip=\skip53
+\thm@postskip=\skip54
+\thm@headsep=\skip55
+\dth@everypar=\toks27
+) (/usr/local/share/miktex-texmf/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/local/share/miktex-texmf/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/local/share/miktex-texmf/tex/latex/jknappen/mathrsfs.sty
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup6
+) (/usr/local/share/miktex-texmf/tex/latex/bbm/bbm.sty
+Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
+LaTeX Font Info:    Overwriting math alphabet `\mathbbm' in version `bold'
+(Font)                  U/bbm/m/n --> U/bbm/bx/n on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
+(Font)                  U/bbmss/m/n --> U/bbmss/bx/n on input line 35.
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/a4wide/a4wide.sty
+Package: a4wide 1994/08/30
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/ntgclass/a4.sty
+Package: a4 2020/02/18 v1.2g A4 based page layout
+)) (/usr/local/share/miktex-texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/local/share/miktex-texmf/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks28
+) (/usr/local/share/miktex-texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/local/share/miktex-texmf/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/usr/local/share/miktex-texmf/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+ (/usr/local/share/miktex-texmf/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen144
+\Gin@req@width=\dimen145
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/physics/physics.sty
+Package: physics 
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/l3packages/xparse/xparse.sty (/usr/local/share/miktex-texmf/tex/latex/l3kernel/expl3.sty
+Package: expl3 2020-06-18 L3 programming layer (loader) 
+ (/usr/local/share/miktex-texmf/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count188
+\l__pdf_internal_box=\box47
+))
+Package: xparse 2020-05-15 L3 Experimental document command parser
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/l3packages/xparse/xparse-generic.tex
+\l__xparse_current_arg_int=\count189
+\g__xparse_grabber_int=\count190
+\l__xparse_m_args_int=\count191
+\l__xparse_v_nesting_int=\count192
+))) (/usr/local/share/miktex-texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+ (/usr/local/share/miktex-texmf/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip56
+\subfigcapskip=\skip57
+\subfigcaptopadj=\dimen146
+\subfigbottomskip=\skip58
+\subfigcapmargin=\dimen147
+\subfiglabelskip=\skip59
+\c@subfigure=\count193
+\c@lofdepth=\count194
+\c@subtable=\count195
+\c@lotdepth=\count196
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/home/noeblassel/.miktex/texmfs/install/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip60
+\subfig@bottom=\skip61
+) (/usr/local/share/miktex-texmf/tex/latex/tools/enumerate.sty
+Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
+\@enLab=\toks29
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/ulem/ulem.sty
+\UL@box=\box48
+\UL@hyphenbox=\box49
+\UL@skip=\skip62
+\UL@hook=\toks30
+\UL@height=\dimen148
+\UL@pe=\count197
+\UL@pixel=\dimen149
+\ULC@box=\box50
+Package: ulem 2019/11/18
+\ULdepth=\dimen150
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/csquotes/csquotes.sty
+Package: csquotes 2019-12-06 v5.2j context-sensitive quotations (JAW)
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count198
+)
+\csq@reset=\count199
+\csq@gtype=\count266
+\csq@glevel=\count267
+\csq@qlevel=\count268
+\csq@maxlvl=\count269
+\csq@tshold=\count270
+\csq@ltx@everypar=\toks31
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/csquotes/csquotes.def
+File: csquotes.def 2019-12-06 v5.2j csquotes generic definitions (JAW)
+)
+Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
+Package csquotes Info: ... configuration file loaded successfully.
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/csquotes/csquotes.cfg
+File: csquotes.cfg 
+)) (/home/noeblassel/.miktex/texmfs/install/tex/latex/cancel/cancel.sty
+Package: cancel 2013/04/12 v2.2 Cancel math terms
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
+ (/home/noeblassel/.miktex/texmfs/install/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+) (/usr/local/share/miktex-texmf/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+) (/home/noeblassel/.miktex/texmfs/install/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/home/noeblassel/.miktex/texmfs/install/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (/home/noeblassel/.miktex/texmfs/install/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+)
+\@linkdim=\dimen151
+\Hy@linkcounter=\count271
+\Hy@pagecounter=\count272
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/home/noeblassel/.miktex/texmfs/install/tex/latex/hyperref/hyperref-langpatches.def
+File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel languages
+) (/home/noeblassel/.miktex/texmfs/install/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count273
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/hyperref/puenc.def
+File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4192.
+Package hyperref Info: Link nesting OFF on input line 4197.
+Package hyperref Info: Hyper index ON on input line 4200.
+Package hyperref Info: Plain pages OFF on input line 4207.
+Package hyperref Info: Backreferencing OFF on input line 4212.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4445.
+\c@Hy@tempcnt=\count274
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4804.
+\XeTeXLinkMargin=\dimen152
+ (/home/noeblassel/.miktex/texmfs/install/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+ (/home/noeblassel/.miktex/texmfs/install/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+\Fld@menulength=\count275
+\Field@Width=\dimen153
+\Fld@charsize=\dimen154
+Package hyperref Info: Hyper figures OFF on input line 6076.
+Package hyperref Info: Link nesting OFF on input line 6081.
+Package hyperref Info: Hyper index ON on input line 6084.
+Package hyperref Info: backreferencing OFF on input line 6091.
+Package hyperref Info: Link coloring OFF on input line 6096.
+Package hyperref Info: Link coloring with OCG OFF on input line 6101.
+Package hyperref Info: PDF/A mode OFF on input line 6106.
+LaTeX Info: Redefining \ref on input line 6146.
+LaTeX Info: Redefining \pageref on input line 6150.
+ (/home/noeblassel/.miktex/texmfs/install/tex/generic/atbegshi/atbegshi.sty
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+)
+\Hy@abspage=\count276
+\c@Item=\count277
+\c@Hfootnote=\count278
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2021-06-07 v7.00m Hyperref driver for pdfTeX
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/atveryend/atveryend.sty
+Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
+)
+\Fld@listcount=\count279
+\c@bookmark@seq@number=\count280
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+ (/home/noeblassel/.miktex/texmfs/install/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
+)
+\Hy@SectionHShift=\skip63
+)
+\c@theorem=\count281
+\c@lemma=\count282
+\c@assumption=\count283
+\c@definition=\count284
+\c@prop=\count285
+\c@remark=\count286
+\c@corollary=\count287
+\c@example=\count288
+\c@conjecture=\count289
+\c@algorithm=\count290
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... none found.
+ (/home/noeblassel/Documents/stage_docs/Rapport/rapport.aux)
+\openout1 = `rapport.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 99.
+LaTeX Font Info:    ... okay on input line 99.
+ (/usr/local/share/miktex-texmf/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count291
+\scratchdimen=\dimen155
+\scratchbox=\box51
+\nofMPsegments=\count292
+\nofMParguments=\count293
+\everyMPshowfont=\toks32
+\MPscratchCnt=\count294
+\MPscratchDim=\dimen156
+\MPnumerator=\count295
+\makeMPintoPDFobject=\count296
+\everyMPtoPDFconversion=\toks33
+) (/usr/local/share/miktex-texmf/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+)
+\AtBeginShipoutBox=\box52
+Package hyperref Info: Link coloring OFF on input line 99.
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/hyperref/nameref.sty
+Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
+ (/home/noeblassel/.miktex/texmfs/install/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/home/noeblassel/.miktex/texmfs/install/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count297
+)
+LaTeX Info: Redefining \ref on input line 99.
+LaTeX Info: Redefining \pageref on input line 99.
+LaTeX Info: Redefining \nameref on input line 99.
+\@outlinefile=\write3
+\openout3 = `rapport.out'.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 102.
+ (/usr/local/share/miktex-texmf/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 102.
+ (/usr/local/share/miktex-texmf/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 102.
+ (/usr/local/share/miktex-texmf/tex/latex/jknappen/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+
+LaTeX Warning: No \author given.
+
+[1
+
+{/home/noeblassel/.miktex/texmfs/data/pdftex/config/pdftex.map}]
+\tf@toc=\write4
+\openout4 = `rapport.toc'.
+
+ [2
+
+]
+Chapter 1.
+(/home/noeblassel/Documents/stage_docs/Rapport/intro.tex [3
+
+] [4]
+
+LaTeX Warning: Reference `fig:lennard_jones' on page 5 undefined on input line 86.
+
+<figures/chapter1/lennard_jones.pdf, id=43, 602.25pt x 401.5pt>
+File: figures/chapter1/lennard_jones.pdf Graphic file (type pdf)
+<use figures/chapter1/lennard_jones.pdf>
+Package pdftex.def Info: figures/chapter1/lennard_jones.pdf  used on input line 94.
+(pdftex.def)             Requested size: 297.20906pt x 198.14578pt.
+[5 </home/noeblassel/Documents/stage_docs/Rapport/figures/chapter1/lennard_jones.pdf>] [6]
+LaTeX Font Info:    Trying to load font information for U+euf on input line 140.
+ (/usr/local/share/miktex-texmf/tex/latex/amsfonts/ueuf.fd
+File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
+) [7]
+
+LaTeX Warning: Reference `eq:hamiltonian' on page 8 undefined on input line 188.
+
+[8]
+
+LaTeX Warning: Reference `ensemble_averages' on page 9 undefined on input line 220.
+
+
+LaTeX Warning: Reference `eq:lennard_jones' on page 9 undefined on input line 233.
+
+[9]
+
+LaTeX Warning: Reference `eq:ergodic_averages' on page 10 undefined on input line 256.
+
+) [10]
+Chapter 2.
+(/home/noeblassel/Documents/stage_docs/Rapport/equilibrium.tex
+
+LaTeX Warning: Reference `eq:hamiltonian_dynamics' on page 11 undefined on input line 9.
+
+
+LaTeX Warning: Reference `eq:hamiltonian_dynamics' on page 11 undefined on input line 38.
+
+[11
+
+]
+
+LaTeX Warning: Reference `eq:hamiltonian_dynamics' on page 12 undefined on input line 47.
+
+
+LaTeX Warning: Reference `eq:jacobian' on page 12 undefined on input line 65.
+
+
+LaTeX Warning: Reference `eq:energy_conservation' on page 12 undefined on input line 86.
+
+
+LaTeX Warning: Reference `eq:hamiltonian_dynamics_matrix_form' on page 12 undefined on input line 87.
+
+
+LaTeX Warning: Reference `eq:Lham_splitting' on page 12 undefined on input line 91.
+
+
+LaTeX Warning: Reference `eq:hamiltonian_dynamics' on page 12 undefined on input line 116.
+
+[12]
+
+LaTeX Warning: Reference `eq:ergodic_averages' on page 13 undefined on input line 121.
+
+
+LaTeX Warning: Reference `eq:Lham_splitting_dynamics_solved' on page 13 undefined on input line 131.
+
+[13]
+
+LaTeX Warning: Reference `eq:discrete_dynamics' on page 14 undefined on input line 176.
+
+
+LaTeX Warning: Citation `HLG03' on page 14 undefined on input line 177.
+
+<figures/chapter1/hamiltonian_conservation.pdf, id=142, 602.25pt x 401.5pt>
+File: figures/chapter1/hamiltonian_conservation.pdf Graphic file (type pdf)
+<use figures/chapter1/hamiltonian_conservation.pdf>
+Package pdftex.def Info: figures/chapter1/hamiltonian_conservation.pdf  used on input line 182.
+(pdftex.def)             Requested size: 297.20906pt x 198.14578pt.
+[14 </home/noeblassel/Documents/stage_docs/Rapport/figures/chapter1/hamiltonian_conservation.pdf>]
+
+LaTeX Warning: Reference `rem:non_separable_hamiltonian' on page 15 undefined on input line 214.
+
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 245.
+(/usr/local/share/miktex-texmf/tex/latex/bbm/ubbm.fd
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+) [15]
+
+LaTeX Warning: Reference `eq:Lham_splitting_dynamics_solved' on page 16 undefined on input line 254.
+
+
+LaTeX Warning: Reference `eq:langevin' on page 16 undefined on input line 261.
+
+
+LaTeX Warning: Reference `eq:invariant_measure' on page 16 undefined on input line 264.
+
+[16]
+
+LaTeX Warning: Reference `eq:energy_conservation' on page 17 undefined on input line 319.
+
+
+LaTeX Warning: Reference `eq:langevin' on page 17 undefined on input line 328.
+
+[17]
+
+LaTeX Warning: Reference `eq:rescaled_langevin' on page 18 undefined on input line 343.
+
+
+LaTeX Warning: Reference `eq:overdamped_langevin' on page 18 undefined on input line 343.
+
+
+LaTeX Warning: Reference `eq:overdamped_langevin' on page 18 undefined on input line 345.
+
+
+LaTeX Warning: Reference `eq:overdamped_langevin' on page 18 undefined on input line 348.
+
+
+LaTeX Warning: Reference `eq:star_adjoints_langevin' on page 18 undefined on input line 356.
+
+
+LaTeX Warning: Reference `eq:propagators' on page 18 undefined on input line 377.
+
+
+Overfull \hbox (6.55403pt too wide) in paragraph at lines 377--379
+\OT1/cmr/m/n/10 approximating the evolution operator over one timestep by splitting the generator $\OMS/cmsy/m/n/10 L[]$\OT1/cmr/m/n/10 , and combining
+ []
+
+
+Overfull \hbox (3.32185pt too wide) in paragraph at lines 377--379
+\OT1/cmr/m/n/10 the corresponding evolution operators [] in a sequence. We refer to such a splitting approximation
+ []
+
+[18]
+
+LaTeX Warning: Reference `eq:splitting_ordering' on page 19 undefined on input line 391.
+
+
+LaTeX Warning: Reference `eq:splitting_ordering' on page 19 undefined on input line 392.
+
+
+LaTeX Warning: Reference `eq:markov_mapping' on page 19 undefined on input line 393.
+
+
+LaTeX Warning: Reference `eq:stochastic_flow_c' on page 19 undefined on input line 397.
+
+[19]
+
+LaTeX Warning: Reference `eq:discrete_ergodic_averages' on page 20 undefined on input line 429.
+
+
+Overfull \hbox (6.63675pt too wide) in paragraph at lines 431--432
+[]\OT1/cmr/m/n/10 The main computational cost in computing iterates of these numerical schemes is the evaluation
+ []
+
+[20]
+
+LaTeX Warning: Reference `eq:mh_rule' on page 21 undefined on input line 471.
+
+[21]
+<figures/chapter1/potential_energy_bias.pdf, id=240, 602.25pt x 401.5pt>
+File: figures/chapter1/potential_energy_bias.pdf Graphic file (type pdf)
+<use figures/chapter1/potential_energy_bias.pdf>
+Package pdftex.def Info: figures/chapter1/potential_energy_bias.pdf  used on input line 509.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+<figures/chapter1/virial_bias.pdf, id=241, 602.25pt x 401.5pt>
+File: figures/chapter1/virial_bias.pdf Graphic file (type pdf)
+<use figures/chapter1/virial_bias.pdf>
+Package pdftex.def Info: figures/chapter1/virial_bias.pdf  used on input line 510.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+<figures/chapter1/kinetic_energy_bias.pdf, id=242, 602.25pt x 401.5pt>
+File: figures/chapter1/kinetic_energy_bias.pdf Graphic file (type pdf)
+<use figures/chapter1/kinetic_energy_bias.pdf>
+Package pdftex.def Info: figures/chapter1/kinetic_energy_bias.pdf  used on input line 519.
+(pdftex.def)             Requested size: 297.20906pt x 198.14578pt.
+
+
+LaTeX Warning: Reference `fig:configurational bias' on page 22 undefined on input line 526.
+
+[22 </home/noeblassel/Documents/stage_docs/Rapport/figures/chapter1/potential_energy_bias.pdf> </home/noeblassel/Documents/stage_docs/Rapport/figures/chapter1/virial_bias.pdf>]
+Overfull \hbox (30.24411pt too wide) detected at line 554
+[][] \OML/cmm/m/it/10 Q[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 S'\OT1/cmr/m/n/10 )(\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 \OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 q; []p\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 q[]p [] [][] [] \OT1/cmr/m/n/10 ([][]\OML/cmm/m/it/10 ; [][]\OT1/cmr/m/n/10 ) = [][] \OML/cmm/m/it/10 S'\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 []\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 q; []p\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
+ []
+
+
+LaTeX Warning: Reference `TU_like_lemma_ccl' on page 23 undefined on input line 556.
+
+
+LaTeX Warning: Reference `TU_like_lemma' on page 23 undefined on input line 567.
+
+[23 </home/noeblassel/Documents/stage_docs/Rapport/figures/chapter1/kinetic_energy_bias.pdf>]
+
+LaTeX Warning: Reference `fig:kinetic_energy_bias' on page 24 undefined on input line 578.
+
+<figures/chapter1/argon_nvt_150K.pdf, id=262, 602.25pt x 401.5pt>
+File: figures/chapter1/argon_nvt_150K.pdf Graphic file (type pdf)
+<use figures/chapter1/argon_nvt_150K.pdf>
+Package pdftex.def Info: figures/chapter1/argon_nvt_150K.pdf  used on input line 585.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+<figures/chapter1/argon_nvt_300K.pdf, id=263, 602.25pt x 401.5pt>
+File: figures/chapter1/argon_nvt_300K.pdf Graphic file (type pdf)
+<use figures/chapter1/argon_nvt_300K.pdf>
+Package pdftex.def Info: figures/chapter1/argon_nvt_300K.pdf  used on input line 586.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+) [24 </home/noeblassel/Documents/stage_docs/Rapport/figures/chapter1/argon_nvt_150K.pdf> </home/noeblassel/Documents/stage_docs/Rapport/figures/chapter1/argon_nvt_300K.pdf>]
+Chapter 3.
+(/home/noeblassel/Documents/stage_docs/Rapport/non_equilibrium.tex
+Overfull \hbox (30.16455pt too wide) in paragraph at lines 2--6
+\OT1/cmr/m/n/10 In the previous chapter, we investigated various numerical strategies to sample states from thermodynamic
+ []
+
+
+LaTeX Warning: Reference `eq:nemd_langevin' on page 25 undefined on input line 19.
+
+) [25
+
+]
+Chapter 4.
+(/home/noeblassel/Documents/stage_docs/Rapport/norton.tex [26
+
+] [27]
+
+LaTeX Warning: Reference `eq:propagators' on page 28 undefined on input line 98.
+
+
+Overfull \hbox (34.77031pt too wide) detected at line 110
+[][][]
+ []
+
+
+LaTeX Warning: Reference `eq:norton_ou_solved_no_mass' on page 28 undefined on input line 123.
+
+
+LaTeX Warning: Reference `eq:propagators' on page 28 undefined on input line 123.
+
+[28]
+Overfull \hbox (19.64476pt too wide) detected at line 141
+[]\OMS/cmsy/m/n/10 L[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 A \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 B[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 C[];  []  []
+ []
+
+
+LaTeX Warning: Reference `eq:projected_ou_analytical_form' on page 29 undefined on input line 142.
+
+
+LaTeX Warning: Reference `section:splitting_schemes_langevin' on page 29 undefined on input line 142.
+
+
+LaTeX Warning: Reference `eq:norton_final_sde' on page 29 undefined on input line 161.
+
+
+Overfull \hbox (1.83112pt too wide) in paragraph at lines 176--178
+\OT1/cmr/m/n/10 In practice, we approximate the continuous ergodic average in the denominator by discrete averages. 
+ []
+
+[29]
+Overfull \hbox (53.59145pt too wide) detected at line 218
+[]\OT1/cmr/m/n/10 d\OML/cmm/m/it/10 [] [] \OT1/cmr/m/n/10 = [] [] = \OML/cmm/m/it/10 []v \OT1/cmr/m/n/10 + [] []
+ []
+
+[30]
+
+LaTeX Warning: Reference `eq:norton_sv_multiplier' on page 31 undefined on input line 233.
+
+
+LaTeX Warning: Reference `eq:norton_sv_dynamics' on page 31 undefined on input line 241.
+
+) [31]
+Appendix A.
+[32
+
+]
+Appendix B.
+(/home/noeblassel/Documents/stage_docs/Rapport/baoa_vs_baoab.tex
+
+LaTeX Warning: Citation `LMS13' on page 33 undefined on input line 2.
+
+
+LaTeX Warning: Citation `KK22' on page 33 undefined on input line 3.
+
+
+LaTeX Warning: Reference `relating invariant measures' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Reference `prop:mup_expression' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Citation `KK22' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Reference `corr marginal equality' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Reference `BAOA first order estimate' on page 33 undefined on input line 7.
+
+
+LaTeX Warning: Reference `corr2 baoa expansion' on page 33 undefined on input line 7.
+
+
+LaTeX Warning: Reference `second order on the marginals' on page 33 undefined on input line 8.
+
+
+LaTeX Warning: Reference `corr3 second order marginals' on page 33 undefined on input line 8.
+
+
+LaTeX Warning: Reference `BAOA kinetic second order estimate' on page 33 undefined on input line 9.
+
+
+LaTeX Warning: Reference `prop:kappa_p_second_order' on page 33 undefined on input line 9.
+
+
+LaTeX Warning: Reference `conjecture' on page 33 undefined on input line 9.
+
+
+LaTeX Warning: Reference `discrepancy term kinetic' on page 33 undefined on input line 10.
+
+
+LaTeX Warning: Reference `prop discrepancy term' on page 33 undefined on input line 10.
+
+
+LaTeX Warning: Reference `remark' on page 33 undefined on input line 10.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 13.
+
+[33
+
+]
+
+LaTeX Warning: Reference `Langevin' on page 34 undefined on input line 63.
+
+
+LaTeX Warning: Reference `schemes' on page 34 undefined on input line 73.
+
+
+LaTeX Warning: Reference `tensor form' on page 34 undefined on input line 74.
+
+
+LaTeX Warning: Citation `KK22' on page 34 undefined on input line 78.
+
+
+LaTeX Warning: Citation `LMS13' on page 34 undefined on input line 79.
+
+[34]
+
+LaTeX Warning: Reference `schemes' on page 35 undefined on input line 95.
+
+
+LaTeX Warning: Reference `schemes' on page 35 undefined on input line 105.
+
+
+LaTeX Warning: Reference `TU ccl' on page 35 undefined on input line 116.
+
+
+LaTeX Warning: Reference `prop1 ccl' on page 35 undefined on input line 135.
+
+
+LaTeX Warning: Citation `KK22' on page 35 undefined on input line 135.
+
+[35]
+
+LaTeX Warning: Reference `mu P expression' on page 36 undefined on input line 160.
+
+
+LaTeX Warning: Citation `LMS13' on page 36 undefined on input line 161.
+
+
+LaTeX Warning: Citation `LMS13' on page 36 undefined on input line 163.
+
+
+Overfull \hbox (1.80077pt too wide) in paragraph at lines 169--171
+\OT1/cmr/m/it/10 where the remainder $\OML/cmm/m/it/10 r[]$ \OT1/cmr/m/it/10 is uniformly bounded for $\OT1/cmr/m/n/10 \OML/cmm/m/it/10 t$ \OT1/cmr/m/it/10 sufficiently small. Moreover, an expression
+ []
+
+
+LaTeX Warning: Citation `LMS13' on page 36 undefined on input line 182.
+
+
+LaTeX Warning: Reference `remainder term' on page 36 undefined on input line 191.
+
+
+LaTeX Warning: Reference `BAOAB expansion' on page 36 undefined on input line 194.
+
+
+LaTeX Warning: Reference `mu P expression' on page 36 undefined on input line 194.
+
+
+Overfull \hbox (21.18636pt too wide) detected at line 200
+\OML/cmm/m/it/10  [] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 ) [] = \OML/cmm/m/it/10 \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 ) [] \OML/cmm/m/it/10 ;
+ []
+
+[36]
+
+LaTeX Warning: Reference `corr2 ccl' on page 37 undefined on input line 211.
+
+
+LaTeX Warning: Reference `corr2 ccl' on page 37 undefined on input line 219.
+
+
+LaTeX Warning: Reference `corr2 term' on page 37 undefined on input line 230.
+
+
+LaTeX Warning: Reference `g cancellations' on page 37 undefined on input line 230.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\mu' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Delta' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 236.
+
+
+LaTeX Warning: Citation `KK22' on page 37 undefined on input line 237.
+
+
+Overfull \hbox (2.88658pt too wide) in paragraph at lines 241--242
+[]\OT1/cmr/m/n/10 We show the following result, which identifies the second-order error term for kinetic observables. 
+ []
+
+[37]
+
+LaTeX Warning: Reference `remainder term' on page 38 undefined on input line 250.
+
+
+LaTeX Warning: Citation `LMS13' on page 38 undefined on input line 252.
+
+
+LaTeX Warning: Reference `BAOAB expansion' on page 38 undefined on input line 258.
+
+
+LaTeX Warning: Reference `mu P expression' on page 38 undefined on input line 260.
+
+
+Overfull \hbox (14.33061pt too wide) detected at line 261
+[][] \OML/cmm/m/it/10  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 p\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 []\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 ) d\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 d\OML/cmm/m/it/10 p \OT1/cmr/m/n/10 = [][] \OML/cmm/m/it/10  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 p\OT1/cmr/m/n/10 )e[]\OML/cmm/m/it/10 \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 ) d\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 d\OML/cmm/m/it/10 p \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 t[] [][]  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 p\OT1/cmr/m/n/10 )e[] []  d\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 d\OML/cmm/m/it/10 p \OT1/cmr/m/n/10 + O(\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
+ []
+
+
+Overfull \hbox (71.68756pt too wide) detected at line 271
+[]
+ []
+
+
+LaTeX Warning: Reference `g cancellations' on page 38 undefined on input line 272.
+
+
+Overfull \hbox (66.72981pt too wide) detected at line 277
+[] [][] \OML/cmm/m/it/10  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 p\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 []\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 ) d\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 d\OML/cmm/m/it/10 p \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 t[] [][]  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 p\OT1/cmr/m/n/10 ) [] \OML/cmm/m/it/10 \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q; p\OT1/cmr/m/n/10 ) d\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 d\OML/cmm/m/it/10 p \OT1/cmr/m/n/10 + O(\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
+ []
+
+
+LaTeX Warning: Reference `remainder term' on page 38 undefined on input line 280.
+
+[38]
+
+LaTeX Warning: Citation `LMS13' on page 39 undefined on input line 311.
+
+
+LaTeX Warning: Reference `prop 2' on page 39 undefined on input line 313.
+
+
+LaTeX Warning: Reference `remainder term' on page 39 undefined on input line 319.
+
+
+LaTeX Warning: Reference `fig:gamma_effect' on page 39 undefined on input line 320.
+
+
+LaTeX Warning: Reference `prop 2' on page 39 undefined on input line 320.
+
+[39]
+
+LaTeX Warning: Citation `KK22' on page 40 undefined on input line 333.
+
+
+Overfull \hbox (10.10419pt too wide) detected at line 342
+[][][]
+ []
+
+
+LaTeX Warning: Reference `tensor form' on page 40 undefined on input line 343.
+
+
+Overfull \hbox (18.08073pt too wide) detected at line 352
+[]
+ []
+
+
+LaTeX Warning: Reference `remainder term' on page 40 undefined on input line 356.
+
+[40]
+Overfull \hbox (0.78548pt too wide) detected at line 390
+[] [] \OT1/cmr/m/n/10 : [][] [] (\OML/cmm/m/it/10 q\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 q\OT1/cmr/m/n/10 ) d\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 = [] [] \OML/cmm/m/it/10 ;
+ []
+
+
+LaTeX Warning: Citation `KK22' on page 41 undefined on input line 396.
+
+
+LaTeX Warning: Reference `fig:discrepancy_term' on page 41 undefined on input line 399.
+
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term.pdf, id=441, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term.pdf  used on input line 404.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term2D.pdf, id=442, 803.0pt x 602.25pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term2D.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term2D.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term2D.pdf  used on input line 405.
+(pdftex.def)             Requested size: 208.04959pt x 156.03911pt.
+
+LaTeX Warning: Reference `models' on page 41 undefined on input line 415.
+
+
+LaTeX Warning: Reference `nuP equals nuQ' on page 41 undefined on input line 416.
+
+
+LaTeX Warning: Reference `marginal distributions equality' on page 41 undefined on input line 416.
+
+
+LaTeX Warning: Reference `kappaP neq kappaQ' on page 41 undefined on input line 417.
+
+
+LaTeX Warning: Reference `discrepancy term' on page 41 undefined on input line 417.
+
+
+LaTeX Warning: Reference `muP bad muQ good' on page 41 undefined on input line 418.
+
+
+LaTeX Warning: Reference `BAOA first order' on page 41 undefined on input line 418.
+
+
+LaTeX Warning: Reference `why muP bad' on page 41 undefined on input line 419.
+
+
+LaTeX Warning: Reference `gamma does not count' on page 41 undefined on input line 420.
+
+
+LaTeX Warning: Reference `conjecture' on page 41 undefined on input line 420.
+
+[41]
+Overfull \hbox (14.35904pt too wide) in paragraph at lines 432--434
+\OT1/cmr/m/n/10 Analytically unknown normalizing constants and reference quantities were obtained through numerical
+ []
+
+
+LaTeX Warning: Reference `fig:marginal_q_periodic' on page 42 undefined on input line 436.
+
+
+LaTeX Warning: Reference `fig:marginal_q_wells' on page 42 undefined on input line 436.
+
+
+LaTeX Warning: Reference `marginal distributions equality' on page 42 undefined on input line 436.
+
+
+LaTeX Warning: Citation `KK22' on page 42 undefined on input line 436.
+
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.1.pdf, id=457, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.1.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.1.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.1.pdf  used on input line 439.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.2.pdf, id=458, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.2.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.2.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.2.pdf  used on input line 440.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_DOUBLE_WELL_0.4.pdf, id=459, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_DOUBLE_WELL_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_DOUBLE_WELL_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_DOUBLE_WELL_0.4.pdf  used on input line 450.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf, id=460, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf  used on input line 451.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+
+LaTeX Warning: Citation `KK22' on page 42 undefined on input line 461.
+
+
+LaTeX Warning: Reference `discrepancy term' on page 42 undefined on input line 462.
+
+
+LaTeX Warning: Reference `fig:marginal_p_periodic' on page 42 undefined on input line 463.
+
+
+LaTeX Warning: Reference `fig:marginal_p_double_well' on page 42 undefined on input line 463.
+
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.1.pdf, id=461, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.1.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.1.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.1.pdf  used on input line 467.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.2.pdf, id=462, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.2.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.2.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.2.pdf  used on input line 468.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.3.pdf, id=463, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.3.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.3.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.3.pdf  used on input line 478.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.4.pdf, id=464, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.4.pdf  used on input line 479.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+
+LaTeX Warning: Reference `BAOA first order' on page 42 undefined on input line 489.
+
+[42 </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/discrepancy_term2D.pdf>] [43 </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.1.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_PERIODIC_0.2.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_DOUBLE_WELL_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_q_TILTED_DOUBLE_WELL_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.1.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_PERIODIC_0.2.pdf>]
+
+LaTeX Warning: Reference `fig:joint_periodic' on page 44 undefined on input line 494.
+
+
+LaTeX Warning: Reference `fig:joint_quadratic' on page 44 undefined on input line 494.
+
+
+LaTeX Warning: Reference `fig:joint_double_well' on page 44 undefined on input line 494.
+
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_PERIODIC_0.1.pdf, id=490, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_PERIODIC_0.1.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_PERIODIC_0.1.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_PERIODIC_0.1.pdf  used on input line 499.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_PERIODIC_0.1.pdf, id=491, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_PERIODIC_0.1.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_PERIODIC_0.1.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_PERIODIC_0.1.pdf  used on input line 500.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_PERIODIC_0.1.pdf, id=492, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_PERIODIC_0.1.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_PERIODIC_0.1.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_PERIODIC_0.1.pdf  used on input line 501.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_PERIODIC.pdf, id=493, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_PERIODIC.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_PERIODIC.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_PERIODIC.pdf  used on input line 502.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_QUADRATIC_0.4.pdf, id=494, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_QUADRATIC_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_QUADRATIC_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_QUADRATIC_0.4.pdf  used on input line 511.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_QUADRATIC_0.4.pdf, id=495, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_QUADRATIC_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_QUADRATIC_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_QUADRATIC_0.4.pdf  used on input line 512.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_QUADRATIC_0.4.pdf, id=496, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_QUADRATIC_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_QUADRATIC_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_QUADRATIC_0.4.pdf  used on input line 513.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_QUADRATIC.pdf, id=497, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_QUADRATIC.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_QUADRATIC.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_QUADRATIC.pdf  used on input line 514.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf, id=498, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf  used on input line 523.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf, id=499, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf  used on input line 524.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf, id=500, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf  used on input line 525.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_DOUBLE_WELL.pdf, id=501, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_DOUBLE_WELL.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_DOUBLE_WELL.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_DOUBLE_WELL.pdf  used on input line 526.
+(pdftex.def)             Requested size: 191.0625pt x 127.37373pt.
+
+LaTeX Warning: Reference `g cancellations' on page 44 undefined on input line 534.
+
+
+LaTeX Warning: Reference `fig:double_well_bias' on page 44 undefined on input line 534.
+
+
+LaTeX Warning: Reference `fig:tilted_double_well_bias' on page 44 undefined on input line 534.
+
+
+LaTeX Warning: Reference `BAOAB expansion' on page 44 undefined on input line 536.
+
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_g.pdf, id=502, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_g.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_g.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_g.pdf  used on input line 540.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_loglog_g.pdf, id=503, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_loglog_g.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_loglog_g.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_loglog_g.pdf  used on input line 541.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_g.pdf, id=504, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_g.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_g.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_g.pdf  used on input line 550.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf, id=505, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf  used on input line 551.
+(pdftex.def)             Requested size: 208.04959pt x 138.70143pt.
+
+LaTeX Warning: Reference `discrepancy term' on page 44 undefined on input line 564.
+
+
+LaTeX Warning: Reference `fig:marginal_p_double_well' on page 44 undefined on input line 564.
+
+
+LaTeX Warning: Reference `fig:marginal_p_periodic' on page 44 undefined on input line 564.
+
+
+LaTeX Warning: Reference `fig:gamma_effect' on page 44 undefined on input line 565.
+
+</home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/gamma_effect_DOUBLE_WELL_0.3.pdf, id=506, 602.25pt x 401.5pt>
+File: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/gamma_effect_DOUBLE_WELL_0.3.pdf Graphic file (type pdf)
+<use /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/gamma_effect_DOUBLE_WELL_0.3.pdf>
+Package pdftex.def Info: /home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/gamma_effect_DOUBLE_WELL_0.3.pdf  used on input line 569.
+(pdftex.def)             Requested size: 382.12502pt x 254.75974pt.
+) [44 </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.3.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/marginal/marginal_p_DOUBLE_WELL_0.4.pdf>] [45 </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_PERIODIC_0.1.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_PERIODIC_0.1.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_PERIODIC_0.1.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_PERIODIC.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_QUADRATIC_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_QUADRATIC_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_QUADRATIC_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_QUADRATIC.pdf>] [46 </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOA_DOUBLE_WELL_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_BAOAB_DOUBLE_WELL_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_theoretical_DOUBLE_WELL_0.4.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/joint/joint_reference_DOUBLE_WELL.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_g.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/DOUBLE_WELL_bias_loglog_g.pdf>] [47 </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_g.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/TILTED_DOUBLE_WELL_bias_loglog_g.pdf> </home/noeblassel/Documents/stage_CERMICS_2022/BAOA_tests/results/plots_classic_ke/bias/gamma_effect_DOUBLE_WELL_0.3.pdf>]
+Appendix C.
+(/home/noeblassel/Documents/stage_docs/Rapport/bibilography.tex [48
+
+])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 150.
+ [49
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 150.
+ (/home/noeblassel/Documents/stage_docs/Rapport/rapport.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 150.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 150.
+
+
+Package rerunfilecheck Warning: File `rapport.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `rapport.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  BD566B5FC4028370C0BDD54BFF06F747;12668.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 12494 strings out of 482714
+ 199602 string characters out of 2948972
+ 444075 words of memory out of 3000000
+ 27687 multiletter control sequences out of 15000+200000
+ 548292 words of font info for 91 fonts, out of 3000000 for 9000
+ 0 hyphenation exceptions out of 8191
+ 44i,15n,49p,861b,545s stack positions out of 5000i,500n,10000p,200000b,50000s
+ </home/noeblassel/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk> </home/noeblassel/.miktex/texmfs/data/fonts/pk/ljfour/public/bbm/dpi600/bbm10.pk></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/symbols/msam5.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on /home/noeblassel/Documents/stage_docs/Rapport/rapport.pdf (49 pages, 5988918 bytes).
+PDF statistics:
+ 725 PDF objects out of 1000 (max. 8388607)
+ 316 named destinations out of 1000 (max. 500000)
+ 171 words of extra memory for PDF output out of 10000 (max. 10000000)
+
