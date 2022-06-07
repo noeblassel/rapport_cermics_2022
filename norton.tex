@@ -176,7 +176,7 @@ using the expression for the response, so that the finite difference estimator o
 \end{equation}
 In practice, we approximate the continuous ergodic average in the denominator by discrete averages.
 
-\section{Norton dynamics for shear viscosity}
+\section{Shear viscosity computations}
 
 \subsection{The Thevenin method}
 We index the state as \[\left(q_{ij}\right)_{\substack{\leq i\leq N\\1\leq j\leq d}},\qquad \left(p_{ij}\right)_{\substack{\leq i\leq N\\1\leq j\leq d}}.\]
@@ -185,8 +185,8 @@ The Thevenin dynamics we considered writes, for $i=1\dots N$,
     \label{eq:thevenin_sv_dynamics}
     \left\{\begin{aligned}
         \dif q_{ij,t}&=\frac{p_{ij,t}}m\dif t,&1\leq j\leq d,\\
-        \dif p_{i1,t}&=-\nabla_{q_{i1,t}}V(q_t)\dif t-\gamma_1\frac{p_{i1,t}}m+\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}+\xi F(q_{i2,t}),&\\
-        \dif p_{ij,t}&=-\nabla_{q_{ij,t}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
+        \dif p_{i1,t}&=-\nabla_{q_{i1}}V(q_t)\dif t-\gamma_1\frac{p_{i1,t}}m+\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}+\xi F(q_{i2,t}),&\\
+        \dif p_{ij,t}&=-\nabla_{q_{ij}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
     \end{aligned}\right.
 \end{equation}
 This equation describes a system undergoing standard Langevin evolution, with the longitudinal momentum coordinates 
@@ -195,50 +195,91 @@ subject to a forcing $F$ which is constant in time, but depends on the correspon
 \[\left(q_{i2}\right)_{1\leq i\leq N}.\]
 Additionally we allow the longitudinal fluctuation dissipation term to have a distinct friction coefficient $\gamma_1$, which is a free parameter of the model.
 
+\begin{equation}
+    \label{eq:velocity_profile}
+    u_x(Y)\defeq \underset{\epsilon \to 0}{\lim} \, \underset{\xi \to 0}{\lim} \frac{L_y\E_\xi \left[\sum_{i=1}^N p_{i1}\chi_\epsilon(q_{i2}-Y)\right]}{\xi mN}
+\end{equation}
+
+\begin{equation}
+    \label{eq:shear_viscosity_relation}
+    \eta u_x''(Y)+\gamma_1 \rho u_x(Y)=\rho F(Y)
+\end{equation}
 \subsection{A Norton method}
-We derive a corresponding Norton method by constraining the velocity profile in the $x$ direction to be constant, and proportional to $F$.
-Unlike the mobility case where the constraint can be enforced by a single Lagrange multiplier, fixing the whole velocity profile requires a corresponding forcing intensity profile.
+The corresponding Norton method consists of fixing the longitudinal velocity profile to be of a prescribed shape, say proportional to a smooth periodic function $G$, and applying a 
+fluctuating transverse force profile $\dif F_x$. We expect that the shear viscosity can be computed from the resulting linear response in the forcing profile, $f_x(Y)$, through a Norton analog of equation \eqref{eq:shear_viscosity_relation},
+\begin{equation}
+    \label{eq:shear_viscosity_relation_norton}
+    \eta G''(Y)+\gamma_1 \rho G(Y)=\rho f_x(Y).
+\end{equation}
 Formally, we write
 \begin{equation}
     \left\{\begin{aligned}
         \dif q_{ij,t}&=\frac{p_{ij,t}}m\dif t,&1\leq j\leq d,\\
-        \dif p_{i1,t}&=-\nabla_{q_{i1,t}}V(q_t)\dif t-\gamma_1\frac{p_{i1,t}}m+\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}+\dif\xi_t\left(q_{i2,t}\right) F\left(q_{i2,t}\right),&\\
-        \dif p_{ij,t}&=-\nabla_{q_{ij,t}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
+        \dif p_{i1,t}&=-\nabla_{q_{i1}}V(q_t)\dif t-\gamma_1\frac{p_{i1,t}}m+\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}+\dif F_x\left(t,q_{i2,t}\right),&\\
+        \dif p_{ij,t}&=-\nabla_{q_{ij}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
     \end{aligned}\right.
 \end{equation}
-where $\xi$ is now a process indexed by both the time and the transverse coordinate in $L_y \mathbb T$.
-As in the case of the mobility, we can restate the dynamics with no reference to $\xi$, by enforcing the constraint
+where $F_x$ is now a process indexed by both the time and the transverse coordinate in $L_y \mathbb T$.
+As in the case of the mobility, we can restate the dynamics with no reference to $F_x$, by enforcing the constraint
 \begin{equation}
     \label{eq:norton_shear_viscosity_constraint}
-    \frac{p_{i1,t}}m=vF\left(q_{i2,t}\right)\qquad \forall\, 1\leq i\leq N.
+    \frac{p_{i1,t}}m=vG\left(q_{i2,t}\right)\qquad \forall\, 1\leq i\leq N,
 \end{equation}
+where $v>0$.
 By Ito's lemma, since $q$ is a bounded variation process, we get
-\[\dif{p_{i1,t}}=mvF'\left(q_{i2,t}\right)\dif q_{i2,t}=vF'\left(q_{i2,t}\right)p_{i2,t}\dif t.\]
+\[\dif{p_{i1,t}}=mvG'\left(q_{i2,t}\right)\dif q_{i2,t}=vG'\left(q_{i2,t}\right)p_{i2,t}\dif t.\]
 This allows for a formal rewriting 
-\begin{equation}\label{eq:norton_sv_multiplier}\dif\xi_t\left(q_{i2,t}\right)= \frac 1{F\left(q_{i2,t}\right)}\left(\nabla_{q_{i1,t}}V(q_t)\dif t+\gamma_1\frac{p_{i1,t}}m-\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}\right)=\gamma_1v+\frac 1{F\left(q_{i2,t}\right)}\left(\nabla_{q_{i1,t}}V(q_t)\dif t-\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}\right)\end{equation}
-of the forcing term. We finally can enforce the constraint to obtain an expression for the Norton dynamics.
+\begin{equation}\label{eq:norton_sv_multiplier}
+    \begin{aligned}
+        \dif F\left(t,q_{i2,t}\right)&= vG'\left(q_{i2,t}\right)p_{i2,t}\dif t+\nabla_{q_{i1}}V(q_t)\dif t+\gamma_1\frac{p_{i1,t}}m\dif t-\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}\\
+        &=vG'\left(q_{i2,t}\right)p_{i2,t}\dif t+\nabla_{q_{i1}}V(q_t)\dif t+\gamma_1vG\left(q_{i2,t}\right)\dif t-\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}
+    \end{aligned}
+\end{equation}
+of the forcing term. We finally can enforce the constraint to obtain a simple expression for the Norton dynamics.
 \begin{equation}
     \label{eq:norton_sv_dynamics}
     \left\{\begin{aligned}
         \dif q_{ij,t}&=\frac{p_{ij,t}}m\dif t,&1\leq j\leq d,\\
-        \dif p_{i1,t}&=vF'\left(q_{i2,t}\right)p_{i2,t}\dif t,&\\
-        \dif p_{ij,t}&=-\nabla_{q_{ij,t}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
+        \dif p_{i1,t}&=vG'\left(q_{i2,t}\right)p_{i2,t}\dif t,&\\
+        \dif p_{ij,t}&=-\nabla_{q_{ij}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
     \end{aligned}\right.
 \end{equation}
 
-We expect that it is possible to recover the velocity profile obtained from Thevenin dynamics from the Norton dynamics in a manner analogous to the mobility case. Formally, we would like the process $\xi$ to be well-defined, and ergodic averages
-\[\frac 1T\int_0^T \dif \xi_s(Y)=\frac{\xi_T(Y)-\xi_0(Y)}T\]
-to converge to some well defined 
-At this point, let us remark that, unlike the mobility case where an explicit SDE for the forcing term was easily derived, we do not obtain an expression for $\xi_t(y)$, which we would expect under some form of stochastic PDE.
-However, equation \eqref{eq:norton_sv_multiplier} allows us to numerically estimate the response profile under a steady state for the Norton dynamics, by using a discretization procedure analogous to the one described in (reference article).
-To this effect, we introduce a partition of the transverse domain 
-\[\left[0,L_y\right)=\bigcup_{0\leq s\leq k-1}\left[s\frac{L_y}k,(s+1)\frac{L_y}k\right)\]
-into $k$ bins. We can estimate the normalized average response profile over the $s$-th bin is given by the following estimator:
+At this point, let us remark that unlike the mobility case where we had an explicit SDE for the forcing intensity, \eqref{eq:norton_sv_multiplier} does not give an expression for the full process $F_x$.
+However, it can still be used to define the average forcing profile as the following limit, if it is well-defined:
 \begin{equation}
-    \label{eq:norton_sv_response_estimator}
-    \frac{k}{N_{\mathrm{iter}}N}\sum_{n=1}^{N_{\mathrm{iter}}}\sum_{i=1}^N\1_{s\frac{L_y}k\leq q_{i2}^n\leq (s+1)\frac{L_y}k}\frac{F(q_{i2}^n)}{\nabla_{q_{i1}}V(q^n)+\gamma_1vF(q_{i2}^n)},
+    \label{eq:fx_definition}
+    f_x(Y)\defeq \underset{\epsilon \to 0}{\lim} \, \underset{v \to 0}{\lim}\, \frac{1}{vN}\E_v\left[\sum_{i=1}^N \left(vG'\left(q_{i2}\right)p_{i2}+\nabla_{q_{i1}}V(q)+\gamma_1vG\left(q_{i2}\right)\right)\chi_\epsilon(q_{i2}-Y)\right].
 \end{equation}
-where the $(q^n,p^n)$ are iterates of a discrete process approximating the continuous dynamics \eqref{eq:norton_sv_dynamics}.
-Just as in the case of the mobility, we omit the Brownian term which vanishe
+Here $\E_v$ denotes the expectation with respect to a hypothesized steady-state for the Norton dynamics, and  $\chi_\epsilon$ denotes an approximation of unity as in the Thevenin case.
+We estimate the expectation with respect to the steady state through the use of trajectory averages. For instance, the average of $f_x$ over an interval $I \subset [0,L_y)$ is estimated by the following
+
+\begin{equation}
+    \label{eq:norton_forcing_estimator}
+    \frac{L_y}{|I|vN N_{\mathrm{iter}}}\sum_{i=1}^N\sum_{k=1}^{N_{\mathrm{iter}}}\1_{q_{i2}^k \in I_k}\left(vG'\left(q_{i2}^k\right)p_{i2}^k+\nabla_{q_{i1}}V(q^k)+\gamma_1vG\left(q_{i2}^k\right)\right),
+\end{equation}
+for a small $v$, where the $(q^k,p^k)$ are iterates of a discretization of the continuous dynamics.
+We can recover an estimation of the full velocity profile by subdividing the transverse domain into regularly sized bins. Similar to the Thevenin case, we estimate Fourier coefficients 
+
+\begin{equation}
+    \label{eq:norton_fourier_coefficients}
+    \bar F_k\defeq\frac{1}{L_y}\int_0^{L_y}f_x(y)\exp\left(\frac{2ik\pi y}{L_y}\right)\dif y
+\end{equation}
+directly from the numerical trajectory, through
+
+\begin{equation}
+    \label{eq:norton_fourier_estimator}
+    \frac{1}{vN N_{\mathrm{iter}}}\sum_{k=1}^{N_{\mathrm{iter}}}\sum_{i=1}^N\left(vG'\left(q_{i2}^k\right)p_{i2}^k+\nabla_{q_{i1}}V(q^k)+\gamma_1vG\left(q_{i2}^k\right)\right)\exp\left(\frac{2ik\pi q_{i2}^k}{L_y}\right),
+\end{equation}
+and we relate them to the shear viscosity through
+
+\begin{equation}
+    \label{eq:norton_shear_viscosity_estimator}
+    \eta=\rho\left(\frac{\bar F_k}{G_k} -\gamma_1\right)\left(\frac{L_y}{2k\pi}\right)^2,
+\end{equation}
+where $G_k$ are the Fourier coefficients of the velocity profile,
+\[G_k=\frac{1}{L_y}\int_0^{L_y} G(y)\exp\left(\frac{2ik\pi y}{L_y}\right)\dif y\]
+which can be analytically or numerically computed to arbitrary precision at minimal cost.
 \subsection{Numerical integration}
 \subsection{Numerical results}
+
