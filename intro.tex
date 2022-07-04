@@ -147,18 +147,24 @@ The specification of a probability distribution over states is called a thermody
     The microcanonical ensemble is the suitable model for an isolated system in thermodynamic equilibrium, evolving under Hamiltonian dynamics. The number of particles $N$, the volume $V=L^3$, and the energy $E$ is fixed. We will alternatively refer to the microcanonical ensemble as the NVE ensemble.
      Because the constant energy condition constrains the compatible microstates to level sets of $H$, which in general will be negligible subsets of $\mathcal E$, some care must be taken in defining the microcanonical measure, since one cannot express the macroscopic constraints by a family of probability densities.
       However, under suitable assumptions on $V$, one can define the microcanonical measure as a weak limit of uniform distributions over level \textquote{shells} of $H$:
-    $$\int_\mathcal{E} \varphi \mathrm{d}\mu_{\mathrm{NVE}} \defeq \underset{\varepsilon \to 0}{\mathrm{lim}} \frac{1}{|S(E,\varepsilon)|}\int_{S(E,\varepsilon)} \varphi(q,p) \mathrm{d} q \mathrm{d} p,$$
+    $$\int_\mathcal{E} \varphi\, \mathrm{d}\mu_{\mathrm{mc,E}} \defeq \underset{\varepsilon \to 0}{\mathrm{lim}}\, \frac{1}{|S(E,\varepsilon)|}\int_{S(E,\varepsilon)} \varphi(q,p) \mathrm{d} q \mathrm{d} p,$$
     where 
     $$S(E,\varepsilon) = \{ (q,p) \in \mathcal E |\ H(q,p) \in [E-\varepsilon,E+\varepsilon]\}.$$
     
     This is consistent with the fact that, for a set $A$ with finite Lebesgue measure, the probability distribution on $A$ which maximizes the entropy is the uniform distribution on $A$. 
-    It is possible, using the coarea formula, to derive a precise expression for this limit, namely,
+    Alternatively, $\mu_{\mathrm{mc,E}}$ is uniquely defined by the relation
+    \[\int_{\mathcal E}g(H(q,p))f(q,p)\,\mathrm{d}q\mathrm{d}p=\int_{\R}g(E)\int_{\mathcal E} f(q,p)\,\mu_{\mathrm{mc,E}}(\mathrm{d} q,\mathrm{d}p),\]
+    for all test functions $g:\,\R\to \R$ and $f:\,\mathcal E\to \R$.
+    It is possible, using the coarea formula, to derive an explicit formula for $\mu_{\mathrm{mc,E}}$, namely,
 
     \begin{equation}
         \label{eq:microcanonical_measure}
-        \mu_{\mathrm{NVE}}(\dif q,\dif p)=\frac{\sigma_{\E}(\dif q,\dif p)}{|\nabla H(q,p)|}
+        \mu_{\mathrm{mc,E}}(\dif q,\dif p)=\frac{\sigma_{E}(\dif q,\dif p)}{|\nabla H(q,p)|},
     \end{equation}
-    
+    where $\sigma_{E}$ is the surface measure induced by the Lebesgue measure on the constant energy manifold
+    \begin{equation}
+        \label{eq:constant_energy_manifold}
+        S(E) = \{ (q,p) \in \mathcal E |\ H(q,p) = E\}.\end{equation}
 
 
 \subsection{Canonical ensemble}\label{par:canonical ensemble}
@@ -172,8 +178,8 @@ The specification of a probability distribution over states is called a thermody
 
     Solving the Euler-Lagrange equation associated with this constrained optimization problem yields that the only admissible solution can be written under the form:
 
-    $$ \rho^*(q,p)= \frac 1{Z} \e^{-\beta H(q,p)}.$$
-    Furthermore, one can show that $\rho^*$ is indeed the unique maximizer.
+    \begin{equation}\label{eq:canonical_measure}\mu(q,p) \defeq \frac 1{Z} \e^{-\beta H(q,p)}.\end{equation}
+    Furthermore, one can show that $\mu$ is indeed the unique maximizer.
     Here, $-\beta$ and $1+\ln Z$ are the critical Lagrange multipliers associated respectively with the energy constraint and the normalization constraint. Thus
     $$Z=\int_{\mathcal E} \e^{-\beta H(q,p)}\mathrm{d} q \mathrm{d} p$$
     is a normalization constant called the partition function, and $\beta$ is a tuning parameter related to the value of $\bar E$. The physical interpretation of $\beta$ is that of an inverse temperature,
@@ -184,7 +190,7 @@ The specification of a probability distribution over states is called a thermody
 
 One could of course go further and remark that when observing a fixed volume of unconfined gas in thermal equilibrium, the total number of particles $N$ is not fixed. Instead, this fluctuates as particles are constantly exchanged with an ambient particle reservoir. Instead, the average number of particles $\bar N$ is fixed. The resulting ensemble is called the grand canonical or $\mu$VT ensemble. This, and many other constructions are possible, but we will restrict our attention to the NVE and NVT cases. 
 
-\begin{remark}
+\begin{remark}[Independence of canonical momenta and configurations]
 We can make an observation on $\mu$ using the fact that the Hamiltonian \ref{eq:hamiltonian} is separable: it is the sum of a kinetic term involving $p$ and a configurational term involving $q$. Thus we can write
 $$\e^{-\beta H(q,p)}=\e^{-\frac\beta 2p^\intercal M^{-1}p}\e^{-\beta V(q)},$$
 
@@ -195,7 +201,7 @@ where $\kappa$ is a probability measure on $\R^{dN}$ has a density proportional 
 Recognizing a multivariate Gaussian density, we can further write, abusing the notations $\kappa$ and $\nu$ to denote both the laws and their densities,
 \begin{equation}
     \label{eq:kappa_marginal}
-    \kappa(p)=\det(\frac{\beta M}{2\pi})^{\frac 12}\e^{-\frac\beta2p^\intercal M^{-1}p}
+    \kappa(p)=\det(\frac{M}{2\pi\beta})^{\frac 12}\e^{-\frac\beta2p^\intercal M^{-1}p}
 \end{equation}
 
 \begin{equation}
@@ -203,7 +209,7 @@ Recognizing a multivariate Gaussian density, we can further write, abusing the n
     \nu(p)=\frac1{Z_\nu}\e^{-\beta V(q)},
 \end{equation}
 
-with $$ Z_\nu= Z\det(\frac{\beta M}{2\pi})^{\frac 12}.$$
+with $$ Z_\nu= Z\det(\frac{M}{2\pi\beta})^{\frac 12}.$$
 This implies in particular that the marginal distribution in $p$ of the canonical measure can be sampled easily, using standard algorithms for generating i.i.d. Gaussian variables, such as the Box-Muller method.
 \end{remark}
 
@@ -217,8 +223,7 @@ In our context, an observable is simply a function defined over phase-space. Giv
     \label{eq:ensemble_averages}
     \E_\mu[\varphi] \defeq \int_{\mathcal E} \varphi(q,p) \mu(\mathrm{d}q,\mathrm{d}p).
 \end{equation}
-Two problems arise. One is, for a given macroscopic quantity of interest, how to define the microscopic observable $\varphi$ which corresponds to this quantity. The second, once we have properly defined $\varphi$, is how to compute averages \eqref{ensemble_averages}. 
-
+Two problems arise. One is, for a given macroscopic quantity of interest, how to correctly define a microscopic observable $\varphi$ which underlies the macroscopic behavior. The second, once we have properly defined $\varphi$, is how to compute averages \eqref{ensemble_averages}. 
 
 \subsection{Examples of instantaneous observables}
 Let us give some examples of observables which will be of interest to us. Obvious examples include the kinetic energy,
@@ -239,8 +244,8 @@ $$P(q,p)=\frac1{d|\mathcal D|}\left( \sum_{i=1}^N \frac{|p_i|}{m_i}-\sum_{i \neq
 which is indeed a periodic function of $q$. In the NVT ensemble, the average of the kinetic part of the pressure is a known parameter, so we may replace it by its value, considering the observable:
 
 $$\frac{N}{\beta |\mathcal D|}- \frac{1}{d|\mathcal D|}\sum_{i=1}^N q_i^\intercal\nabla_{q_i}V(q).$$
-\subsection{Ergodic averages}
 
+\subsection{Ergodic averages}
 This second problem is one of sampling a probability measure in many dimensions, which is a difficult problem in general. Our broad strategy, which will remain the same in the NVE and NVT case, is the following.
 We define a process $(q_t,p_t)_{t\geq 0}$ on $\mathcal E$, either deterministic or stochastic, which is invariant for the target measure $\mu$, in the following sense: 
 \begin{equation}

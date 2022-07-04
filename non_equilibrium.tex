@@ -1,22 +1,84 @@
-\section{Non-equilibrium dynamics}
-In the previous chapter, we investigated various numerical strategies to sample states from thermodynamic ensembles.
-The object now is to go beyond the computation of average observables, to consider dynamical behavior of molecular systems.
-One way to define question we may ask is how the system responds to small perturbations of the equilibrium.
-For instance we may think of applying a small non-gradient force $\eta F$ to the equilibrium force $-\nabla V(q)$, which amounts to considering the following equation:
+So far, we have only considered methods to sample static averages, which concern quantities at thermodynamic equilibrium.
+Such techniques yield information about the bulk macroscopic properties of the system, for which there is no discernable macroscopic evolution.
+We now turn to the next natural question, which is to consider systems in which there is such an evolution,
+ which typically arises from a perturbation of the equilibrium dynamics, either by the introduction of a non-gradient forcing term, 
+ or a modification of the fluctuation-dissipation part for which the fluctuation-dissipation relation \eqref{eq:general_fd_relation} is not verified.
+ We will not consider the latter case, which is relevant for instance to the modelling of heat transport within an atomic system, to concentrate on the first case.
+ In general, systems undergoing such a perturbation of the dynamics will reach a new steady state in which there is a net flux in some observable.
+ Mathematically, this translate into the existence of a response observable $R$ which has zero average with respect to the canonical measure $\mu$, but which has a positive average with respect to the perturbation steady-state.
+ A natural question is that of the sensitivity of the system to the perturbation: one way to quantify this is to modulate the strength of the perturbation by a positive real parameter $\eta>0$, and,
+  assuming that the average response is asymptotically linear as $\eta\to 0$, to compute the linear coefficient linking $\eta$ and the average response. 
+  This quantity is called a \textit{transport coefficient}, and we will dedicate the next two chapters to different methods of computing them using molecular simulation.
+
+\section{Non-equilibrium molecular dynamics}
+We first consider the most natural method, which is to directly apply a forcing term which is not the gradient of a periodic function. 
+The general framework is that of a classical Langevin dynamics
+
 \begin{equation}
-    \label{eq:nemd_langevin}
+    \label{eq:general_nemd_dynamics}
     \left\{\begin{aligned}
-        \dif q_t &= M^{-1}p_t\dif t\\
-        \dif p_t &= -\nabla V(q_t)\dif t +\eta F\dif t -\gamma M^{-1}p_t\dif t +\sqrt{\frac{2\gamma}{\beta}}\dif W_t
+        \text dq_t&=M^{-1}p_t\dt,\\
+        \text dp_t&= -\nabla V(q_t)\dt -\gamma M^{-1}p_t\dt+\sqrt{\frac{2\gamma}\beta}\text dW_t +\eta F(q_t)\dif t,
     \end{aligned}\right.
 \end{equation}
-We can think of this as effectively tilting the potential landscape so that we expect the steady-state of this perturbed dynamics to feature a measurable flux of particles in the direction $F$,
-which we measure by looking at the average velocity in the direction $F$,
+perturbed by the configuration-dependent forcing term $F$, and where the strength of the perturbation is modulated by the parameter $\eta>0$.
+Its generator is given by the operator 
 \begin{equation}
-    \label{eq:mobility}
-    \E_\eta\left[F\cdot \left(M^{-1}p\right)\right],
+    \label{eq:nemd_generator}
+    \cL_{\gamma,F}=\cL_\gamma +\eta F\cdot \nabla_p.
 \end{equation}
-where $\E_\eta$ denotes the average with respect to the steady-state for the dynamics \eqref{eq:nemd_langevin}, which we take to be a probability measure on $\mathcal E$,
- for which we have no closed form, in contrast to the equilibrium setting.
-\section{Linear response theory}
-\section{Numerical schemes}
+Given a response of interest $R$, the transport coefficient is given by the following definition:
+
+\begin{equation}
+    \label{eq:transport_coefficient}
+    \rho_{R,F}=\underset{\eta \to 0}{\lim}\, \frac{\mathbb{E}[R]}{\eta},
+\end{equation}
+where $\mathbb{E}_\eta$ denotes the expectation with respect to the steady-state probability distribution. 
+If the context makes $R$ clear from the knowledge of $F$, we will drop it from the notation and simply write $\rho_F$ for the transport coefficient.
+For this definition to make sense, one has to show that the steady-state with respect to which we take the expectation is well-defined.
+Since the steady-state is defined by the fact that it is invariant with respect to the dynamics \eqref{eq:general_nemd_dynamics}, 
+this translate into the fact that it is the solution to a stationary Fokker-Planck equation
+\begin{equation}
+    \label{eq:nemd_fp_equation}
+    \cL_{\gamma,F}^\dagger \rho = 0.
+\end{equation}
+Using analytic properties of $\cL_{\gamma,F}$ such as hypoellipticity, one can hopefully infer existence, uniqueness and regularity of the solution distribution.
+The steady-state measure is a high-dimensional measure on phase space for which a closed form is generally unavailable.
+ Thus one has to resort to ergodic averages under the dynamics \eqref{eq:general_nemd_dynamics} to compute averages with respect to $\E_\eta$.
+ This poses another theoretical difficulty, that of showing that the steady-state measure is ergodic for the dynamics.
+
+ \begin{remark}[Size of the linear regime]
+ \end{remark}
+
+\subsection{Mobility}
+\subsection{Shear viscosity}
+In this section, we describe a NEMD method to compute the shear viscosity in a fluid, from \cite{JS12}
+We index the state as \[\left(q_{i\alpha}\right)_{\substack{\leq i\leq N\\1\leq \alpha\leq d}},\qquad \left(p_{i\alpha}\right)_{\substack{\leq i\leq N\\1\leq \alpha\leq d}}.\]
+The Thevenin dynamics we considered writes, for $i=1\dots N$,
+\begin{equation}
+    \label{eq:thevenin_sv_dynamics}
+    \left\{\begin{aligned}
+        \dif q_{ij,t}&=\frac{p_{ij,t}}m\dif t,&1\leq j\leq d,\\
+        \dif p_{i1,t}&=-\nabla_{q_{i1}}V(q_t)\dif t-\gamma_1\frac{p_{i1,t}}m+\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}+\xi F(q_{i2,t}),&\\
+        \dif p_{ij,t}&=-\nabla_{q_{ij}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
+    \end{aligned}\right.
+\end{equation}
+This equation describes a system undergoing standard Langevin evolution, with the longitudinal momentum coordinates 
+\[\left(p_{i1}\right)_{1\leq i\leq N}\]
+subject to a forcing $F$ which is constant in time, but depends on the corresponding transverse position coordinates
+\[\left(q_{i2}\right)_{1\leq i\leq N}.\]
+Additionally we allow the longitudinal fluctuation dissipation term to have a distinct friction coefficient $\gamma_1$, which is a free parameter of the model.
+
+\begin{equation}
+    \label{eq:velocity_profile}
+    u_x(Y)\defeq \underset{\epsilon \to 0}{\lim} \, \underset{\xi \to 0}{\lim} \frac{L_y\E_\xi \left[\sum_{i=1}^N p_{i1}\chi_\epsilon(q_{i2}-Y)\right]}{\xi mN}
+\end{equation}
+
+\begin{equation}
+    \label{eq:shear_viscosity_relation_diffeq}
+    \eta u_x''(Y)+\gamma_1 \rho u_x(Y)=\rho F(Y)
+\end{equation}
+
+\section{The Green-Kubo method}
+\subsection{Mobility}
+\subsection{Shear viscosity}

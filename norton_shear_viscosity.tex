@@ -1,0 +1,578 @@
+
+\documentclass[a4paper,10pt,twoside,leqno]{report}
+
+\usepackage[utf8]{inputenc} %Ligne PS
+
+\newlength{\minipagewidth}
+\setlength{\minipagewidth}{\textwidth}
+\setlength{\fboxsep}{3mm}
+
+\usepackage{amsmath,amsthm} 
+\usepackage{amssymb,mathrsfs} 
+\usepackage{bbm}
+\usepackage{a4wide} 
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{xcolor,subfigure} 
+\usepackage{enumerate}
+\usepackage[normalem]{ulem}
+\usepackage{csquotes}
+\usepackage{cancel}
+\usepackage{hyperref}
+\usepackage{todonotes}
+
+%------- styles ---------
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Hypothesis}
+\newtheorem{definition}{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{algorithm}{Algorithm}
+%----- definitions ----------
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\newcommand{\dps}{\displaystyle } 
+\newcommand{\rme}{\mathrm{e}}
+\newcommand{\ri}{\mathrm{i}} 
+\newcommand{\cL}{\mathcal{L}}
+% \newcommand{\cLs}{\mathcal{L}_\mathrm{s}}
+% \newcommand{\cLa}{\mathcal{L}_\mathrm{a}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cLs}{\mathcal{S}}
+\newcommand{\cLa}{\mathcal{A}}
+\newcommand{\Schur}{\mathfrak{S}_0}
+\newcommand{\Schurb}{\mathfrak{S}_1}
+\newcommand{\cLham}{\mathcal{L}_{\rm ham}}
+\newcommand{\cLFD}{\mathcal{L}_{\rm FD}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Id}{\mathrm{Id}} 
+\newcommand{\Ran}{\mathrm{Ran}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\invAs}{\left[A^{-1}\right]_\mathrm{s}}
+\newcommand{\subplus}{\textnormal{\texttt{+}}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\le}{\leqslant}
+\renewcommand{\ge}{\geqslant}
+\newcommand{\dt}{\mathrm{d}t}
+\newcommand{\dx}{\mathrm{d}x}
+%\renewcommand{\dp}{\text{d}p}
+\newcommand{\dq}{\mathrm{d}q}
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\defeq}{\mathrel{\mathop:}=}
+\newcommand{\eqdef}{\mathrel={\mathop:}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\Dt}{{\Delta t}}
+\newcommand{\iid}{{\textit{i.i.d.} }}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+%------------------------------------
+\begin{document}
+    
+    \section{Introduction}
+    We have presented so far two methods for computing transport coefficients. The Green-Kubo method, which relies on analysis of autocorrelations in the fluctuation of zero-average equilibrium quantities, 
+    and the linear response method, which relies in measuring the linear dependence between an equilibrium-centered observables's average under a steady-state corresponding to a perturbed dynamics and the magnitude of this perturbation, or forcing.
+    In the case of mobility, we apply a small constant force, and measure the resulting particle flux in the direction of the perturbation. We can thus think of the mobility $\rho_F$ as measuring the mass conductance of a substrate.
+    A natural question to ask is whether it is possible to measure the resistance instead. One possible strategy, in very loose terms, would be to \textit{constrain} the response to be constant, and measure the average magnitude of the forcing needed to maintain it.
+    In the limit of a small response, the linear dependency between these quantities can be hoped to provide an equivalent measure of resistance. By analogy with the Thevenin and Norton circuit theorems, we will refer to the standard non-equilibrium perturbation method as the Thevenin method,
+    and the dual method as the Norton method. We will again be using the mobility and the shear viscosity as our examples, both to clarify the general strategy in designing a Norton method, and to leverage reference calculations with which to evaluate its usefulness. 
+    
+    \section{Mobility}
+    Again, we fix a direction $F\in \R^{dN}$ and consider as a response the velocity in the direction $F$, \[F\cdot \left(M^{-1} p\right).\]
+    As before, we study a perturbed Langevin dynamics, but i which this time the constant magnitude of the non-gradient perturbation $\eta$ is replaced by a fluctuating magnitude $\Lambda_t$, which is determined in order to ensure that the response
+    \[v=F\cdot\left(M^{-1}p\right)=p\cdot\left(M^{-1}F\right)\]
+    is a constant.
+    
+    \subsection{The dynamics}
+    The system is the following:
+    \begin{equation}
+        \label{eq:norton_method}
+        \left\{\begin{aligned}
+            \dif q_t&=\left(M^{-1}p_t\right)\dif t\\
+            \dif p_t&=-\nabla V(q_t)\dif t -\gamma\left(M^{-1}p_t\right)\dif t+\sqrt{\frac{2\gamma}\beta}\dif W_t+F\dif \Lambda_t,
+        \end{aligned}\right.
+    \end{equation}
+    where $\Lambda_t$ is a real-valued stochastic process. We can derive an expression for $\dif \Lambda_t$ by enforcing the constant response constraint.
+    Using Itô's formula on the response, we get
+    \begin{equation}
+        \label{eq:formula_response}
+    \dif \left(\left(M^{-1}F\right)\cdot p\right)_t=\left(M^{-1}F\right)\cdot\left(-\nabla V(q_t)\dif t -\gamma M^{-1}p_t\dif t+\sqrt{\frac{2\gamma}\beta}\dif W_t\right)+\left( \left(M^{-1}F\right)\cdot F\right)\dif\Lambda_t=0,
+    \end{equation}
+    which gives $\Lambda_t$ as an Itô process,
+    \begin{equation}
+        \label{eq:norton_multiplier_ito_decomposition}
+        \dif \Lambda_t=\left( \left(M^{-1}F\right)\cdot F\right)^{-1}\left(M^{-1}F\right)\cdot\left(\nabla V(q_t)\dif t +\gamma M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}\beta}\dif W_t\right).
+    \end{equation}
+    At this point, let us introduce the linear maps
+    \begin{equation}
+        \label{eq:norton_projector}
+        \begin{aligned}
+            &P_{M,F}\,u=\frac{\left(M^{-1}F\right)\cdot u}{\left(M^{-1}F\right)\cdot F}F\qquad\forall\,u\in\R^{dN}\\
+            &P_{M,F}^\perp=\Id-P_{M,F}
+        \end{aligned}
+    \end{equation}
+    which are simply the orthogonal projectors onto the subspace spanned by $F$ and its orthogonal complement, with respect to the weighted scalar product
+    \begin{equation}
+        \label{eq:norton_weighted_scalar_product}
+        \left\langle x,y\right\rangle_{M}=\left\langle M^{-1}x,y\right\rangle.
+    \end{equation}
+    Using this projector and substituting $\dif \Lambda_t$ for its value, we get the equation for the augmented dynamics $(q_t,p_t,\Lambda_t)\in \mathcal E\times \R$.
+    \begin{equation}
+        \label{eq:norton_final_sde}
+        \left\{\begin{aligned}
+            \dif q_t &= M^{-1}p_t\dif t\\
+            \dif p_t &= P_{M,F}^\perp\left(-\nabla V(q_t)\dif t -\gamma M^{-1}p_t\dif t +\sqrt{\frac{2\gamma}\beta}\dif W_t\right)\\
+            \dif \Lambda_t &=\frac{M^{-1}F}{\left(M^{-1}F\right)\cdot F}\cdot\left(\nabla V(q_t)\dif t +\gamma M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}\beta}\dif W_t\right)
+        \end{aligned}\right.
+    \end{equation}
+    Notice this equation is almost the same as for the Langevin dynamics.
+    The kinetic part is projected onto the $F$-subspace with respect to $\langle \cdot,\cdot\rangle_M$, and $\dif\Lambda_t$ is minus the coordinate in the $F$ direction of the standard Langevin equation for $\dif p_t$, again with respect to $\langle \cdot ,\cdot \rangle_M$.
+    The Brownian motions $W_t$ are the same in the last two equations, hence $p_t$ and $\Lambda_t$ are coupled processes.
+    
+    \subsection{Analytic calculations for the kinetic dynamics}
+    
+    The kinetic part of the dynamics splits into two analytically integrable dynamics: a ballistic Hamiltonian evolution
+    \begin{equation}
+        \label{eq:elem_hamiltonian_equation}
+        \left\{\begin{aligned}
+            \dif q_t&=0\\
+            \dif p_t&=-P_{M,F}^\perp\nabla V(q_t)
+        \end{aligned}\right.\implies\left\{\begin{aligned}
+            q_t&=q_0\\
+            p_t&=p_0-tP_{M,F}^\perp\nabla V(q_0)
+        \end{aligned}\right.
+    \end{equation}
+    and a diffusion process describing the fluctuation-dissipation part of the dynamics,
+    \begin{equation}
+        \label{eq:norton_ou_part}
+        \dif p_t=-\gamma P_{M,F}^\perp M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}{\beta}}P_{M,F}^\perp\dif W_t,
+    \end{equation}
+    which can also be analytically solved.
+    Indeed, applying Itô's formula to the rescaled process $\e^{\gamma P_{M,F}^\perp M^{-1}t}p_t$ yields
+    \[\mathrm{e}^{\gamma P_{M,F}^\perp M^{-1}t}\left(\gamma P_{M,F}^\perp M^{-1}p_t\dif t - \gamma P_{M,F}^\perp M^{-1}p_t\dif t-\sqrt{\frac{2\gamma}{\beta}} P_{M,F}^\perp\dif W_t\right),\]
+    hence we get 
+    \begin{equation}
+        \label{eq:projected_ou_analytical_form}
+        \begin{aligned}
+        p_t&=\mathrm{e}^{-\gamma P_{M,F}^\perp M^{-1}t}p_0-\sqrt{\frac{2\gamma}{\beta}}\int_0^t\mathrm{e}^{\gamma P_{M,F}^\perp M^{-1}(s-t)} P_{M,F}^\perp\dif W_s\\
+        &=\mathrm{e}^{-\gamma P_{M,F}^\perp M^{-1}t}p_0-\sqrt{\frac{2\gamma}{\beta}}\left(\int_0^t\e^{-\gamma P_{M,F}^\perp M^{-1}s}P_{M,F}^\perp\e^{-\gamma P_{M,F}^\perp M^{-1}s} \dif s\right)^{\frac12}G,
+        \end{aligned}
+    \end{equation}
+    where the last equality holds in law if $G$ is a standard $dN$-dimensional Gaussian, using Itô's isometry and the symmetry of $\e^{\gamma P_{M,F}^\perp M^{-1}t}$ for all $t$.
+    The matrix exponentials and integrals can be computed, however there is no concise expression because $P_{M,F}^\perp M^{-1}$ is not invertible.
+    
+    In the case of a homogeneous system with $M=\alpha\Id$ (in which case we can assume by a judicious choice of mass unit that $M=\Id$), a more concise expression can be found, using the identity
+    \begin{equation}
+         \label{eq:rodrigues_formula}\e^{r\Pi}=\sum_{k=0}^\infty \frac{r^k}{k!}\Pi^k=\Id+\left(\sum_{k=1}^\infty\frac{r^k}{k!}\right)\Pi=\Id+\left(\e^r-1\right)\Pi.
+    \end{equation}
+    This identity follows, for $\Pi$ a linear projector, from applying the projector identity \[\Pi=\Pi^2=\Pi^3=\dotsm.\]
+    We write the following derivation in the case of a general projector $\Pi$, and conclude by taking the case $\Pi=P_{M,F}^\perp$. We also note $\Pi^\perp=\Id-\Pi$.
+    
+    \begin{equation}
+        \begin{aligned}
+            \mathrm{e}^{-\gamma \Pi t}p_0-\sqrt{\frac{2\gamma}{\beta}} \Pi\left(\int_0^t\e^{2\gamma s \Pi }\dif s\right)^{\frac12}G&=\left(\Id+\left(\e^{-\gamma t}-1\right)\Pi\right)p_0-\sqrt{\frac{2\gamma}{\beta}}\Pi\left(\int_0^t\left(\Id+\left(\e^{-2\gamma s}-1\right)\Pi\right)\dif s\right)^\frac{1}{2}G\\
+            &=\left(\Pi^\perp +\e^{-\gamma t}\Pi\right)p_0-\sqrt{\frac{2\gamma}{\beta}}\Pi\left(t\Pi^\perp+\frac{1-\e^{-2\gamma t}}{2\gamma}\Pi\right)^{\frac 12}G.
+        \end{aligned}
+    \end{equation}
+    Now, observe that $\R^{dN}$ writes as the sum of two orthogonal spaces, each of which is an eigenspace for both $\Pi$ and $\Pi^\perp$, and correspond respectively to the eigenvalues $0$ and $1$ (this correspondence being flipped upon passing from $\Pi$ to $\Pi^\perp$). By an easy spectral calculation, we also have $\Pi^\alpha=\Pi$ for any $\alpha>0$,
+    which allows to conclude that 
+    \[(a\Pi^\perp+b\Pi)^\alpha=a^\alpha\Pi^\perp+b^\alpha\Pi\qquad \forall\,a,b,\alpha>0,\]
+    and finally
+    \begin{equation}
+        \label{eq:norton_ou_solved_no_mass}
+        \begin{aligned}
+        \mathrm{e}^{-\gamma \Pi t}p_0-\sqrt{\frac{2\gamma}{\beta}} \Pi\left(\int_0^t\e^{2\gamma s \Pi }\dif s\right)^{\frac12}G&=\Pi^\perp p_0+\e^{-\gamma t}\Pi p_0-\sqrt{\frac{2\gamma t}{\beta}}\Pi\Pi^\perp G-\sqrt{\frac{1-\e^{-2\gamma t}}{\beta}}\Pi G\\
+        &=\Pi^\perp p_0+\e^{-\gamma t}\Pi p_0-\sqrt{\frac{1-\e^{-2\gamma t}}{\beta}}\Pi G,
+        \end{aligned}
+    \end{equation}
+    where we use $\Pi\Pi^\perp=0$ for the last equality.
+    Equation \eqref{eq:norton_ou_solved_no_mass} yields a clear interpretation of the action of the fluctuation-dissipation term on the dynamics: there is no effect in the direction tangent to $F$, and a standard Ornstein-Uhlenbeck process applies to the dynamics projected onto the subspace orthogonal to $F$ (note $\Pi G$ can then be viewed as a $(dN-1)$-dimensional standard Gaussian by isotropy).
+    We also note that a similar computation may be performed in the case where both $M$ and $P_{M,F}$ are simultaneously diagonalizable, for instance if $M$ is a diagonal matrix and $F$ has a single non-zero component.
+    
+    \subsection{Splitting schemes}
+    Consider the Norton dynamics on the state variable $(q_t,p_t)$. Its generator is given by the operator
+    
+    \begin{equation}
+        \label{eq:norton_generator}
+        \cL_F\varphi(q,p)=(M^{-1}p)\cdot \nabla_q\varphi(q,p)-(P_{M,F}^\perp\nabla V(q)-\gamma P_{M,F}^\perp M^{-1}p)\cdot\nabla_p\varphi(q,p)-\frac{\gamma}\beta\mathrm{Tr}\left(P_{M,F}^\perp\nabla_p^2\varphi(q,p)\right),
+    \end{equation}
+    which we rewrite as 
+    \begin{equation}
+        \label{eq:norton_generator_splitting}
+        \cL_F=A+B_F+\gamma C_F,\qquad \text{with} \qquad
+        \left\{\begin{aligned}
+            B_F\varphi(q,p)&=\left(P_{M,F}^\perp\nabla V(q)\right)\cdot \nabla_p\varphi(q,p)\\
+            C_F\varphi(q,p)&=-\left(P_{M,F}^\perp M^{-1}p\right)\cdot\nabla_p\varphi(q,p)+\frac1\beta\mathrm{Tr}\left(P_{M,F}^\perp\nabla_p^2\varphi(q,p)\right).
+        \end{aligned}\right.
+    \end{equation}
+    The $A$ and $B_F$ operators are the generators of exactly integrable dynamics (namely ballistic Hamiltonian dynamics), and $C_F$ generates an analytically solvable diffusion process given in \eqref{eq:projected_ou_analytical_form}. Hence we can use a splitting scheme exactly as we did in the case of the Langevin dynamics, as discussed in section \ref{section:splitting_schemes_langevin}. 
+    We will use the exact same terminology in this context, referring to a scheme by the order in which the elementary dynamics are integrated.
+    We give as a reference one of the simplest splitting schemes for the Norton dynamics.
+    
+    \begin{algorithm}[BAO-like scheme for \eqref{eq:norton_final_sde}]
+        For a fixed timestep $\Dt>0$, iterate the following update rule.
+        \begin{equation}
+            \left\{
+                \begin{aligned}
+                    p^{n+\frac12}&=p^n-\Dt P_{M,F}^\perp \nabla V(q^n)\\
+                    q^{n+1}&=q^n+\Dt M^{-1}p^{n+\frac12}\\
+                    p^{n+1}&=\mathrm{e}^{-\gamma P_{M,F}^\perp M^{-1}\Dt}p^{n+\frac12}-\sqrt{\frac{2\gamma}{\beta}}\left(\int_0^\Dt\e^{-\gamma P_{M,F}^\perp M^{-1}s}P_{M,F}^\perp\e^{-\gamma P_{M,F}^\perp M^{-1}s} \dif s\right)^{\frac12}G^n
+                \end{aligned}\right.
+        \end{equation}
+    \end{algorithm}
+    The $\gamma C_F$-step is cumbersome to write in full, but it is always of the form 
+    \[p^{n+1}=R_\Dt p^n + S_\Dt G^n\]
+    for fixed matrices $R_\Dt$ and $S_\Dt$ which only have to be computed once.
+    
+    \subsection{Estimation of $\rho_F$}
+    To estimate the mobility, we need to estimate the average forcing. For this we rely on two crucial assumptions. Firstly, that for $v$ small enough, the dynamics \eqref{eq:norton_final_sde} admits and reaches a unique steady-state on $\mathcal E$, whose expectation we denote by $\E_v$.
+    Secondly, we assume that ergodicity holds, allowing us to compute the average forcing under $\E_v$ from trajectory averages. We refrain from giving precise conjectures, simply noting that a potential source of added technical difficulty relative to the Thevenin setting is the fact that such a steady-state is not absolutely continuous with respect to the equilibrium measure $\mu$, since $\E_v$ is necessarily supported on the constant response manifold which is $\mu$-negligible.
+    It is likely that rigourously establishing existence and ergodicity results for Norton steady-states will require working in a reduced set of coordinates.
+    Nevertheless, under these assumptions, and recalling the SDE \eqref{eq:norton_final_sde} for $\dif \Lambda$, the martingale term involving the Brownian motion disappears under steady-state averaging.
+    Hence we can estimate the average forcing using the following ergodic average:
+    \begin{equation}
+        \label{eq:norton_ergodic_forcing}
+        \underset{T\to\infty}\lim\,\frac{1}T\int_0^T\frac{M^{-1}F}{\left(M^{-1}F\right)\cdot F}\cdot\left(\nabla V(q_t)+\gamma M^{-1}p_t\right)\dif t.
+    \end{equation}
+    
+    In practice, we can estimate the average forcing through numerical trajectory averages, which yields the following estimator.
+    
+    \begin{equation}
+        \widehat{\dif \Lambda}_{N_{\mathrm{iter}},v}=\frac{1}{N_{\mathrm{iter}}}\sum_{n=1}^{N_{\mathrm{iter}}}\frac{M^{-1}F}{\left(M^{-1}F\right)\cdot F}\cdot\left(\nabla V(q^n)+\gamma M^{-1}p^n\right).
+    \end{equation}
+    We can then estimate $\rho_F$ by directly computing the following ratio for a fixed small $v$,
+    \begin{equation}
+        \label{eq:norton_rho_F_estimator}
+        \rho_F \approx v\left(\widehat{\dif \Lambda}_{N_{\mathrm{iter}},v}\right)^{-1},
+    \end{equation}
+    or by a least-squares fit 
+    \[\left(\widehat{\dif \Lambda}_{N_{\mathrm{iter}},v_i}\right)_{i=1\dots K}\approx\frac{1}{\rho_F}\left(v_i\right)_{i=1\dots K}.\]
+    Statistical errors estimates can be established using the block averaging method on
+    \[\left(\frac{M^{-1}F}{\left(M^{-1}F\right)\cdot F}\cdot\left(\nabla V(q^n)+\gamma M^{-1}p^n\right)\right)_{n\geq 0},\]
+    which can then be transposed to the estimator for $\rho_F$ by applying the appropriate delta-method. \todo{ref Billingsley}
+    
+    \section{Shear viscosity}
+    
+    \subsection{The Thevenin method}
+    \todo{Move subsection to previous chapter}
+    We index the state as \[\left(q_{ij}\right)_{\substack{\leq i\leq N\\1\leq j\leq d}},\qquad \left(p_{ij}\right)_{\substack{\leq i\leq N\\1\leq j\leq d}}.\]
+    The Thevenin dynamics we considered writes, for $i=1\dots N$,
+    \begin{equation}
+        \label{eq:thevenin_sv_dynamics}
+        \left\{\begin{aligned}
+            \dif q_{ij,t}&=\frac{p_{ij,t}}m\dif t,&1\leq j\leq d,\\
+            \dif p_{i1,t}&=-\nabla_{q_{i1}}V(q_t)\dif t-\gamma_1\frac{p_{i1,t}}m+\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}+\xi F(q_{i2,t}),&\\
+            \dif p_{ij,t}&=-\nabla_{q_{ij}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
+        \end{aligned}\right.
+    \end{equation}
+    This equation describes a system undergoing standard Langevin evolution, with the longitudinal momentum coordinates 
+    \[\left(p_{i1}\right)_{1\leq i\leq N}\]
+    subject to a forcing $F$ which is constant in time, but depends on the corresponding transverse position coordinates
+    \[\left(q_{i2}\right)_{1\leq i\leq N}.\]
+    Additionally we allow the longitudinal fluctuation dissipation term to have a distinct friction coefficient $\gamma_1$, which is a free parameter of the model.
+    
+    \begin{equation}
+        \label{eq:velocity_profile}
+        u_x(Y)\defeq \underset{\epsilon \to 0}{\lim} \, \underset{\xi \to 0}{\lim} \frac{L_y\E_\xi \left[\sum_{i=1}^N p_{i1}\chi_\epsilon(q_{i2}-Y)\right]}{\xi mN}
+    \end{equation}
+    
+    \begin{equation}
+        \label{eq:shear_viscosity_relation_diffeq}
+        \eta u_x''(Y)+\gamma_1 \rho u_x(Y)=\rho F(Y)
+    \end{equation}
+    \subsection{A Norton method}
+    The corresponding Norton method consists of fixing the longitudinal velocity profile to be of a prescribed shape, say proportional to a smooth periodic function $G$, and applying a 
+    fluctuating transverse force profile $\dif F_x$ to enforce this constraint. We hope that the shear viscosity can be computed from the resulting linear response in the forcing profile, which we will denote $f_x(Y)$, through a Norton analog of equation \eqref{eq:shear_viscosity_relation_diffeq},
+    \begin{equation}
+        \label{eq:shear_viscosity_relation_norton}
+        \eta G''(Y)+\gamma_1 \rho G(Y)=\rho f_x(Y).
+    \end{equation}
+    Formally, we write
+    \begin{equation}
+        \left\{\begin{aligned}
+            \dif q_{ij,t}&=\frac{p_{ij,t}}m\dif t,&1\leq j\leq d,\\
+            \dif p_{i1,t}&=-\nabla_{q_{i1}}V(q_t)\dif t-\gamma_1\frac{p_{i1,t}}m\dif t+\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}+\dif F_x\left(t,q_{i2,t}\right),&\\
+            \dif p_{ij,t}&=-\nabla_{q_{ij}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m\dif t+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
+        \end{aligned}\right.
+    \end{equation}
+    where $F_x$ is now a process indexed by both the time and the transverse coordinate in $L_y \mathbb T$.
+    As in the case of the mobility, we can restate the dynamics with no reference to $F_x$, by enforcing the constraint
+    \begin{equation}
+        \label{eq:norton_shear_viscosity_constraint}
+        \frac{p_{i1,t}}m=vG\left(q_{i2,t}\right)\qquad \forall\, 1\leq i\leq N,
+    \end{equation}
+    where $v>0$ is the magnitude of the velocity perturbation.
+    By Ito's lemma, since $q$ is a bounded variation process, we get
+    \[\dif{p_{i1,t}}=mvG'\left(q_{i2,t}\right)\dif q_{i2,t}=vG'\left(q_{i2,t}\right)p_{i2,t}\dif t.\]
+    This allows for a formal rewriting 
+    \begin{equation}\label{eq:norton_sv_multiplier}
+        \begin{aligned}
+            \dif F_x\left(t,q_{i2,t}\right)&= vG'\left(q_{i2,t}\right)p_{i2,t}\dif t+\nabla_{q_{i1}}V(q_t)\dif t+\gamma_1\frac{p_{i1,t}}m\dif t-\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}\\
+            &=vG'\left(q_{i2,t}\right)p_{i2,t}\dif t+\nabla_{q_{i1}}V(q_t)\dif t+\gamma_1vG\left(q_{i2,t}\right)\dif t-\sqrt{\frac{2\gamma_1}\beta}\dif W_t^{i1}
+        \end{aligned}
+    \end{equation}
+    of the forcing term. We finally can enforce the constraint to obtain a simple expression for the Norton dynamics.
+    \begin{equation}
+        \label{eq:norton_sv_dynamics}
+        \left\{\begin{aligned}
+            \dif q_{ij,t}&=\frac{p_{ij,t}}m\dif t,&1\leq j\leq d,\\
+            \dif p_{i1,t}&=vG'\left(q_{i2,t}\right)p_{i2,t}\dif t,&\\
+            \dif p_{ij,t}&=-\nabla_{q_{ij}}V(q_t)\dif t-\gamma \frac{p_{ij,t}}m\dif t+\sqrt{\frac{2\gamma}\beta}\dif W_t^{ij},&2\leq j\leq d.
+        \end{aligned}\right.
+    \end{equation}
+    
+    At this point, let us remark that unlike the mobility case where we had an explicit SDE for the forcing intensity, \eqref{eq:norton_sv_multiplier} does not give an expression for the full process $F_x$, but rather $N$ coupled SDEs for the real-valued processes $F_x(t,q_{i2,t})$.
+    Note that a strictly equivalent way to define the Norton dynamics is through the processes $\left(F_{x,t}^i \defeq F_x(t,q_{i2,t})\right)_{i=1\dots N}$, so that there is no theoretical need for the full $F_x$, but it is useful in highlighting the idea of a fluctuating force profile enforcing the constant velocity constraint.
+    Based on these expressions, we can define a candidate average forcing profile, as the following limit, provided it is well-defined:
+    \begin{equation}
+        \label{eq:fx_definition}
+        f_x(Y)\defeq \underset{\epsilon \to 0}{\lim} \, \underset{v \to 0}{\lim}\, \frac{L_y}{vN}\E_v\left[\sum_{i=1}^N \left(vG'\left(q_{i2}\right)p_{i2}+\nabla_{q_{i1}}V(q)+\gamma_1vG\left(q_{i2}\right)\right)\chi_\epsilon(q_{i2}-Y)\right].
+    \end{equation}
+    Where $\E_v$ denotes again the expectation with respect to a hypothesized steady-state for the Norton dynamics,  $\chi_\epsilon$ denotes an approximation of unity, and where we dropped the centered Brownian term of the force, similar to the mobility case.
+    We estimate the expectation with respect to the steady state through the use of trajectory averages, assuming an ergodicity property. For instance, the average of $f_x$ over an interval $I \subset [0,L_y)$ can be estimated by the following
+    
+    \begin{equation}
+        \label{eq:norton_forcing_estimator}
+        \frac{L_y}{|I|vN N_{\mathrm{iter}}}\sum_{i=1}^N\sum_{k=1}^{N_{\mathrm{iter}}}\1_{q_{i2}^k \in I}\left(vG'\left(q_{i2}^k\right)p_{i2}^k+\nabla_{q_{i1}}V(q^k)+\gamma_1vG\left(q_{i2}^k\right)\right),
+    \end{equation}
+    for a small $v$, where the $(q^k,p^k)$ are iterates of a discretization of the continuous dynamics.
+    We can recover an estimation of the full forcing profile by subdividing the transverse domain into regularly sized bins. Similar to the Thevenin case, we estimate Fourier coefficients 
+    
+    \begin{equation}
+        \label{eq:norton_fourier_coefficients}
+        \bar F_k\defeq\frac{1}{L_y}\int_0^{L_y}f_x(y)\exp\left(\frac{2ik\pi y}{L_y}\right)\dif y
+    \end{equation}
+    directly from the numerical trajectory, through
+    
+    \begin{equation}
+        \label{eq:norton_fourier_estimator}
+        \frac{1}{vN N_{\mathrm{iter}}}\sum_{k=1}^{N_{\mathrm{iter}}}\sum_{i=1}^N\left(vG'\left(q_{i2}^k\right)p_{i2}^k+\nabla_{q_{i1}}V(q^k)+\gamma_1vG\left(q_{i2}^k\right)\right)\exp\left(\frac{2ik\pi q_{i2}^k}{L_y}\right),
+    \end{equation}
+    and relate them to the shear viscosity through
+    
+    \begin{equation}
+        \label{eq:norton_shear_viscosity_estimator}
+        \eta=\rho\left(\frac{\bar F_k}{G_k} -\gamma_1\right)\left(\frac{L_y}{2k\pi}\right)^2,
+    \end{equation}
+    where $G_k$ are the Fourier coefficients of the velocity profile,
+    \[G_k=\frac{1}{L_y}\int_0^{L_y} G(y)\exp\left(\frac{2ik\pi y}{L_y}\right)\dif y\]
+    which can be analytically or numerically computed to arbitrary precision at minimal cost.
+    
+    \subsection{Numerical integration}
+    We can view the marginal Norton dynamics in the unconstrained degrees of freedom as non-stationary Langevin dynamics where the potential varies with time through a dependence on the process of constrained variables.
+    This suggests using a standard splitting scheme for the unconstrained degrees of freedom and coordinates, and handling the constrained momenta differently. Since by definition we know for all $i$ and $t$ that $p_{i1,t}=mvG(q_{i2,t})$, a very simple solution consists in setting
+    $p^{n+\alpha}_{i1}=mv G(q^{n+\alpha}_{i2})$ after any intermediate coordinate update. We now give for reference the BABO-like scheme we used in our numerical results.
+    
+    \begin{algorithm}[BABO scheme for \eqref{eq:norton_sv_dynamics}]
+        For a fixed timestep $\Dt$ and for all $1\leq i\leq N$, iterate the following update rule.
+        \begin{equation}
+            \left\{
+                \begin{aligned}
+                    p_{ij}^{n+\frac13}&=p_{ij}^n-\frac{\Dt}2\nabla_{q_{ij}}V(q^n),&2\leq j\leq d \\
+                    q_{ij}^{n+1}&=q_{ij}^n+\Dt \frac{p_{ij}^{n+\frac13}}{m},&1\leq j\leq d \\
+                    p_{i1}^{n+1}&=mvG(q_{i2}^{n+1})\\
+                    p_{ij}^{n+\frac23}&=p_{ij}^{n+\frac13}-\frac{\Dt}2\nabla_{q_{ij}}V(q^{n+1}),&2\leq j\leq d \\
+                    p_{ij}^{n+1}&=\alpha_{\Dt}p_{ij}^{n+\frac23}+\sigma_{\Dt}G_{ij}^n,&2\leq j\leq d\\
+                \end{aligned}
+            \right.
+        \end{equation}
+        with $(G_{ij}^n)$ \iid standard Gaussian variables, and $\alpha_{\Dt}$, $\sigma_{\Dt}$ defined as usual.
+    \end{algorithm}
+    
+    \subsection{Numerical results}
+    
+    \section{Norton method- fixed}
+    \section{The dynamics}
+    We consider the following general form of the Norton dynamics, where we perturb the standard Langevin dynamics in the same direction as the Thevenin method, but with a variable amplitude chosen to induce a constant flux constraint.
+    It writes
+    \begin{equation}
+        \label{eq:norton_sv_dynamics_alt}
+        \left\{ 
+            \begin{aligned}
+                \dif q_t&=m^{-1}p_t\dif t,\\
+                \dif p_t&=-\nabla V(q_t)\dif t-\gamma m^{-1}p_t\dif t +\sqrt{\frac{2\gamma}\beta}\dif W_t +\dif \Lambda_t F(q_t),\\
+                U(q_t,p_t)&=U(q_0,p_0),
+            \end{aligned}
+        \right.
+    \end{equation}
+    where $\Lambda_t$ is the magnitude of the perturbation, which is a real-valued Itô process defined by the constraint $U(q_t,p_t)=U(q_0,p_0)$.
+    We may assume $\gamma$ is a positive semi-definite diagonal matrix, as in the Thevenin case. $U$ is the response flux observable, which we take of the form
+    \[U(q,p)=R(q)\cdot p,\]
+    with $R(q)\in \R^{dN}$ a smooth periodic mapping. Note in particular that $\nabla_p U(q,p)=R(q)$.
+    A SDE for $\Lambda_t$ can be obtained by a simple application of Itô's formula to the constraint.
+    \begin{align*}
+        0&=\dif U(q_t,p_t)\\
+        &=\nabla_q U(q_t,p_t)\cdot \dif q_t+\nabla_p U(q_t,p_t)\cdot \dif p_t\\
+        &=m^{-1}\nabla_q U(q_t,p_t) \cdot p_t \dif t + R(q_t)\cdot \left(-\nabla V(q_t)\dif t-\gamma m^{-1}p_t\dif t +\sqrt{\frac{2\gamma}\beta}\dif W_t +\dif \Lambda_t F(q_t)\right)\\
+    \end{align*}
+    Note since $q_t$ is a bounded-variation process and $\nabla^2_p U=0$, the quadratic covariation terms vanish in the second equality. Rearranging gives 
+    \begin{equation}
+        \label{eq:norton_sv_forcing_sde}
+        \dif\Lambda_t = \frac{-m^{-1}\nabla_q U(q_t,p_t)\cdot p_t \dif t+R(q_t)\cdot\left(\nabla V(q_t)\dif t+\gamma m^{-1}p_t\dif t-\sqrt{\frac{2\gamma}\beta}\dif W_t \right)}{R(q_t)\cdot F(q_t)}.
+    \end{equation}
+    This expression allows us to identify the bounded variation and martingale parts of the forcing, 
+    \begin{equation}
+        \dif \Lambda_t=\dif \overline{\Lambda}_t+\dif \widetilde{\Lambda}_t,
+    \end{equation}
+    with 
+    \begin{equation}
+        \label{eq:norton_sv_forcing_bv_part}
+        \dif \overline{\Lambda}_t\defeq \frac{-m^{-1}\nabla_q U(q_t,p_t)\cdot p_t \dif t+R(q_t)\cdot\left(\nabla V(q_t)\dif t+\gamma m^{-1}p_t\dif t\right)}{R(q_t)\cdot F(q_t)}
+    \end{equation}
+    being the bounded variation part, which will serve as the basis for statistical estimators of the average forcing, the quantity of main interest.
+    \todo{Well-posedness}
+    As before, we can insert this SDE into the definition of the Norton dynamics to obtain
+    an alternative expression decoupled from the process $\dif \Lambda_t$. We obtain
+    
+    \begin{equation}
+        \label{eq:norton_sv_dynamics_solved}
+        \left\{
+            \begin{aligned}
+                \dif q_t &= m^{-1}p_t\dif t,\\
+                \dif p_t &= -\nabla V(q_t)\dif t +\frac{R(q_t)\cdot \nabla V(q_t)}{R(q_t)\cdot F(q_t)}F(q_t)\dif t-m^{-1}\frac{\nabla_q U(q_t,p_t)\cdot p_t}{R(q_t)\cdot F(q_t)}F(q_t)\dif t\\
+                &-m^{-1}\gamma p_t\dif t+m^{-1}\frac{R(q_t)\cdot \gamma p_t}{R(q_t)\cdot F(q_t)}F(q_t)\dif t+\sqrt{\frac{2\gamma}{\beta}}\dif W_t-\frac{R(q_t)\cdot \sqrt{\frac{2\gamma}{\beta}}\dif W_t}{R(q_t)\cdot F(q_t)}F(q_t)\\
+                    \end{aligned}
+        \right.
+    \end{equation}
+    
+    This naturally suggests a splitting of the dynamics into two parts: a fluctuation-dissipation part,
+    \begin{equation}
+        \label{eq:norton_sv_fd_part}
+        \left\{\begin{aligned}
+            \dif q_t&=0\\
+            \dif p_t&=-m^{-1}\gamma p_t\dif t+m^{-1}\frac{R(q_t)\cdot \gamma p_t}{R(q_t)\cdot F(q_t)}F(q_t)\dif t+\sqrt{\frac{2\gamma}{\beta}}\dif W_t-\frac{R(q_t)\cdot \sqrt{\frac{2\gamma}{\beta}}\dif W_t}{R(q_t)\cdot F(q_t)}F(q_t),
+        \end{aligned}\right.
+    \end{equation}
+    
+    and a remaining deterministic evolution,
+    \begin{equation}
+        \label{eq:norton_sv_constrained_hamiltonian}
+        \left\{
+            \begin{aligned}
+                \dif q_t &= m^{-1}p_t\dif t,\\
+                \dif p_t &= -\nabla V(q_t)\dif t +\frac{R(q_t)\cdot \nabla V(q_t)}{R(q_t)\cdot F(q_t)}F(q_t)\dif t-m^{-1}\frac{\nabla_q U(q_t,p_t)\cdot p_t}{R(q_t)\cdot F(q_t)}F(q_t)\dif t.\\
+            \end{aligned}
+        \right.
+    \end{equation}
+    We will again be relying on this splitting, and the fact that the Ornstein-Uhlenbeck part can be analytically solved, to devise an integration strategy.
+    \subsection{Fluctuation-dissipation part}
+    We rewrite \eqref{eq:norton_sv_fd_part} in Ornstein-Uhlenbeck form,
+    \begin{equation}
+        \label{eq:norton_sv_fd_part_ito_form}
+        \dif p_t=-m^{-1}\gamma P(q_0)p_t\dif t+\sqrt{\frac{2\gamma}\beta}P(q_0)\dif W_t,
+    \end{equation}
+    where 
+    \begin{equation}
+        \label{eq:norton_sv_M_definition}
+        P(q)=\Id-\frac{R(q)\otimes F(q)}{R(q)\cdot F(q)}.
+    \end{equation}
+    Note as a sanity check that in the case $F$ is constant with respect to $q$, and $U(q,p)$ is the mobility flux, we recover equation \eqref{eq:norton_ou_part}.
+    By the standard strategy of applying Itô's formula to the rescaled process
+    \[\e^{m^{-1}\gamma P(q_0)t}p_t,\]
+    we obtain the analytic solution 
+    \begin{equation}
+        \label{eq:norton_sv_fd_part_solved}
+        \begin{aligned}
+            p_t&=\e^{-m^{-1}\gamma P(q_0)t}p_0+\int_0^t \e^{m^{-1}\gamma P(q_0)(s-t)}\sqrt{\frac{2\gamma}{\beta}}P(q_0)\dif W_s\\
+            &=\e^{-m^{-1}\gamma P(q_0)t}p_0+\left(\int_0^tP(q_0)^\intercal\sqrt{\frac{2\gamma}{\beta}}^\intercal\e^{-m^{-1}sP(q_0)^\intercal\gamma^\intercal}\e^{-m^{-1}s\gamma P(q_0)}\sqrt{\frac{2\gamma}{\beta}}P(q_0)\right)^{\frac12}G,
+        \end{aligned}
+    \end{equation}
+    where the equality holds in law for $G$ a $dN$-dimensional standard Gaussian. Of course the expression for the covariance may greatly simplify in particular cases, for instance if $\gamma$ is a constant and $P(q_0)$ is invertible.
+    We shall come back to this point when applying this method to shear viscosity estimation.
+    \subsection{Deterministic part}
+    A simple application of the chain rule to \eqref{eq:norton_sv_constrained_hamiltonian} shows that the dynamics preserves the constant flux manifold:
+    \[\frac{\dif U(q_t,p_t)}{\dif t}=m^{-1}\nabla_q U(q_t,p_t)\cdot p_t+R(q_t)\cdot\left(-\nabla V(q_t)+\frac{R(q_t)\cdot \nabla V(q_t)F(q_t)-m^{-1}(\nabla_q U(q_t,p_t)\cdot p_t)F(q_t)}{R(q_t)\cdot F(q_t)}\right)=0.\]
+    It is natural to wonder whether this dynamics corresponds to some physical trajectory. To try to answer this question, we introduce Gauss's principle of least constraint, which is an equivalent statement of the Lagrange-d'Alembert principle. Crucially, it also applies constraints which are \textit{non-holonomic}, which includes constraints on the momenta.
+    We give it in the case (of interest to us here) of a homogeneous system under a single constraint.
+    
+    \begin{definition}[Gauss's   principle of least constraint]
+        Consider a classical constrained homogeneous system defined by a potential $V$ and a non-holonomic constraint $U(q,p)=c$, where $U$ is a smooth function on phase space. The principle states that the equations are given by 
+        \begin{equation}
+            \left\{\begin{aligned}
+            \frac{\mathrm{d}}{\mathrm{d}t}q_t&=m^{-1}p_t,\\
+            \frac{\mathrm{d}}{\mathrm{d}t}p_t&=\argmin_{f\in\mathcal A(q_t,p_t)} \left|f+\nabla V(q_t)\right|^2,
+            \end{aligned}\right.
+        \end{equation}
+        where 
+        \[\mathcal A(q,p)=\left\{f\in \R^{dN} \middle | (m^{-1}p,f)\cdot\nabla U(q,p)=0\right\}\] 
+        is the set of admissible forces, obtained by differentiating the constraint in time, giving the so called hidden constraint on the acceleration. The principle says in short that the additional force applied to the constrained system relative to the unconstrained system in the same state is minimized in the Euclidean sense at each point along the trajectory.
+    \end{definition}
+    
+    \begin{example}
+        As a useful example, we can compute the evolution equation for the constrained Hamiltonian system with $U(q,p)=R(q)\cdot p$.
+        Assuming $R(q_t)\neq 0$, the minimization problem is obviously well-posed. Solving it amounts to finding the critical point of the Lagrangian
+        \[L(f,\lambda)=|f+\nabla V(q_t)|^2-\lambda (m^{-1}\nabla_q U(q_t,p_t)\cdot p_t +R(q_t)\cdot f).\]
+        this yields 
+        \begin{equation}
+            \left\{
+                \begin{aligned}
+                    \nabla_f L(f,\lambda)&=2f+2\nabla V(q_t)-\lambda R(q_t)&=0,\\
+                    -\frac{\partial}{\partial \lambda}L(f,\lambda)&=m^{-1}\nabla_q U(q_t,p_t)\cdot p_t +R(q_t)\cdot f&=0.
+                \end{aligned}
+            \right.
+        \end{equation}
+    Solving, we get 
+    
+    \begin{equation}
+        \left\{
+            \begin{aligned}
+                f&=-\nabla V(q_t)+\frac\lambda2 R(q_t),\\
+                \frac\lambda2&=\frac{\nabla V(q_t)\cdot R(q_t)-m^{-1}\nabla_q U(q_t,p_t)\cdot p_t}{|R(q_t)|^2},\\
+                f&  =-\nabla V(q_t)-\frac{m^{-1}\nabla_q U(q_t,p_t)\cdot p_t}{|R(q_t)|^2}R(q_t)+\frac{\nabla V(q_t)\cdot R(q_t)}{|R(q_t)|^2}R(q_t),
+            \end{aligned}
+        \right.
+    \end{equation}
+    
+    which gives the 
+    \end{example}
+    
+    \subsection{Application to shear viscosity}
+    We consider the case of a transverse sinusoidal forcing, which corresponds to the case, for $1\leq i\leq N$,
+    \[ \left(F(q)\right)_{i1}=\left(\sin\left(\frac{2\pi q_{i2}}{L_y}\right)\right)_{i1},\qquad \left(F(q)\right)_{i\alpha}=0\qquad\forall\,2\leq\alpha\leq d.\]
+    Since the solutions to equation \eqref{eq:shear_viscosity_relation_diffeq} are themselves sinusoids, we quantify the magnitude of the response in the velocity profile by the empirical Fourier coefficient, or rather its imaginary component
+    \begin{equation}
+        \label{eq:norton_sv_fourier_coeff}
+        U(q,p)=\frac{1}{Nm}\sum_{i=1}^Np_{i1}\sin\left(\frac{2\pi q_{i2}}{L_y}\right)=\frac1{Nm}p\cdot F(q).
+    \end{equation}
+    This particular case allows for nice simplifications. Indeed, we have $R(q)\cdot F(q)=\frac{1}{Nm}|F(q)|^2$, so it seems overwhelmingly likely that  \todo{make this precise} the positivity assumption will be satisfied almost everywhere.
+    Furthermore, \eqref{eq:norton_sv_M_definition} becomes
+    \[P(q)=\Id-\frac{F(q)\otimes F(q)}{|F(q)|^2},\]
+    which is the projector onto the orthogonal complement of the one-dimensional space spanned by $F(q)$, which is easily computed in practice. Furthermore, since $F$ only acts on longitudinal components, the restriction of $\gamma$ to either one of $P(q)$'s eigenspaces is proportional to an identity, hence $\gamma$ and $P(q)$ commute.
+    Thus the analytic solution to the fluctuation-dissipation part of the dynamics writes , as an equality in law,
+    \begin{equation}
+        \label{eq:norton_sv_fd_part_solved_ii}
+                p_t\overset{\mathrm{law}}{=}P(q_0)^\perp +P(q_0)\left(\e^{-m^{-1}\gamma t}p_0+\sqrt{\frac{1-\e^{-2m^{-1}\gamma t}}{\beta}}G\right)
+    \end{equation}
+    where we denote
+    \[P(q_0)^\perp=\Id-P(q_0)=\frac{F(q_0)\otimes F(q_0)}{|F(q_0)|^2}\]
+    the orthogonal projector onto the subspace spanned by $F(q_0)$. This follows verbatim from the same derivation as the one leading up to \eqref{eq:norton_ou_solved_no_mass}.
+    
+    Another point is that we can in this case, we can interpret the deterministic part of the evolution as a Hamiltonian evolution subject to a non-holonomic constraint.
+    To be more precise, we can show that a mechanical trajectory $(q_t,p_t)$ satisfies \eqref{eq:norton_sv_constrained_hamiltonian} if and only if it satisfies the Lagrange-d'Alembert principle, which we formulate in the following proposition.
+    
+    \begin{prop}
+        A trajectory $(q_t,p_t)$ in phase space satisfies \eqref{eq:norton_sv_constrained_hamiltonian} if and only if
+            \begin{enumerate}[i)]
+                \item It is mechanical: \[ \frac{\mathrm{d}}{\mathrm{d}t}q_t=m^{-1}p_t.\]
+                \item It satisfies, for all $t$ and all $\delta q \in T_{\mathcal M_{p_t}}(q_t)$, \[\left(\nabla V(q_t) - \frac{\mathrm{d}}{\mathrm{d}t}p_t\right)\cdot \delta q=0.\]
+            \end{enumerate}
+            Here, $$T_{\mathcal M_p}(q)=\left\{h\in \R^{dN}\, \middle|\,h\cdot \nabla_q U(q,p)=0 \right\}$$
+            denotes the tangent space in the $q$ variable to the constant-response manifold.
+    \end{prop}
+    \begin{proof}
+            
+    \end{proof}
+\end{document}
