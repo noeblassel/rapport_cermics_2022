@@ -115,7 +115,7 @@ where $\Phi$ is the flow associated with the Hamiltonian dynamics, that is the c
         \frac 1n\sum_{k=0}^n \varphi(q^n,p^n).
     \end{equation}
     In most common applications involving ODEs, the aim is to approximate the exact solution as precisely as possible over a given domain.
-    In the case of sampling trajectory averages in molecular dynamics, however, the time domain is usually very large, because simulating long trajectories is a requirement to ensure that a representative portion of phase space is explored. As a consequence, it is in practice impossible to obtain precise solutions over a long time, because of the evolution's sensitivity to the initial conditions will cause small errors to amplify uncontrollably. 
+    In the case of sampling trajectory averages in molecular dynamics, however, the time domain is usually very large, because simulating long trajectories is a requirement to ensure that a representative portion of phase space is explored. As a consequence, it is in practice impossible to obtain precise solutions over a long time, because the evolution's sensitivity to initial conditions will cause small initial errors to rapidly blow-up. 
     Furthermore, one does not really \textit{care} about the exact evolution, since the dynamics are merely used as a sampling device. Instead, one key requirement is that the dynamics stay on or close to the constant energy manifold associated with a given initial condition. It can be shown through eigenanalysis that for simple linear systems, this requirement is not satisfied by standard ODE numerical methods such as the explicit and implicit Euler schemes, or the RK4 method, for which the energy may explode or implode geometrically.
     This has the practical effect that for reasonably sized atomic systems, numerical instabilities render the simulations nonsensical after only a few time steps, a far cry from what is needed to obtain good estimates.
     One must then devise dedicated numerical methods, guided by the aim to preserve qualitative properties of the Hamiltonian evolution. It turns out that splitting schemes, based on operator splitting approximations of the Hamiltonian evolution operator over one timestep, preserve crucial qualitative properties of the Hamiltonian evolution.
@@ -273,7 +273,7 @@ where $\Phi$ is the flow associated with the Hamiltonian dynamics, that is the c
       \end{figure}
 
     From a practical point of view, we will always use the Verlet scheme, 
-    since it offers the better energy conservation property with barely any more computational overhead that the symplectic Euler schemes. 
+    since it offers the better energy conservation property without any computational overhead compared to the symplectic Euler schemes. 
     Indeed, the force calculation in the last step of \eqref{eq:verlet} can be repurposed for the first step of the next iteration, so that there is only one force calculation per iteration, as in the symplectic Euler method.
     Finally let us mention that the splitting based on the ordering $ABA$ of the elementary generators yields another symplectic method called the \textit{position} Verlet scheme, which enjoys the same conservation properties as standard (velocity) Verlet.
     It is, however, rarely used in practice.
@@ -312,6 +312,8 @@ However, the physical meaning can be forgotten thanks to the fact that, \textit{
         \end{aligned}\right.
     \end{equation}
     where $\gamma$ and $\sigma$ are $dN \times dN$ matrix-valued functions.
+    In fact one can also consider the case where $W_t$ is a $r$-dimensional Brownian motion and $\sigma$ is a $dN\times r$ matrix-valued function.
+    The Dissipative Particle Dynamics (DPD) is a generalized Langevin equation of this form, where $\gamma$ and $\sigma$ are position-dependent and the Brownian motion is $dN(N-1)/2$-dimensional, which corresponds to the number of pairs of non-orthogonal momentum degrees of freedom.
 \end{remark}
 
 The generator of the Langevin dynamics is the operator
@@ -454,18 +456,51 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
             Which formulation to choose is a matter of preference, since both yield a dynamics invariant under $\nu$, as seen from the identity (where we still write $\cL$ for the generator)
             \[\cL=-\frac1\beta\nabla^*\cdot\nabla.\]
         \end{remark}
+        We end this chapter by stating some key properties of the continuous dynamics, before moving to the description of splitting schemes. 
 
-        \subsection{Exponential convergence to equilibrium}
-        So far we have shown that the canonical measure is invariant under the Langevin dynamics, and likewise for its configurational marginal under the overdamped Langevin dynamics,
-        so that these are indeed reasonable candidates for sampling. 
-        The remaining issue is, loosely, that of ensuring that starting from an arbitrary initial distribution over $\mathcal E$, the distribution of the system at time $t$ approaches the canonical distribution as $t\to\infty$,
-         and does so quickly enough for the method to be of practical use.
+        \subsection{Convergence to equilibrium}
+        Once we have shown that the Langevin dynamics and its overdamped limit are reasonable candidates to sample from the canonical measure and its configurational marginal,
+        we should ensure that the target measure is reached, and not simply invariant for the dynamics, as the cautionary example of the Hamiltonian dynamics shows.
+        This is the question of ergodicity, and resuts of this nature chiefly come in two flavors.
+        \begin{enumerate}[(i)]
+            \item Probabilistic ergodic theorems that ask about the convergence of random variables like \eqref{eq:ergodic_averages}, that give analogs of the Law of Large Numbers for the correlated process $\varphi(q_t,p_t)$.
+            \item More analytic results which express the convergence of the law of the process at time $t$ towards a stationary solution to the Fokker-Planck equation. These can usually be expressed as decay estimates on the evolution semi-group \eqref{eq:langevin_evolution_operator}, in a judiciously chosen functional setting.
+        \end{enumerate}
+        We will not get into details as these questions can quickly get rather technical, but rather give vague ideas of the setting, and point the reader to more thorough sources.
+        Results such as (i) typically leverage the strong Law of Large Numbers by dissecting the trajectory into a discrete number of (loosely) \iid excursions through phase space, guaranteeing the almost sure convergence of trajectory averages.
+        As such, proving the positive recurrence of the dynamics is crucial to showing that these excursions are well-behaved, while also implying that the invariant measure is unique.
+        One idea, exploited by Klieman in \cite{K87}, is to recast the Langevin dynamics as a control equation (where $W_t$ acts as the control). 
+        He is thus able to leverage criteria on $\cL_\gamma$ from geometric control theory to ensure the almost sure convergence of trajectory averages.
+        Results such as (ii) depend on the functional setting. Let us simply state the following result, based on hypocoercive estimates. 
+        For an introduction to these ideas, and references, we point to Section 2.1.1 in \cite{LMS13}.
+        \begin{prop}[Exponential decay rate on the semi-group]
+            Let $H^1(\mu)$ be the weighted Sobolev space 
+            \begin{equation}
+                \label{eq:weighted_sobolev_space}
+                H^1(\mu)=\left\{f\in L^2(\mu) \middle| \nabla f \in L^2(\mu)^{2dN}\right\},
+            \end{equation}
+            with the norm 
+            \[\|f\|^2_{H^1(\mu)}=\|f\|^2_{L^2(\mu)}+\|\nabla_p f\|^2_{L^2(\mu)}+\|\nabla_q f\|^2_{L^2(\mu)}.\]
+            We define $\mathcal H^1(\mu)$ as the subspace
+            \[\mathcal H^1(\mu)=\left\{f\in H^1(\mu) \middle| \int_{\mathcal E}f\,\dif \mu=0\right\}\]
+            of centered observables, endowed with the same norm. Then there exist constants $C_\gamma,\lambda_\gamma >0$ such that 
+            \begin{equation}
+                \label{eq:semigroup_exp_decay}
+                \|\e^{t\cL_\gamma}\|_{\mathcal{B}(\mathcal{H}(\mu))}\leq C_\gamma \e^{-t\lambda_\gamma}.
+            \end{equation}
+        \end{prop}
+        For the overdamped case, exponential decay rates can be obtained more directly. 
+        In both cases, conditions have to be met by $V$, such as a Poincaré inequality for $\nu$, which are however trivially verified in the case where $\mathcal D$ is compact.
         
         \subsection{Asymptotic variance for ergodic averages}
         Since ergodic averages are computed over a finite time-interval, the corresponding random variable will have some variance. 
         Let us show how to relate this variance to the dynamics, provided a Central Limit Theorem holds.
         For simplicity, we assume that $(q_0,p_0)\sim \mu$, and let $\varphi \in H^1(\mu)$ be an observable of interest. We also denote by
-        \[\Pi \varphi = \varphi -\int_\mathcal{E}\varphi\,\dif \mu\]
+        \begin{equation}
+            \label{eq:equilibrium_projector}
+            \Pi \varphi = \varphi -\int_\mathcal{E}\varphi\,\dif \mu
+        \end{equation}
+        
         the centering projector associated with $\mu$. The Central Limit Theorem asserts that the following convergence in law holds,
         \begin{equation}
             \label{eq:clt_diffusion}
@@ -479,15 +514,16 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
              &=2\int_0^T\E\left[\Pi\varphi(q_{s},p_{s})\Pi\varphi(q_0,p_0)\right]\left(1-\frac{s}{T}\right)\,\dif s\\
              &=2\int_0^T\E_\mu\left[\left(e^{s\cL_\gamma}\Pi\varphi\right)\left(\Pi\varphi\right)\right]\left(1-\frac{s}{T}\right)\,\dif s
         \end{align*}
-        Using Cauchy-Schwartz in $L^2(\mu)$ and an exponential decay estimate on the evolution semigroup, we obtain a bound of the form
-        \[\int_0^T\left|\E_\mu\left[\left(e^{s\cL_\gamma}\Pi\varphi\right)\left(\Pi\varphi\right)\right]\frac{s}{T}\right|\,\dif s\leq \int_0^\infty C\e^{-\alpha s}\left\|\Pi\varphi\right\|^2_{L^2(\mu)}\frac{s}{T}\,\dif s\]
+        Using Cauchy-Schwartz in $L^2(\mu)$ and an exponential decay estimate on the evolution semigroup like \eqref{eq:semigroup_exp_decay}, we obtain a bound of the form
+        \[\int_0^T\left|\E_\mu\left[\left(e^{s\cL_\gamma}\Pi\varphi\right)\left(\Pi\varphi\right)\right]\frac{s}{T}\right|\,\dif s\leq \int_0^\infty C_\gamma\e^{-\lambda_\gamma s}\left\|\Pi\varphi\right\|^2_{L^2(\mu)}\frac{s}{T}\,\dif s\]
         for some positive constants $C$ and $\alpha$, which converges uniformly to $0$ as $T\to \infty$. It follows that 
         \begin{equation}
-            \label{eq:asymptotic_variance_with_semigroup}<n
+            \label{eq:asymptotic_variance_with_semigroup}
             \sigma_{\varphi}^2=\int_0^\infty \E_\mu\left[\left(e^{s\cL_\gamma}\Pi\varphi\right)\left(\Pi\varphi\right)\right]\,\dif s.
         \end{equation}
-        We use the following equality of bounded operators on $H^1(\mu)\cap L^2_0(\mu)$, which is the continuous analog of a Neumann series:
+        We use the following equality of bounded operators on $\mathcal{H}^1(\mu)$, which is the continuous analog of a Neumann series:
         \begin{equation}
+            \label{eq:resolvent_langevin}
             (-\cL_\gamma)^{-1}=\int_0^\infty \e^{s\cL_\gamma}\,\dif s,
         \end{equation}
         which again is justified by the exponential decay rate of evolution semigroup, and where the integral on the right is in the Bochner sense.
@@ -496,8 +532,8 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
             \label{eq:asymptotic_variance_with_Lm1}
             \sigma_{\varphi}^2=\E_{\mu}\left[(\Pi\varphi) (-\cL_\gamma)^{-1}(\Pi \varphi)\right].
         \end{equation}
-        Note that the exact same computations can be performed for the overdamped Langevin dynamics. It is shown in \cite{B82}, 
-
+        Note that the exact same computations can be performed for the overdamped Langevin dynamics. 
+        It follows from \cite{B82}, (Theorem 2.1) that a sufficient condition for a CLT to hold is that $\Pi \varphi\in \operatorname{Ran}\mathcal L_\gamma$, which is the case provided we can express the inverse of $\cL_\gamma$ using \eqref{eq:resolvent_langevin}.
 \subsection{Splitting schemes for the Langevin dynamics}\label{section:splitting_schemes_langevin}
 
 Similar to the Hamiltonian case, the generator \eqref{eq:langevin_generator} splits into three elementary generators, namely 
@@ -534,16 +570,27 @@ We refer to such a splitting approximation by the sequence in which the individu
 where $\xi\in \R^{dN}$, the point being $\E[\varphi\left(\Phi_t^C(q,p,G)\right)]=\mathrm{e}^{t\gamma C}\varphi(q,p)$ when $G$ is standard Gaussian.
 Given an ordering of operators, 
 \begin{equation}\label{eq:splitting_ordering}(R_1,\dots,R_k)\in \{A,B,\gamma C\}^k,\end{equation}
-we can consider the mapping, which we note, by a slight abuse, as
+we can consider the mapping obtained by composing the elementary flows, noted as
 \begin{equation}\label{eq:markov_mapping}\Phi^{R_1,\dots R_k}\defeq\Phi_{\Delta t/n_{R_k}}^{R_k}\circ\dots\circ\Phi_{\Delta t/n_{R_1}}^{R_1},
 \end{equation}
 where
 $$n_R\defeq \#\left\{1\leq j\leq n \middle| R_j=R\right\}$$
-for $R\in\{A,B,\gamma C\}$, and which we define to be the mapping which takes a point in phase space and $n_{\gamma C}$ vectors in $\R^{dN}$ $(\xi_1,\dots,\xi_{n_{\gamma C}})$, yielding a point in phase space by successively applying the flow, and, if need be, stochastic flow, mappings corresponding to the reverse ordering of \eqref{eq:splitting_ordering}.
+for $R\in\{A,B,\gamma C\}$, and which we may consider by a slight abuse to be the mapping which takes a point in phase space and $n_{\gamma C}$ vectors in $\R^{dN}$ $(\xi_1,\dots,\xi_{n_{\gamma C}})$, yielding a point in phase space by successively applying the flow, and, if need be, stochastic flow, mappings corresponding to the reverse ordering of \eqref{eq:splitting_ordering}.
 Applying this mapping with a vector of independent standard Gaussians yields a stochastic mapping, which defines the update rule for the splitting scheme associated with the ordering \eqref{eq:splitting_ordering}.
 An important property which follows from writing the update rule using the mapping \eqref{eq:markov_mapping} is that numerical trajectories formed by iterating this update rule with independent vectors of standard Gaussians form a Markov chain.
 The hope is that the invariant measure corresponding to this Markov chain (provided it is unique) is a close approximation to the canonical measure, as well as being ergodic.
+It is less cumbersome to write such schemes at the level of the evolution operator associated with the Markov chain,
 
+\begin{equation}
+    \label{eq:markov_evolution_operator}
+    P_\Dt\varphi (q,p) = \E\left[\varphi(q^1,p^1)\middle|q^0=q,\,p^0=p\right].
+\end{equation}
+The evolution operator associated with the splitting \eqref{eq:splitting_ordering} is
+\begin{equation}
+    \label{eq:splitting_semigroup_expr}
+    P_\Dt=\e^{\frac{\Dt}{n_{R^1}}R_1}\dotsm\e^{\frac{\Dt}{n_{R^k}}R_k}.
+\end{equation}
+Note that the order is reversed compared to the stochastic flow formulation.
 We will refer to such schemes by the name obtained by concatenating the names of each operator appearing in the ordering, using $O$ instead of $\gamma C$.
 For instance, the BAO scheme is given by the following update rule, which corresponds to applying the symplectic Euler scheme over one timestep, followed by one timestep of the Ornstein-Uhlenbeck stochastic flow \eqref{eq:stochastic_flow_c}.
 
@@ -584,12 +631,11 @@ For instance, the BAO scheme is given by the following update rule, which corres
          \item Our aim is to compute long trajectories, which are needed to ensure that phase space is properly explored, as well as to obtain better statistical properties for averages \eqref{eq:discrete_ergodic_averages}. Thus, for a fixed computational budget, we desire a scheme which allows us to take as large a timestep $\Delta t$ as possible. This is the issue of numerical stability.
          \item The use of a positive timestep $\Delta t$ implies in general that the invariant measure for the Markov chain corresponding to a given scheme is not the canonical measure. This issue is called systematic error, or bias, and one would desire a scheme which minimizes this bias.
          \item The main computational cost in computing iterates of these numerical schemes is the evaluation of the gradient of the potential used for the $B$ steps. As such, it is desirable to have a scheme which requires as few evaluations of this gradient per iteration. Some care must be taken when implementing these, to ensure that already computed gradients are not re-computed: for instance, the gradient in the last step of the BOAB scheme, is equal to the one in the first step of the next iteration.
-         \item Notice that the parameter $\gamma$ is free for the practitioner to choose. A natural question is to determine the properties of the marginal dynamics in $q$ in the limit $\gamma \to +\infty$, and in particular if we obtain a consistent discretization of the overdamped Langevin dynamics.
-         \item Conversely, one could ask about properties of the dynamics as we take the Hamiltonian limit $\gamma\to 0$.
+         \item Notice that the parameter $\gamma$ is free for the practitioner to choose. A natural question is to determine the properties of the marginal dynamics in $q$ in the limit $\gamma \to +\infty$, and in particular if we obtain a consistent discretization of the overdamped Langevin dynamics. Conversely, one could ask about properties of the dynamics as we take the Hamiltonian limit $\gamma\to 0$.
      \end{enumerate}
 
      \begin{remark}[Overdamped and Hamiltonian limits in splitting schemes]
-        Concerns (iv) and (v) are easy to address. Since
+        Concern (iv) is simple to address. Since
         \[\underset{\gamma \to 0}{\lim}\alpha_\Dt=1\,\qquad \underset{\gamma \to +\infty}{\lim}\alpha_\Dt=0,\]
         every $O$-step can simply be dropped as $\gamma\to 0$ from the sequence of operators defining the splitting. 
         This yields a symplectic scheme for the Hamiltonian parts of the dynamics, whose properties can be analyzed as before.
@@ -597,10 +643,10 @@ For instance, the BAO scheme is given by the following update rule, which corres
          As $\gamma \to \infty$, 
         every $O$-step reduces to resampling the momentum according to the Maxwell-Boltzmann distribution. 
         The properties of the resulting scheme depend on the particular ordering of the splitting at hand. 
-        For instance, if every $A$ step is preceded by an $O$ step, then the potential is entirely ignored by the evolution, and the system undergoes a Brownian diffusion. This is for instance the case of the BOA scheme.
+        For instance, if every $A$ step is preceded by an $O$ step, then the potential is entirely ignored by the evolution, and the trajectories form an isotropic random walk. This is for instance the case of the BOA scheme.
         On the other hand, it may happen that one obtains a discretization of the overdamped Langevin dynamics. For example, the update equation for the overdamped limit of the BAOA scheme in the case $M=\Id$ rewrites
         \[q^{n+1}=q^n -\frac{\Dt^2}2\nabla V(q^n)+\frac12\sqrt{\frac{\Dt^2}\beta}\left(G^n+G^{n+1}\right),\]
-        with $(G^n)$ an \iid standard Gaussian sequence. Because of the two-step correlations in the Gaussian increments, the numerical trajectories are not Markovian, although adjacent trajectory points $(q^n,q^{n+1})$ are. 
+        with $(G^n)$ an \iid standard Gaussian sequence. Because of the two-step correlations in the Gaussian increments, the numerical trajectories are not Markovian,.
         Nevertheless the scheme is reminiscent of a discretization of the overdamped equation \eqref{eq:overdamped_langevin_alt}, but with an effective timestep $\frac{\Dt^2}2$. 
         This quadratic rescaling of the timestep is common, and has to be related to the fact that the overdamped equation is defined through a diffusive rescaling.
         This discretization also corresponds to the overdamped limit of the BAOAB scheme, which is unsurprising in view of the results of the next chapter.
@@ -641,17 +687,25 @@ For instance, the BAO scheme is given by the following update rule, which corres
         \[\frac{\Id-P_\Dt}{\Dt}=-\cL_\gamma+\mathrm{O}(\Dt),\]
         which suggests that at dominant order in $\Dt$ approaching $0$, $\Dt\sigma_{\varphi,\Dt}^2$ behaves like
         \[2\int_{\mathcal E}(\Pi\varphi)\left(-\cL_\gamma\right)^{-1}(\Pi\varphi)\,\dif\mu = \sigma^2_\varphi,\]
-        where we recall the asymptotic variance for the continuous dynamics [compléter section sur la variance asymptotique].
+        where we recall the asymptotic variance for the continuous dynamics \eqref{eq:asymptotic_variance_with_Lm1}
         Hence the statistical error can be estimated, for $\Dt$ small enough, by 
         \[\frac{\sigma_{\varphi,\Dt}}{\sqrt{N_{\mathrm{iter}}}}=\frac{\sigma_{\varphi,\Dt}\sqrt{\Dt}}{\sqrt{T_{\mathrm{sim}}}}\approx \frac{\sigma_\varphi}{\sqrt{T_{\mathrm{sim}}}}.\]
-        Loosely, the statistical error for the discrete ergodic estimator is governed by the corresponding asymptotic variance for the underlying continous dynamics, as well as the \textit{physical} time of the simulation.
-        This confirms that to minimize statistical error, given a fixed budget of simulation steps, one should maximize $T_{\mathrm{sim}}$ and thus $\Dt$, as discussed in consideration (i).
+        Loosely speaking, the statistical error for the discrete ergodic estimator is governed at dominant order by the corresponding asymptotic variance for the underlying continous dynamics, as well as the \textit{physical} time of the simulation.
+        This confirms that to minimize statistical error, and given a fixed budget of simulation steps, one should maximize $T_{\mathrm{sim}}$ and thus $\Dt$, as discussed in consideration (i).
+        However, increasing the timestep comes at the following cost.
 
         \subsubsection{Systematic Error}
         The second term,
         \[\int_\mathcal{E}\varphi\,\dif \pi_{\Dt}-\int_{\mathcal E}\varphi \,\dif \mu,\]
         is independent of the simulation time, and expresses the fact, highlighted in consideration (ii), 
-        that the invariant measure $\pi_\Dt$ for the discrete evolution will in general be distinct from $\mu$.
+        that the invariant measure $\pi_\Dt$ for the discrete evolution will in general be offset from $\mu$, in the sense that the average of an observable $\varphi$ under $\pi_\Dt$ can be expressed by an expansion of the form
+        \begin{equation}
+            \label{eq:expansion_of_avg_in_dt}
+            \int_{\mathcal E}\varphi(q,p)\,\pi_\Dt(\dif q,\dif p)=\int_{\mathcal E}\varphi(q,p)\,\mu(\dif q,\dif p)+\Dt^{\alpha}\int_{\mathcal E}\varphi(q,p)f_{\alpha}(q,p)\,\mu(\dif q,\dif p)+\mathrm{O}(\Dt^{\alpha+1}),
+        \end{equation}
+        where $\alpha>0$ and $f_{\alpha}$ is the dominant correction term, which can be explicitly computed for splitting schemes. 
+        We postpone further discussion of these types of weak error estimates to the next chapter, in which we analyze the systematic error in the BAOA scheme.
+
     \subsection{Unbiased sampling}
      It turns out that one can devise schemes which have no systematic error: the Markov chain generating the trajectories has invariant measure exactly $\mu$.
      These methods are based on the Metropolis-Hastings algorithm, which gives a general method to sample a given target distribution.
@@ -700,22 +754,44 @@ For instance, the BAO scheme is given by the following update rule, which corres
         \end{enumerate}
     \end{remark}
 
-    \begin{remark}[Disadvantages of Metropolized-schemes]
-    The Metropolis-Hastings algorithm provides a general recipe to define an unbiased Markov chain for the Langevin dynamics: one only needs to specify a proposition kernel, an acceptance rule, and a way to compute the ratio of the corresponding transition probabilities.
+    \begin{remark}[Issues with Metropolized-schemes]
+    The Metropolis-Hastings algorithm provides a general recipe to define an unbiased Markov chain for the overdamped Langevin dynamics: one only needs to specify a proposition kernel, an acceptance rule, and a way to compute the ratio of the corresponding transition probabilities.
     For example, the so-called MALA scheme is very common, which combines a proposal function based on the Euler-Maruyama discretization of the dynamics \eqref{eq:overdamped_langevin}, and a Metropolis acceptance rule.
     The use of the Metropolis-Hastings algorithm is not free. Because of the rejection rate, the correlations between samples decays at a slower rate, resulting in a higher asymptotic variance for estimators based on ergodic averages.
+    This implies that the use of a Metropolized scheme is only beneficial if the simulation time regime in which the systematic error overcomes the statistical error is computationally attainable. 
+    For most systems of interest, this is not the case.
     Furthermore, the possibility of rejection effectively slows down the dynamics, which may degrade the quality of estimates for dynamical quantities.
-    The effect of the Metropolization procedure with the MALA scheme on the estimation of self-diffusion properties has been analyzed in \cite{FHG15}, and improved rules and proposals are discussed in detail in \cite{FG16}. 
+    The effect of the Metropolization procedure with the MALA scheme on the estimation of self-diffusion properties has been analyzed in \cite{FHG15}, and improved rules and proposals for the computation of transport properties are discussed in detail in \cite{FG16}. 
     \end{remark}
 
-
     \subsection{Numerical illustrations}
+    We now turn to a few numerical illustrations of the discussions above.
+    In Figure \ref{fig:eos_argon}, we compute numerically compute the pressure as a function of the density for the Lennard-Jones fluid, using the parameters for Argon, at two different temperatures. 
+    The resulting profile gives a numerical estimation of the equation of state of Argon, and comparison with experimental data shows that the agreement is very good at low densities and room temperature.
+    The size of the systems was $N=2744$ atoms, using a sharp cutoff at $r_c=1.364\,\mathrm{nm}$, and a BOAB splitting scheme with $\Dt=0.01\,\mathrm{ps}$. A reduced value of $\gamma=1.0$ was used for the friction parameter.
+    We verified by using a block averaging procedure for the trajectories at both ends of the density range that the standard error bars are negligible.
+
+    \begin{figure}[htbp]
+        \begin{center}
+          \includegraphics[width=0.7\linewidth]{figures/chapter1/argon_nvt_150K.pdf}
+          \includegraphics[width=0.7\linewidth]{figures/chapter1/argon_nvt_300K.pdf}
+          \caption{ \label{fig:eos_argon}
+            Simulated equations of state of Argon at 150 K (liquid phase, left) and 300 K (supercritical phase, right). Experimental reference curves are plotted in red, simulated data points are scattered in blue.
+          }
+        \end{center}
+      \end{figure}
+
+    In Figures \ref{fig:configurational_bias} and \ref{fig:kinetic_energy_bias}, we highlight the systematic error in several observables. Simulations were run for systems of $N=27$ Lennard-Jones particles, at a temperature $T=1.25$ and at a reduced density $\rho=0.25$. 
+    A cutoff of the potential at a distance $r_c=2.0$ was imposed, with a linear correction term ensuring that $V$ be $C^1$. 
+    Additionally, regression lines were added by extrapolating the behavior at small $\Dt$ based on the theoretical expansions \eqref{eq:expansion_of_avg_in_dt}, and constraining the regression lines to converge in the limit $\Dt\to 0$.
+    This was achieved by a linear least squares regression procedure.
+    The result also illustrate that a possibility to reduce the systematic error is to compute a desired average for several timesteps, and computing an extrapolated value at $\Dt=0$ based on the theoretical knowledge of the behavior of the systematic error as $\Dt\to 0$. This is known as Romberg extrapolation (ref?).
 \begin{figure}[htbp]
     \begin{center}
-      \includegraphics[width=0.49\linewidth]{figures/chapter1/potential_energy_bias.pdf}
-      \includegraphics[width=0.49\linewidth]{figures/chapter1/virial_bias.pdf}
+      \includegraphics[width=0.7\linewidth]{figures/chapter1/potential_energy_bias.pdf}
+      \includegraphics[width=0.7\linewidth]{figures/chapter1/virial_bias.pdf}
       \caption{ \label{fig:configurational_bias}
-        Effect of the time step on average potential energy and virial for a Lennard-Jones system of 27 particles.
+        Systematic error in configurational quantities for a Lennard-Jones fluid.
       }
     \end{center}
   \end{figure}
@@ -724,74 +800,11 @@ For instance, the BAO scheme is given by the following update rule, which corres
     \begin{center}
       \includegraphics[width=0.7\linewidth]{figures/chapter1/kinetic_energy_bias.pdf}
       \caption{ \label{fig:kinetic_energy_bias}
-        Effect of the time step on average kinetic energy for a Lennard-Jones system of 27 particles.
+        Systematic error in kinetic energy for a Lennard-Jones fluid.
       }
     \end{center}
   \end{figure}
-
-To explain the overlap of bias between the BAOAB and the BAOA schemes observed for the potential energy and virial on Figure \ref{fig:configurational bias}, we use the following result, which is a variation on the TU lemma.
-\begin{lemma}\label{TU_like_lemma}
-    Let $P_{\Delta t}, Q_{\Delta t}$ be bounded operators on $B^\infty(\mathcal E)$.
-    Assume that, for any $n\geq 1$,
-    $$ R P_{\Delta t}^n = Q_{\Delta t}^n S,$$
-    where $R$ and $S$ are bounded operators on $B^\infty (\mathcal E)$, such that $R\1=\1$, and that the following ergodic condition holds: for any $\varphi \in B^\infty(\mathcal E)$, and almost all $(q,p) \in \mathcal E$,
-
-    $$ \underset{n\to\infty}\lim P_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p) $$
-    $$ \underset{n\to\infty}\lim Q_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p).$$
-
-    Then  we can relate $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ via the following relation:
-
-    \begin{equation}
-        \label{TU_like_lemma_ccl}
-    \int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\text d q,\text d p)=\int_{\mathcal E} S\varphi(q,p) \mu_{\Delta t,Q}(\text d q,\text d p)
-    \end{equation}
-    \begin{proof}
-        Fix an initial probability measure $\rho$ on $\mathcal E$, absolutely continuous with respect to the Lebesgue measure. Then we may write, using dominated convergence to pass to the limit:
-
-        \begin{align*}
-            &\int_{\mathcal E}RP_{\Delta t}^n \varphi(q,p)\rho(\text d q,\text d p)\\
-            &=\int_{\mathcal E}P_{\Delta t}^n \varphi(q,p)R^{\dagger}\rho(\text d q,\text d p)\\
-            &\underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left(\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\right) R^\dagger \rho(\text d \tilde q,\text d \tilde p)\\
-            &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\int_{\mathcal E}R\1 \text d \rho\\
-            &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)
-        \end{align*}
-        Furthermore, applying the ergodic condition to the bounded function $S\varphi$ gives
-
-        $$ \int_{\mathcal E} Q_{\Delta t}^n (S\varphi)(q,p) \rho(\text d q,\text d p) \text d q \text d p \underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left (\int_{\mathcal E}S\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p)\right)\rho(\text d \tilde q,\text d \tilde p)=\int_{\mathcal E}S\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p).$$
-
-        Since $RP_{\Delta t}^n=Q_{\Delta t}^n S$, identifying the two limits yields \eqref{TU_like_lemma_ccl}
-    \end{proof}
-\end{lemma}
-
-\begin{corollary}
-Let $ \pi^{\mathrm{BAOA}}_{\Delta t}$ and $\pi^{\mathrm{BAOAB}}_{\Delta t}$ be the invariant measures for the Markov transition operators defined respectively by the BAOA and BAOAB schemes for a fixed timestep $\Delta t$. If the ergodic condition holds, then the corresponding marginal distributions on $\mathcal D$ are equal.
-
-\begin{proof}
-    We denote by $P_{\Delta t}$ the transition operator for the BAOA scheme, and similarly $Q_{\Delta t}$ for the BAOAB scheme. It is straightforward to check that 
-    $$ \rme^{\frac{\Delta t}2 B}P_{\Delta t}^n=Q_{\Delta t}^n \rme^{\frac{\Delta t}2 B}.$$
-
-    Assuming the ergodic condition of Lemma \ref{TU_like_lemma} (TODO reference article for sufficient conditions), we can apply the result to get, for any bounded measurable observable $\varphi$,
-
-    $$ \int_{\mathcal E} \varphi(q,p)\pi^{\mathrm{BAOA}}_{\Delta t}(\text d q,\text d p)=\int_{\mathcal E} \rme^{\frac{\Delta t}2 B}\varphi(q,p)\pi^{\mathrm{BAOAB}}_{\Delta t}(\text d q,\text d p).$$
-
-    Now if $\varphi (q,p)= \varphi (q,0) \defeq \varphi(q)$ for all $p$, then $\rme^{\frac{\Delta t}2 B}\varphi=\varphi$, which yields the desired conclusion:
-
-    $$\forall \varphi \in B^\infty(\mathcal D),\ \int_{\mathcal E} \varphi(q)\pi^{\mathrm{BAOA}}_{\Delta t}(\text d q,\text d p)=\int_{\mathcal E}\varphi(q)\pi^{\mathrm{BAOAB}}_{\Delta t}(\text d q,\text d p).$$
-\end{proof}
-
-\end{corollary}
-
-The corollary also gives a non-trivial relation between the marginal distributions in momentum space, which explains the difference displayed on (Figure \ref{fig:kinetic_energy_bias}) between those two schemes.
-
-
-
-\subsection{Illustration: the equation of state of Argon}
-\begin{figure}[htbp]
-    \begin{center}
-      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_nvt_150K.pdf}
-      \includegraphics[width=0.49\linewidth]{figures/chapter1/argon_nvt_300K.pdf}
-      \caption{ \label{fig:eos_argon}
-        Simulated equations of state of Argon at 150 K (liquid phase, left) and 300 K (supercritical phase, right). Experimental reference curves are plotted in red, simulated data points are scattered in blue.
-      }
-    \end{center}
-  \end{figure}
+For the two configurational quantities we investigated, the virial and potential energy, we observe an overlap in the bias between the BAOAB and BAOA schemes.
+It so happens that this overlap can be simply explained by a result relating the invariant measures of certain pairs of numerical schemes (Lemma \ref{TU_like_lemma}).
+In fact, a preprint \cite{KK22} was recently posted, showing that a certain widely used scheme in the molecular dynamics community was equivalent to the BAOA scheme, and that the latter sampled the same configurational marginal as the BAOAB scheme.
+This prompted the need for a more thorough investigation of the properties of the BAOA scheme, which we discuss in the next chapter.

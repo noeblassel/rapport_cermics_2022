@@ -11,56 +11,7 @@ It has been observed numerically in \cite{KK22} (Section III.B) that the bias on
 \end{enumerate}
 
 \subsection{Definitions and notations}\label{defs}
-The underdamped Langevin dynamics is defined by the following stochastic differential equation:
-
-\begin{equation}\label{Langevin}
-  \left\{\begin{aligned}
-      \mathrm{d}q_t&=M^{-1}p_t\dt,\\
-      \mathrm{d}p_t&= -\nabla V(q_t)\dt -\gamma M^{-1}p_t\dt+\sqrt{\frac{2\gamma}\beta}\mathrm{d}W_t,
-  \end{aligned}\right.
-\end{equation}
-where $M\in \R^{dN\times dN}$ is a symmetric mass matrix, $(q_t,p_t)\in \mathcal D\times \R^{dN}\defeq \mathcal E$, $(W_t)_{t\geq 0}$ is a standard $dN$-dimensional Brownian motion, 
-and $\gamma, \beta$ are positive real parameters, respectively the friction coefficient and the inverse temperature. $\mathcal D$ is the configuration space, which is either the torus $(L(\R / \mathbb Z))^{dN}$ or the full space $\R^{dN}$.
-
-The canonical measure, which we denote with the same symbol as its density, 
-
-\begin{equation}
-\label{canonical measure}
-\int_{\mathcal E} \varphi\,\mathrm{d}\mu=\int _{\mathcal E}\varphi(q,p)\mu(q,p)\,\mathrm{d}q\,\mathrm{d}p =\frac 1 Z\int_{\mathcal E} \varphi(q,p) \mathrm{e}^{-\beta\left(\frac 12 p\cdot M^{-1}p + V(q)\right)}\,\mathrm{d}q\,\mathrm{d}p
-\end{equation}
-is invariant for this dynamics.
-
-We can write $\mu$ as a product measure on $\R^{dN}\times \mathcal D$
-
-\begin{equation}
-\label{tensor form}
-\mu(q,p)=\kappa(p)\nu(q), \qquad \nu(q)=Z_{\nu}^{-1}\mathrm{e}^{-\beta V(q)},\qquad \kappa(p)=\det\left(2\pi\beta M^{-1}\right)^{-\frac 12}\mathrm{e}^{-\frac\beta 2\langle M^{-1}p,p\rangle}.
-\end{equation}
-
-Notice $\kappa$ corresponds to a centered Gaussian law, the Maxwell-Boltzmann distribution.
-The generator of the Langevin dynamics is the operator
-\begin{equation}
-  \label{Langevin generator}
-\mathcal L_\gamma=M^{-1}p\cdot \nabla_q-\nabla V(q) \cdot \nabla_p- \gamma M^{-1} p \cdot \nabla_p+\frac\gamma\beta \Delta_p,
-\end{equation}
-which splits into three elementary generators, namely 
-$$\mathcal L_\gamma= A+B+\gamma C,$$
-with
-\begin{equation}
-  \label{Langevin generator splitting}
-\qquad A=M^{-1}p\cdot \nabla_q,\qquad B=-\nabla V(q) \cdot \nabla_p,\qquad C=-M^{-1}p\cdot \nabla_p +\frac1\beta \Delta_p.
-\end{equation}
-These generators give rise to dynamics which we can express explicitly, defined by the following evolution operators:
-
-\begin{equation}
-  \label{propagators}
-  \left\{\begin{aligned}
-    &\mathrm{e}^{tA}\varphi(q,p)=\varphi(q+tM^{-1}p,p),\\
-    &\mathrm{e}^{tB}\varphi(q,p)=\varphi(q,p-t\nabla V(q)),\\
-   &\mathrm{e}^{t\gamma C}\varphi(q,p)=\mathbbm E \left[\varphi \left(q, \mathrm e^{-\gamma M^{-1}t}p + \sqrt{\frac{\gamma M^{-1}}{\beta}(1-\mathrm{e}^{-2M^{-1}t})}G\right)\right],
-\end{aligned}\right.
-\end{equation}
-where $G$ is a standard $dN$-dimensional Gaussian. The dynamics associated with the A and B part are deterministic Hamiltonian dynamics, and the C part gives rise to an Ornstein-Uhlenbeck process on momentum coordinates. We consider two splitting schemes for \eqref{Langevin}, as defined by the following evolution operators:
+ We consider two splitting schemes for \eqref{eq:langevin}, as defined by the following evolution operators:
 
 \begin{equation}
   \label{schemes}
@@ -70,8 +21,8 @@ where $G$ is a standard $dN$-dimensional Gaussian. The dynamics associated with 
 \end{aligned}\right.
 \end{equation}
 These correspond respectively to the BAOA and the BAOAB scheme.
-We also denote $\mu_{\Delta t,P}, \mu_{\Delta t, Q}$ the invariant measures for the Markov chains associated with \eqref{schemes}. We assume these have smooth densities which we also denote $\mu_{\Delta t,P}, \mu_{\Delta t,Q}$, and that a certain ergodicity condition holds (see Lemma 1).
-Additionally we denote by $\nu_{\Delta t,P},\nu_{\Delta t,Q},\kappa_{\Delta t,P},\kappa_{\Delta t,Q}$ the associated marginals and densities with obvious notation inspired by \eqref{tensor form}.
+We also denote $\mu_{\Delta t,P}, \mu_{\Delta t, Q}$ the invariant measures for the Markov chains associated with \eqref{schemes}. We assume these have smooth densities which we also denote $\mu_{\Delta t,P}, \mu_{\Delta t,Q}$, and that a certain ergodicity condition holds (see Lemma \ref{TU_like_lemma}).
+Additionally we denote by $\nu_{\Delta t,P},\nu_{\Delta t,Q},\kappa_{\Delta t,P},\kappa_{\Delta t,Q}$ the associated marginals and densities with obvious notation inspired by \eqref{eq:tensor_form}.
 
 
 \subsection{Relating invariant measures of discretization schemes}\label{relating invariant measures}
@@ -79,6 +30,7 @@ In this paragraph, we provide a formula for $\mu_{\Delta t,P}$ in terms of $\mu_
 The main tool is the following result, which is a reformulation of the TU lemma (Lemma 9 from \cite{LMS13}).
 
 \begin{lemma}
+  \label{TU_like_lemma}
   Let $P_{\Delta t}, Q_{\Delta t}$ be bounded operators on $B^\infty(\mathcal E)$.
     Assume that, for any $n\geq 1$,
     $$ R_{\Delta t} P_{\Delta t}^n = Q_{\Delta t}^n S_{\Delta t},$$
@@ -88,11 +40,28 @@ The main tool is the following result, which is a reformulation of the TU lemma 
     Then  we have the relation $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ via the following relation:
 
     \begin{equation*}
+      \label{TU_like_lemma_ccl}
     \int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p)=\int_{\mathcal E} \left(S_{\Delta t}\varphi\right)(q,p) \mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p)
     \end{equation*}
 \end{lemma}
+\begin{proof}
+  Fix an initial probability measure $\rho$ on $\mathcal E$, absolutely continuous with respect to the Lebesgue measure. Then we may write, using dominated convergence to pass to the limit:
 
-Applying Lemma 1 to \eqref{schemes} yields the following result.
+  \begin{align*}
+      &\int_{\mathcal E}RP_{\Delta t}^n \varphi(q,p)\rho(\text d q,\text d p)\\
+      &=\int_{\mathcal E}P_{\Delta t}^n \varphi(q,p)R^{\dagger}\rho(\text d q,\text d p)\\
+      &\underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left(\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\right) R^\dagger \rho(\text d \tilde q,\text d \tilde p)\\
+      &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\int_{\mathcal E}R\1 \text d \rho\\
+      &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)
+  \end{align*}
+  Furthermore, applying the ergodic condition to the bounded function $S\varphi$ gives
+
+  $$ \int_{\mathcal E} Q_{\Delta t}^n (S\varphi)(q,p) \rho(\text d q,\text d p) \text d q \text d p \underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left (\int_{\mathcal E}S\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p)\right)\rho(\text d \tilde q,\text d \tilde p)=\int_{\mathcal E}S\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p).$$
+
+  Since $RP_{\Delta t}^n=Q_{\Delta t}^n S$, identifying the two limits yields \eqref{TU_like_lemma_ccl}
+\end{proof}
+
+Applying Lemma \ref{TU_like_lemma} to \eqref{schemes} yields the following result.
 \begin{prop}\label{prop:mup_expression}
   The following relation between the densities $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ holds.
 
@@ -108,7 +77,7 @@ Applying Lemma 1 to \eqref{schemes} yields the following result.
   \label{TU relation}
   P_{\Delta t}^n\e^{\frac{\Delta t}2B}=\e^{\frac{\Delta t}2B}Q_{\Delta t}^n,
 \end{equation}
-whereby applying Lemma 1, we get for any test function $\varphi$,
+whereby applying Lemma \ref{TU_like_lemma}, we get for any test function $\varphi$,
 \begin{equation}
   \label{TU ccl}
   \int_{\mathcal E}\mathrm e^{\frac{\Delta t}2B}\varphi\, \mathrm{d}\mu_{P,\Delta t}=\int_{\mathcal E}\varphi\, \mathrm{d}\mu_{Q,\Delta t}
@@ -161,6 +130,7 @@ We now turn to obtaining the dominant order in the sampling bias of $\mu_{\Delta
 Error estimates on $\mu_{\Delta t,Q}$ have been investigated in \cite{LMS13} (Section 1.4). In particular, the following expansion of $\mu_{\Delta t,Q}$ is derived, which will be central in our analysis.
 
 \begin{theorem}[Theorem 13 in \cite{LMS13}]
+  \label{thm:baoab_error}
   There exists a smooth function $f_2$ such that for any smooth $\psi$,
 
   \begin{equation}
@@ -230,7 +200,7 @@ $$\int_{\mathcal D}\beta(M^{-1}p)\cdot \nabla V(q)\mu(q,p)\,\mathrm{d}q=-\int_{\
 by an integration by parts. By first integrating \eqref{corr2 term} over the coordinate independent of $\varphi$, one of the cancellations \eqref{g cancellations} yields the result.
 \end{proof}
 
-Corollary 2 gives no new information concerning configurational observables, since we already know by Corollary 1 that these have the same averages under $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$, and that by Theorem 1, these have error of order $\Delta t^2$.
+Corollary 2 gives no new information concerning configurational observables, since we already know by Corollary 1 that these have the same averages under $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$, and that by Theorem \ref{thm:baoab_error}, these have error of order $\Delta t^2$.
 However, kinetic observables may yield different averages.
 
 \subsection{Analysis of the second order error term for kinetic averages under $\mu_{\Delta t,P}$}\label{BAOA kinetic second order estimate}
@@ -308,7 +278,7 @@ which concludes the proof.
 \end{proof}
 
 \begin{remark}
-Using exponential decay estimates on the evolution semigroup $(\mathrm{e}^{t\mathcal L_\gamma})_{t\geq 0}$, (see \cite{LMS13}, paragraph 1.1.1 and references therein for more detail) one can show that the inverse operator $\mathcal L_\gamma^{-1}$ is well-defined for smooth centered observables.
+Using exponential decay estimates on the evolution semigroup $(\mathrm{e}^{t\mathcal L_\gamma})_{t\geq 0}$ like \eqref{eq:semigroup_exp_decay}, one can show that the inverse operator $\mathcal L_\gamma^{-1}$ is well-defined for smooth centered observables.
 Thus $\mathcal L_\gamma^{-1} \psi$ is well defined, say $\mathcal L_\gamma \Psi(q,p)=\psi(p)$.
 Hence, \eqref{prop 2} rewrites 
 \begin{align*}
@@ -340,7 +310,7 @@ The arguments above show that
     &=\int_{\R^{dN}}\psi(p)\kappa(p)\,\mathrm{d}p+\Delta t^2\int_{\R^{dN}}\psi(p)\left(\int_{\mathcal D} \tilde f_2(q,p)\nu(q)\,\mathrm{d}q\right)\kappa(p)\,\mathrm{d}p +\mathrm{O}(\Delta t^3),  
   \end{aligned}
 \end{equation}
-where we used the product form \eqref{tensor form} for $\mu$. Similarly,
+where we used the product form \eqref{eq:tensor_form} for $\mu$. Similarly,
 \begin{equation}
   \int_{\mathcal E}\psi(p)\kappa_{\Delta t,Q}(p)\,\mathrm{d}p=\int_{\R^{dN}}\psi(p)\kappa(p)\,\mathrm{d}p+\Delta t^2\int_{\R^{dN}}\psi(p)\left(\int_{\mathcal D}f_2(q,p)\nu(q)\,\mathrm{d}q\right)\kappa(p)\,\mathrm{d}p +\mathrm{O}(\Delta t^3),
 \end{equation}
