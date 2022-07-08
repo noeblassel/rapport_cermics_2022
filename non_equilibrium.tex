@@ -67,7 +67,7 @@ Because of the continuous injections $L^\infty \subset L^\infty_{\mathcal K_n}$,
 $(-\cL_{\gamma,F})^{-1}$ is well-defined on 
 \[L^\infty_{\mathcal K_n,0}=\left\{f\in L^\infty_{\mathcal K_n}\middle|\,\E_\eta[f]=0\right\},\]
 with an inverse given by the formula \eqref{eq:resolvent_langevin}. Proposition 2 from the same papers also gives the almost-sure convergence of ergodic averages.
- \begin{remark}[Size of the linear regime]
+ \begin{remark}[Size of the linear regime]\label{rem:linear_regime}
     As $\eta \to 0$, it is reasonable to expect that the statistical error in ergodic averages for
     $\E_\eta[R]$ arise at dominant order in $\eta$ from the asymptotic variance at equilibrium $\sigma^2_R$ \eqref{eq:asymptotic_variance_with_Lm1}.
     In particular the finite difference estimator for $\rho_{R,F}$
@@ -111,18 +111,34 @@ of the form \eqref{eq:nemd_response_estimator}, we estimate $\rho_F$ by a least 
     \label{eq:rho_F_nemd_estimator}
     \widehat{\rho}_F= |\eta|^{-2}\eta\cdot\widehat{R}= \underset{\rho \in \R}{\mathrm{argmin}} \left| \rho\eta - \widehat{R}\right|^2.
 \end{equation}
-Note the case $k=1$ recuperates the finite difference estimator \eqref{eq:fd_estimator_rho_F}.
+Note the case $k=1$ recuperates the finite difference estimator \eqref{eq:fd_estimator_rho_F}. 
+Note that the variance of this estimator is likely to be much smaller than for the latter estimator. 
+In fact, provided $|\eta|^2 \geq 1$, the pitfall of the NEMD technique mentioned in Remark \ref{rem:linear_regime} is completely avoided.
+Indeed, assume that each $\widehat{R}_i$ is an ergodic estimator simulated with $N_{i,\mathrm{iter}}$ timesteps, say
+\[\widehat{R}_i=\frac{S_i}{\eta_i N_{i,\mathrm{iter}}}.\]
+We assume that the asymptotic regime is reached, thus we may assume that $\widehat{R}_i$ is Gaussian with variance $$\frac{\sigma^2_i}{\eta_i^2 N_{i,\mathrm{iter}}},$$
+where $\sigma^2_i$ is the asymptotic variance associated with the ergodic mean $S_i/N_{i,\mathrm{iter}}$. Thus,
+\begin{equation}
+    \label{eq:var_of_lsq_fit}
+    \mathrm{Var}(\widehat{\rho}_F)=|\eta|^{-4}\sum_{i=1}^k \frac{\sigma_i^2}{\eta_i^2N_{i,\mathrm{iter}}}.
+\end{equation}
+If we make the approximation $\sigma_i^2 \approx \sigma_R^2$, which is good at first order in $\eta$, and assume $N_{i,\mathrm{iter}}\geq N_{\mathrm{iter}}$,
+we can estimate an upper bound on the variance,
+\[ \mathrm{Var}(\widehat{\rho}_F) \lessapprox \frac{\sigma_R^2}{|\eta|^2N_{\mathrm{iter}}}.\]
+
 \subsection{Mobility}
 As a first and simplest example, we introduce a method for computing the mobility. In this case the forcing is simply a constant vector, and the response is velocity in the direction $F$, which we may think of as the particle flux through $F$'s orthogonal hyperplane.
+The transport coefficient corresponding to the forcing
 \begin{equation}
     \label{eq:nemd_mobility_definitions}
-    F\in \R^{dN}\,\qquad R(q,p)=F\cdot M^{-1}p.
+    F\in \R^{dN}\,\qquad R(q,p)=F\cdot M^{-1}p
 \end{equation}
+is called the mobility.
 Let us assume once and for all that $|F|^2=1$.
 For practical computations, we will be considering two cases:
 \begin{enumerate}[(i)]
-    \item \textbf{Single drift}: this corresponds to a perturbation where the force acts on a single component of the momentum, which we can assume by indistinguishability of the particles to be the x component of the first particle, \[F=(1,0,\dots)^\intercal \in \R^{dN}.\]
-    \item \textbf{Color drift}: this corresponds to a perturbation in which we the force acts on half of the particles in one direction, and on half of the particles in the opposite direction. By isotropy, we may assume this direction is the x direction, \[F=\frac1{\sqrt N}\underbrace{(1,0,\dots,}_{d \text{ components}}-1,0,\dots,1,0\dots)^\intercal \in \R^{dN}.\]
+    \item \textbf{Single drift}: this corresponds to a perturbation where the force acts on a single component of the momentum, which we can assume by indistinguishability of the particles to be the x component of the first particle, \[F_{\mathrm{S}}=(1,0,\dots)^\intercal \in \R^{dN}.\]
+    \item \textbf{Color drift}: this corresponds to a perturbation in which we the force acts on half of the particles in one direction, and on half of the particles in the opposite direction. By isotropy, we may assume this direction is the x direction, \[F_{\mathrm{C}}=\frac1{\sqrt N}\underbrace{(1,0,\dots,}_{d \text{ components}}-1,0,\dots,1,0\dots)^\intercal \in \R^{dN}.\]
 \end{enumerate}
 The color drift method derive its name from the fact that it divides the particles into two categories: the particles with a positive color charge (corresponding to those whose x-component of momentum see a positive force contribution from $F$), and those with a negative color charge.
 The equations of motion are analogous to a system of charged particles under a constant electric field, but where the charges do not interact between themselves.
@@ -151,6 +167,12 @@ Estimates of $\rho_F$ seem to roughly agree, although it is dubious that the sma
       }
     \end{center}
   \end{figure}
+
+Estimating the transport coefficients using \eqref{eq:nemd_response_estimator} and the variance through \eqref{eq:var_of_lsq_fit}, we obtain 
+\begin{equation}
+    \rho_{F_{\mathrm{S}}}=0.12204\pm0.0009,\qquad \rho_{F_{\mathrm{C}}}=0.12128\pm0.0009,
+\end{equation}
+where $\pm$ denotes one standard deviation.
 \subsection{Shear viscosity}
 As a second example, we discuss the methods of \cite{JS12} for computing shear-viscosity. We refer to this paper for thorough statements and proofs.
 Let us assume for notational simplicity that $M=m\Id$.
@@ -321,7 +343,58 @@ for instance using gradient descent, and deduce the estimator for the transport 
 leveraging the elementary identity
 \begin{equation}
     \label{eq:int_analytic_form}
-    \int_0^{\infty}\e^{-\lambda t}a\sin(ft+\omega)\,\dif t=a\frac{\lambda\cos\omega-f\sin\omega}{f^2+\lambda^2}.
+    \int_0^{\infty}\e^{-\lambda t}a\sin(ft+\omega)\,\dif t=a\frac{\lambda\sin\omega+f\cos\omega}{f^2+\lambda^2}.
 \end{equation}
 \subsection{Mobility}
-\subsection{Shear viscosity}
+The Green-Kubo formula asserts that
+\begin{equation}
+    \label{eq:green_kubo_mobility}
+    \underset{\eta\to 0}{\lim} \frac{\E_\eta[F\cdot M^{-1}p]}{\eta}=\beta \int_{0}^\infty \E_\mu[\left(F\cdot M^{-1}p_t\right)\left(F\cdot M^{-1}p_0\right)]\,\dif t.
+\end{equation}
+Using this expression, in the case of a mass-homogeneous system where the potential $V$ is of pair interaction form \eqref{eq:lennard_jones}, we can relate the transport coefficients for different forcings.
+As a useful example, we compute an equation relating the transport coefficients for the single drift and color drift forcings. The argument is taken from unpublished notes by Julien Roussel.
+\begin{example}[Relating linear responses]
+We assume $M=m\Id$. Let us define, for $1\leq i,j\leq N$,
+\[c_{ij}=\frac{\beta}{m^2} \int_{0}^\infty \E_\mu[p_{i1,t}p_{j1,0}]\,\dif t.\]
+By the form of the potential (Newton's third law), for all $q$,
+\[\sum_{i=1}^N \frac{\partial}{\partial q_{i1}}V(q)=0.\]
+This implies upon summing over $i$ the longitudinal $p$-components of the SDE \eqref{eq:langevin} and integrating
+\[\sum_{i=1}^N p_{i1,t}= \sum_{i=1}^N \left[p_{i1,0}+\int_0^t \left(-\frac{\partial}{\partial q_{i1}}V(q_s)-\frac{\gamma}{m} p_{i1,s}\dif s +\sqrt{\frac{2\gamma}\beta}\dif W_{i1,s}\right)\right]=
+\sum_{i=1}^N \left[p_{i1,0}-\frac{\gamma}{m}\int_0^t  p_{i1,s}\dif s +\sqrt{\frac{2\gamma}\beta} W_{i1,t}\right].\]
+Multiply by $p_{11,0}$ and take the expectation with respect with the canonical initial distribution, the Brownian terms vanish, and we get
+\begin{equation}
+    \E_\mu\left[\left(\sum_{i=1}^N p_{i1,t}\right)p_{11,0}\right]=\sum_{i=1}^N\left[ \E_\mu\left[p_{i1,0}p_{11,0}\right]-\frac{\gamma}{m}\int_0^t \E_\mu\left[p_{i1,s}p_{11,0}\right]\dif s\right].
+\end{equation}
+By the decay properties of the evolution semi-group, the left hand side converges to $0$ as $t\to \infty$, while the integral is well-defined. Since $p_0$ has diagonal covariance with respect to $\mu$, we get
+\begin{equation}
+    \sum_{i=1}^N \frac{\gamma}m\int_0^\infty \E_\mu\left[p_{i1,s}p_{11,0}\right]\dif s=\E_\mu[p_{11,0}^2]=\frac{m}{\beta}.
+\end{equation}
+Equivalently, 
+\[\sum_{i=1}^N c_{i1}=\frac{1}{\gamma}.\]
+Using the indistinguishability property
+ \[c_{ii}=c_{11},\qquad c_{ij}=c_{12}\] for all $i\neq j$,
+ we can rewrite this identity as 
+ \[c_{12}=\frac{1}{N-1}\left(\frac{1}{\gamma}-c_{11}\right).\]
+Using this computation, we can relate the linear responses of the single drift and the color drift.
+By the Green-Kubo formula, the transport coefficient for the single drift is given by $c_{11}$,
+\[\rho_{F_{\mathrm{S}}}=c_{11}.\]
+For the color drift, we expand, by the Green-Kubo formula,
+\[\rho_{F_{\mathrm{C}}}=\frac{\beta}{m^2} \int_0^\infty \E_\mu[\left(F_{\mathrm{C}}\cdot p_t\right)\left(F_{\mathrm{C}}\cdot p_0\right)]\,\dif t=\frac1N\left(\sum_{i=1}^n c_{ii} + \sum_{i\neq j}(-1)^{i+j}c_{ij}\right)\]
+By indistinguishability, and using
+\[\sum_{1\leq i\neq j\leq N}(-1)^{i+j}=-2\left\lfloor \frac{N}{2}\right\rfloor,\]
+we get 
+\begin{equation}
+    \rho_{F_{\mathrm{C}}}=c_{11}-\frac{2\lfloor N/2 \rfloor}{N(N-1)}\left(\frac1{\gamma}-c_{11}\right).
+\end{equation}
+\end{example}
+Note that in our numerical example, we expect $\rho_{F_{\mathrm{C}}}\approx \rho_{F_{\mathrm{S}}}-\frac{1}{N}$, which is consistent with what we observe numerically, although the statistical uncertainty is too large to confirm this relation numerically.
+Besides, the discrepancy vanishes in the thermodynamic limit.
+Since the system we consider is isotropic, we also have 
+\[c_{11}=\frac{\beta}{m^2}\int_0^\infty\E_\mu[p_{i\alpha,s}p_{i\alpha,0}]\,\dif s\]
+for any $1\leq i\leq N$ and $1\leq \alpha\leq d$. Thus, we can write 
+\begin{equation}
+    \label{eq:diffusion_gk_scalar_product}
+    \rho_{F_{\mathrm{S}}}=\frac{\beta}{m^2 d N}\int_{0}^\infty \E_\mu[p_s^\intercal p_0]\,\dif s,
+\end{equation}
+which is the Green-Kubo like formula that we use in our numerical experiments.
+\subsection{Shear viscosity}    
