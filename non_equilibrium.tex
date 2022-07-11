@@ -326,25 +326,29 @@ However, these procedures introduce a truncation in time of the integral in \eqr
 Another approach consists of extrapolating the behavior of $\widehat{C}_{N_{\mathrm{iter}}}$ by fitting a parametric model 
 \begin{equation}
     \label{eq:time_correlation_parametric_model}
-    C_{\theta}(t)=\e^{-\lambda t}\left(\sum_{k=1}^{m}a_k\sin(f_k t+\omega_k)\right),
+    C_{\theta}(t)=\left(\sum_{k=1}^{m}a_k\e^{-\lambda_k t}\cos(f_k t)\right),
 \end{equation}
-where \[\theta=(\lambda,a_1,f_1,\omega_1,\dots,a_m,f_m,\omega_m)\in \R_{>0}\times\R^{3m}\]
-is the parameter. The form of this model is justified empirically, although a formal argument based on a diagonalisation of the evolution semi-group can be made. 
+where \[\theta=(\lambda_k,a_k,f_k)\in \left(\R_{>0}\times\R\times \R\right)^{m}\]
+is the parameter. The form of this model is justified empirically, although a formal argument based on a diagonalisation of the evolution semi-group can be made, and using the conjugate symmetry property
+$\cL_\gamma \overline{\psi}=\overline{\cL_\gamma \psi}$
+for $\psi$ a complex-valued observable.
 Rigorously justifying and quantifying the accuracy of this model requires fine knowledge of the spectrum of $\cL_\gamma$.
 At any rate, we can then fit the model in a least-squares sense,
 \begin{equation}
-    \theta^*=\underset{\theta\in \R_{>0}\times\R^{3m}}{\mathrm{argmin}}\sum_{n=0}^{N_{\mathrm{corr}}}\left| C_{\theta}(n\Dt)-\widehat{C}_{N_{\mathrm{iter}}}(n\Dt) \right|^2,
+    \theta^*=\underset{\theta\in \left(\R_{>0}\times\R\times \R\right)^{m}}{\mathrm{argmin}}\sum_{n=0}^{N_{\mathrm{corr}}}\left| C_{\theta}(n\Dt)-\widehat{C}_{N_{\mathrm{iter}}}(n\Dt) \right|^2,
 \end{equation}
-for instance using gradient descent, and deduce the estimator for the transport coefficient,
+using gradient descent, or the Gauss-Newton method, and deduce an estimator for the transport coefficient,
 \begin{equation}
     \label{eq:rho_F_estimator_GK_fit}
-    \widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\int_0^\infty C_{\theta^*}(t)\,\dif t,
+    \widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\beta\int_0^\infty C_{\theta^*}(t)\,\dif t,
 \end{equation}
-leveraging the elementary identity
+leveraging the simple identity
 \begin{equation}
     \label{eq:int_analytic_form}
-    \int_0^{\infty}\e^{-\lambda t}a\sin(ft+\omega)\,\dif t=a\frac{\lambda\sin\omega+f\cos\omega}{f^2+\lambda^2}.
+    \int_0^{\infty}\e^{-\lambda t}a\cos(ft)\,\dif t=\frac{a\lambda}{\lambda^2+f^2},
 \end{equation}
+we get a closed form for the estimator,
+\[\widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\beta\sum_{k=1}^m\frac{a_k\lambda_k}{\lambda_k^2+f_k^2}.\]
 \subsection{Mobility}
 The Green-Kubo formula asserts that
 \begin{equation}
@@ -387,14 +391,43 @@ we get
     \rho_{F_{\mathrm{C}}}=c_{11}-\frac{2\lfloor N/2 \rfloor}{N(N-1)}\left(\frac1{\gamma}-c_{11}\right).
 \end{equation}
 \end{example}
-Note that in our numerical example, we expect $\rho_{F_{\mathrm{C}}}\approx \rho_{F_{\mathrm{S}}}-\frac{1}{N}$, which is consistent with what we observe numerically, although the statistical uncertainty is too large to confirm this relation numerically.
-Besides, the discrepancy vanishes in the thermodynamic limit.
+Note that in our numerical example, we expect $\rho_{F_{\mathrm{C}}}\approx \rho_{F_{\mathrm{S}}}-\frac{0.88}{N}$, which is consistent with what we observe numerically, although because of persisting statistical uncertainty, much longer trajectories (or smaller systems) have to be considered to confirm this relation numerically.
+Let us also, the discrepancy vanishes in the thermodynamic limit, at rate $\mathrm{O}(n^{-1})$.
 Since the system we consider is isotropic, we also have 
 \[c_{11}=\frac{\beta}{m^2}\int_0^\infty\E_\mu[p_{i\alpha,s}p_{i\alpha,0}]\,\dif s\]
-for any $1\leq i\leq N$ and $1\leq \alpha\leq d$. Thus, we can write 
+for any $1\leq i\leq N$ and $1\leq \alpha\leq d$. Thus, the mobility can be computed through an expression of the form \eqref{eq:time_correlation}:
 \begin{equation}
     \label{eq:diffusion_gk_scalar_product}
-    \rho_{F_{\mathrm{S}}}=\frac{\beta}{m^2 d N}\int_{0}^\infty \E_\mu[p_s^\intercal p_0]\,\dif s,
+    \rho_{F_{\mathrm{S}}}=c_{11}=\frac{\beta}{m^2 d N}\int_{0}^\infty \E_\mu[p_s^\intercal p_0]\,\dif s,
 \end{equation}
-which is the Green-Kubo like formula that we use in our numerical experiments.
-\subsection{Shear viscosity}    
+which is the Green-Kubo relation we use in our numerical experiments. 
+In Figure \ref{fig:gk_mobility}, we plot the velocity autocorrelation function used in the estimator \eqref{eq:diffusion_gk_scalar_product}, and its integral. 
+We used the same thermodynamics conditions as for the NEMD method \eqref{eq:reference_thermo_condition}. 
+In Figure \ref{fig:fit_gk_mobility}, we show the fitted non-linear least squares model \eqref{eq:time_correlation_parametric_model} for the autocorrelation function, using $m=4$ modes.
+The estimated correlation function was obtained from a single numerical trajectory with a physical reduced time of $t_{\mathrm{fin}}=1.628 \times 10^5$.
+The corresponding estimated values for the mobility are $0.1218$ based on a trapezoid quadrature of the truncated autocorrelation function, and $0.1215$ for the analytic integral of the parametric model.
+
+
+\begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.7\linewidth]{figures/autocorr.pdf}
+      \includegraphics[width=0.7\linewidth]{figures/int_autocorr.pdf}
+      \caption{ \label{fig:gk_mobility}
+        Velocity autocorrelation function (top) and its integral (bottom) for the Lennard-Jones system \eqref{eq:reference_thermo_condition}.
+      }
+    \end{center}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.8\linewidth]{figures/autocorr_fit.pdf}
+      \caption{ \label{fig:fit_gk_mobility}
+        Fitted autocorrelation function (in red) with a few data points from the numerically estimated autocorrelation function (in blue) for the Lennard-Jones system \eqref{eq:reference_thermo_condition}.
+      }
+    \end{center}
+  \end{figure}
+
+%%autocorr fit:0.121(5)
+%%autocorr int:0.121(8)
+%% time : 1.628 \times 10^5
+\subsection{Shear viscosity}
