@@ -464,7 +464,7 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
         This is the question of ergodicity, and resuts of this nature chiefly come in two flavors.
         \begin{enumerate}[(i)]
             \item Probabilistic ergodic theorems that ask about the convergence of random variables like \eqref{eq:ergodic_averages}, that give analogs of the Law of Large Numbers for the correlated process $\varphi(q_t,p_t)$.
-            \item More analytic results which express the convergence of the law of the process at time $t$ towards a stationary solution to the Fokker-Planck equation. These can usually be expressed as decay estimates on the evolution semi-group \eqref{eq:langevin_evolution_operator}, in a judiciously chosen functional setting.
+            \item More analytic results which express the convergence of the law of the process at time $t$ towards a stationary solution to the Fokker-Planck equation. These can usually be expressed as decay estimates on the evolution Semigroup \eqref{eq:langevin_evolution_operator}, in a judiciously chosen functional setting.
         \end{enumerate}
         We will not get into details as these questions can quickly get rather technical, but rather give vague ideas of the setting, and point the reader to more thorough sources.
         Results such as (i) typically leverage the strong Law of Large Numbers by dissecting the trajectory into a discrete number of (loosely) \iid excursions through phase space, guaranteeing the almost sure convergence of trajectory averages.
@@ -473,7 +473,7 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
         He is thus able to leverage criteria on $\cL_\gamma$ from geometric control theory to ensure the almost sure convergence of trajectory averages.
         Results such as (ii) depend on the functional setting. Let us simply state the following result, based on hypocoercive estimates. 
         For an introduction to these ideas, and references, we point to Section 2.1.1 in \cite{LMS13}.
-        \begin{prop}[Exponential decay rate on the semi-group]
+        \begin{prop}[Exponential decay rate on the Semigroup]
             Let $H^1(\mu)$ be the weighted Sobolev space 
             \begin{equation}
                 \label{eq:weighted_sobolev_space}
@@ -492,7 +492,7 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
         For the overdamped case, exponential decay rates can be obtained more directly. 
         In both cases, conditions have to be met by $V$, such as a Poincaré inequality for $\nu$, which are however trivially verified in the case where $\mathcal D$ is compact.
         
-        \subsection{Asymptotic variance for ergodic averages}
+        \subsection{Asymptotic variance for ergodic averages}\label{subsec:asymptotic_variance_cont}
         Since ergodic averages are computed over a finite time-interval, the corresponding random variable will have some variance. 
         Let us show how to relate this variance to the dynamics, provided a Central Limit Theorem holds.
         For simplicity, we assume that $(q_0,p_0)\sim \mu$, and let $\varphi \in H^1(\mu)$ be an observable of interest. We also denote by
@@ -507,11 +507,11 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
             \frac1{\sqrt{T}}\int_0^T\Pi\varphi(q_t,p_t)\,\dif t \overset{\mathrm{law}}{\implies} \mathcal N(0,\sigma_{\varphi}^2),
         \end{equation}
         where $\sigma_{\varphi}^2$ is the asymptotic variance associated to $\varphi$ under the dynamics, which is thus given by the limit of the variance on the left-hand side. Let us compute:
-        \[\sigma_T\defeq E\left[\left(\frac1{\sqrt{T}}\int_0^T\Pi\varphi(q_t,p_t)\,\dif t\right)^2\right]=\frac1T\int_0^T\int_0^T\E\left[\Pi\varphi(q_t,p_t)\Pi\varphi(q_s,p_s)\right]\,\dif s\,\dif t.\]
+        \[\sigma_T\defeq \E_\mu\left[\left(\frac1{\sqrt{T}}\int_0^T\Pi\varphi(q_t,p_t)\,\dif t\right)^2\right]=\frac1T\int_0^T\int_0^T\E_\mu\left[\Pi\varphi(q_t,p_t)\Pi\varphi(q_s,p_s)\right]\,\dif s\,\dif t.\]
         By stationarity, for $t>s$, $\Pi\varphi(q_t,p_t)\Pi\varphi(q_s,p_s)\sim \Pi\varphi(q_{t-s},p_{t-s})\Pi\varphi(q_0,p_0)$, hence we may write, by Fubini, 
-        \begin{align*}\sigma_T &= \frac2T\int_0^T\int_0^t\E\left[\Pi\varphi(q_{t-s},p_{t-s})\Pi\varphi(q_0,p_0)\right]\,\dif s\,\dif t\\
-             &= \frac2T\int_0^T\int_s^T\E\left[\Pi\varphi(q_{s},p_{s})\Pi\varphi(q_0,p_0)\right]\,\dif t\,\dif s\\
-             &=2\int_0^T\E\left[\Pi\varphi(q_{s},p_{s})\Pi\varphi(q_0,p_0)\right]\left(1-\frac{s}{T}\right)\,\dif s\\
+        \begin{align*}\sigma_T &= \frac2T\int_0^T\int_0^t\E_\mu\left[\Pi\varphi(q_{t-s},p_{t-s})\Pi\varphi(q_0,p_0)\right]\,\dif s\,\dif t\\
+             &= \frac2T\int_0^T\int_s^T\E_\mu\left[\Pi\varphi(q_{s},p_{s})\Pi\varphi(q_0,p_0)\right]\,\dif t\,\dif s\\
+             &=2\int_0^T\E_\mu\left[\Pi\varphi(q_{s},p_{s})\Pi\varphi(q_0,p_0)\right]\left(1-\frac{s}{T}\right)\,\dif s\\
              &=2\int_0^T\E_\mu\left[\left(e^{s\cL_\gamma}\Pi\varphi\right)\left(\Pi\varphi\right)\right]\left(1-\frac{s}{T}\right)\,\dif s
         \end{align*}
         Using Cauchy-Schwartz in $L^2(\mu)$ and an exponential decay estimate on the evolution semigroup like \eqref{eq:semigroup_exp_decay}, we obtain a bound of the form

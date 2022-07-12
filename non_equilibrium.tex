@@ -53,7 +53,7 @@ The steady-state measure $\E_\eta$ is a high-dimensional measure on phase space 
 In fact, for our purposes, $F$ will always be $L\mathbb{T}^{dN}$-periodic, and so we can invoke a special case of Proposition 1 in \cite{JPS15} with time-constant forcings, provided $V$ and $F$ are smooth.
 \begin{theorem}[Existence of a unique ergodic measure with smooth density]\label{thm:nemd_exst_invariant_measure}
     Let $\eta_*>0$. For all $\eta\in[-\eta_*,\eta_*]$, the Fokker-Planck equation \eqref{eq:nemd_fp_equation} admits a unique solution with a $C^\infty$ density $\psi_\eta$.
-    Additionally, the evolution semi-group decays exponentially in a Lyapunov sense: for all $n\geq 1$, there exist $C_n,\,\lambda_n>0$ such that
+    Additionally, the evolution semigroup decays exponentially in a Lyapunov sense: for all $n\geq 1$, there exist $C_n,\,\lambda_n>0$ such that
     \begin{equation}
         \label{eq:lyapunov_exp_decay}
         \left\|\e^{t\cL_{\gamma,F}}\varphi-\E_\eta[\varphi]\right\|_{L^{\infty}(\mathcal E)}\leq C_n\e^{-\lambda_n t}\|\varphi\|_{L^\infty_{\mathcal K_n}},
@@ -85,7 +85,7 @@ with an inverse given by the formula \eqref{eq:resolvent_langevin}. Proposition 
 \subsection{Numerical implementation}
 To integrate the perturbed dynamics, we again rely on a splitting strategy.
 We split the dynamics into elementary evolutions, whose respective evolution semigroups are given analogously to \eqref{eq:propagators}.
-The only difference is in the additional $\eta F$ term, which we incorporate into the $B$ step, yielding a $B_{\eta F}$ step, which corresponds to the evolution semi-group
+The only difference is in the additional $\eta F$ term, which we incorporate into the $B$ step, yielding a $B_{\eta F}$ step, which corresponds to the evolution semigroup
 \begin{equation}
     \label{eq:B_etaF_step}
     \e^{tB_{\eta F}}\varphi(q,p)=\varphi(q,p-t\left(\nabla V(q)-\eta F(q)\right)).
@@ -206,24 +206,58 @@ In practice, $u_x$ can be estimated from numerical trajectories by decomposing t
 where $\rho= N/L^3$ is the particle density.
 In fact, the solutions to \eqref{eq:shear_viscosity_relation_diffeq} are periodic, thus the magnitude of the linear response can be estimated through Fourier-like coefficients.
 This has the advantage of giving an estimation of the linear response in the general framework defined above, and avoiding the discretization error arising from the finite number of transverse slices.
-To this effect, we define the response observables as empirical Fourier coefficients (or imaginary parts thereof):
+To this effect, we define the response observables as empirical Fourier coefficients:
 \begin{equation}
     \label{eq:nemd_shear_viscosity_response}
-    R_k(q,p)=\frac{1}N\sum_{i=1}^N\frac{p_{i1}}{m}\sin\left(\frac{2k\pi q_{i2}}{L}\right).
+    R_k(q,p)=\frac{1}N\sum_{i=1}^N\frac{p_{i1}}{m}\exp\left(\frac{2ik\pi q_{i2}}{L}\right),
 \end{equation}
-provided $F_y$ is not orthogonal to the family
-\[\left\{ y\mapsto \sin\left(\frac{2k\pi y}{L}\right),\,k\geq 1\right\} ,\]
-in $L^2([0,L))$, these observables give a meaningful measure of the linear response. In practice, it is sufficient to consider $k=1$ and carefully choose the forcing.
+and the corresponding transport coefficients
+\begin{equation}
+    \label{eq:shear_viscosity_tranpsort_coefficient}
+    \rho_{F,k}=\underset{\eta\to 0}{\lim}\frac{\E_\eta[R_k(q,p)]}{\eta}.
+\end{equation}
+It is easy to show that for the sinusoidal forcing, the response velocity profile, solution to \eqref{eq:shear_viscosity_relation_diffeq}, is still sinusoidal, so that the Fourier response is a meaningful measure of the magnitude of the response in the velocity profile.
+In practice, it is sufficient to consider $k=1$.
 \begin{remark}
     To obtain better statistics, one may for the purpose of numerical simulations want to consider a periodic domain whose unit cell is still a cuboid, but with a side length in the longitudinal direction that is longer than in the transverse direction.
     In this case we simply replace $L$ by $L_y$ in the response observables, where $L_y$ is the length of the unit cell in the transverse direction.
 \end{remark}
-The shear viscosity can then be computed from equation \eqref{eq:shear_viscosity_relation_diffeq}, given an estimator $\widehat{R}_{k,N_{\mathrm{iter}}}$ of the form \eqref{eq:nemd_response_estimator}, through
+The shear viscosity can then be computed from equation \eqref{eq:shear_viscosity_relation_diffeq}, through
 \begin{equation}
     \label{eq:shear_viscosity_nemd_estimator}
-    \hat{\sigma}_{N_{\mathrm{iter}}}=\rho\left(\frac{F_k}{\widehat{R}_{k,N_{\mathrm{iter}}}}-\gamma\right)\left(\frac{L}{2k\pi}\right)^2,
+    \sigma=\rho\left(\frac{F_k}{\rho_{F,k}}-\gamma\right)\left(\frac{L}{2k\pi}\right)^2,
 \end{equation}
-again considering $k=1$ in practice.
+by taking Fourier coefficients in equation \eqref{eq:shear_viscosity_relation_diffeq},
+where $F_k$ is the counterpart Fourier coefficient for the forcing,
+\[F_k=\frac 1L\int_0^L F_y(s)\exp\left(\frac{2ik\pi s}L\right)\,\dif s,\]
+and again only considering $k=1$ in practice. Numerically, $\rho_{F,k}$ can be approximated by an estimator of the form \eqref{eq:rho_F_nemd_estimator}.
+In our numerical experiments, we consider the same three forcing profiles as in \cite{JS12}, namely:
+\begin{enumerate}[(i)]
+    \item A sinusoidal forcing profile \[F_y(u)=\sin\left(\frac{2\pi u}{L}\right),\]
+    \item a piecewise constant forcing profile \[F_y(u)=\1_{u<\frac{L}2}-\1_{u\geq \frac{L}2},\]
+    \item and a piecewise linear forcing profile \[F_y(u)=\frac{4}{L}\left(u-\frac{L}4\right)\1_{u<\frac{L}2}-\frac{4}L\left(\frac{3L}4-u\right)\1_{u\geq \frac{L}2}.\]
+\end{enumerate}
+These forcings have the advantage that the Fourier coefficients can be analytically computed. We record in Figure \ref{tab:fourier_coefficients} the value of the first Fourier coefficient $F_1$ for each of these forcings.
+As in the case of mobility, we fix a reference thermodynamic condition,
+\begin{equation}
+    \label{eq:reference_thermo_condition_sv}
+    T=0.8,\quad \rho=0.7,\quad \gamma=1.0,\quad N=1000.
+\end{equation}
+
+\begin{figure}
+    \begin{center}
+        \begin{tabular}{ |c|c|c|c| }\hline
+            Forcing & Sinusoidal & Piecewise constant & Piecewise linear \\
+            \hline
+            $F_1$ & $i/2$ & $2i/\pi$ & $-4/\pi^2$ \\
+            \hline 
+        \end{tabular}
+        \caption{ \label{tab:fourier_coefficients}
+            First Fourier coefficients for transverse forcing profiles.
+          }
+    \end{center}
+\end{figure}
+
 \section{The Green-Kubo method}
 An alternative route to the perturbation method described above leverages a famous expression for the transport coefficient in terms of an integrated correlation function, or, in less prosaic language, in terms of the fluctuations at equilibrium of the response observable.
 This is the Green-Kubo method, which we describe in this section. We consider the invariant measure for the non-equilibrium dynamics \eqref{eq:general_nemd_dynamics}. By Theorem \ref{thm:nemd_exst_invariant_measure}, there exists a unique invariant measure with density $\psi_\eta$.
@@ -329,7 +363,7 @@ Another approach consists of extrapolating the behavior of $\widehat{C}_{N_{\mat
     C_{\theta}(t)=\left(\sum_{k=1}^{m}a_k\e^{-\lambda_k t}\cos(f_k t)\right),
 \end{equation}
 where \[\theta=(\lambda_k,a_k,f_k)\in \left(\R_{>0}\times\R\times \R\right)^{m}\]
-is the parameter. The form of this model is justified empirically, although a formal argument based on a diagonalisation of the evolution semi-group can be made, and using the conjugate symmetry property
+is the parameter. The form of this model is justified empirically, although a formal argument based on a diagonalisation of the evolution semigroup can be made, and using the conjugate symmetry property
 $\cL_\gamma \overline{\psi}=\overline{\cL_\gamma \psi}$
 for $\psi$ a complex-valued observable.
 Rigorously justifying and quantifying the accuracy of this model requires fine knowledge of the spectrum of $\cL_\gamma$.
@@ -340,7 +374,7 @@ At any rate, we can then fit the model in a least-squares sense,
 using gradient descent, or the Gauss-Newton method, and deduce an estimator for the transport coefficient,
 \begin{equation}
     \label{eq:rho_F_estimator_GK_fit}
-    \widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\beta\int_0^\infty C_{\theta^*}(t)\,\dif t,
+    \widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\int_0^\infty C_{\theta^*}(t)\,\dif t,
 \end{equation}
 leveraging the simple identity
 \begin{equation}
@@ -348,7 +382,7 @@ leveraging the simple identity
     \int_0^{\infty}\e^{-\lambda t}a\cos(ft)\,\dif t=\frac{a\lambda}{\lambda^2+f^2},
 \end{equation}
 we get a closed form for the estimator,
-\[\widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\beta\sum_{k=1}^m\frac{a_k\lambda_k}{\lambda_k^2+f_k^2}.\]
+\[\widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\sum_{k=1}^m\frac{a_k\lambda_k}{\lambda_k^2+f_k^2}.\]
 \subsection{Mobility}
 The Green-Kubo formula asserts that
 \begin{equation}
@@ -369,7 +403,7 @@ Multiply by $p_{11,0}$ and take the expectation with respect with the canonical 
 \begin{equation}
     \E_\mu\left[\left(\sum_{i=1}^N p_{i1,t}\right)p_{11,0}\right]=\sum_{i=1}^N\left[ \E_\mu\left[p_{i1,0}p_{11,0}\right]-\frac{\gamma}{m}\int_0^t \E_\mu\left[p_{i1,s}p_{11,0}\right]\dif s\right].
 \end{equation}
-By the decay properties of the evolution semi-group, the left hand side converges to $0$ as $t\to \infty$, while the integral is well-defined. Since $p_0$ has diagonal covariance with respect to $\mu$, we get
+By the decay properties of the evolution semigroup, the left hand side converges to $0$ as $t\to \infty$, while the integral is well-defined. Since $p_0$ has diagonal covariance with respect to $\mu$, we get
 \begin{equation}
     \sum_{i=1}^N \frac{\gamma}m\int_0^\infty \E_\mu\left[p_{i1,s}p_{11,0}\right]\dif s=\E_\mu[p_{11,0}^2]=\frac{m}{\beta}.
 \end{equation}
@@ -392,7 +426,7 @@ we get
 \end{equation}
 \end{example}
 Note that in our numerical example, we expect $\rho_{F_{\mathrm{C}}}\approx \rho_{F_{\mathrm{S}}}-\frac{0.88}{N}$, which is consistent with what we observe numerically, although because of persisting statistical uncertainty, much longer trajectories (or smaller systems) have to be considered to confirm this relation numerically.
-Let us also, the discrepancy vanishes in the thermodynamic limit, at rate $\mathrm{O}(n^{-1})$.
+Let us also, the discrepancy vanishes in the thermodynamic limit, at rate $\mathrm{O}(N^{-1})$.
 Since the system we consider is isotropic, we also have 
 \[c_{11}=\frac{\beta}{m^2}\int_0^\infty\E_\mu[p_{i\alpha,s}p_{i\alpha,0}]\,\dif s\]
 for any $1\leq i\leq N$ and $1\leq \alpha\leq d$. Thus, the mobility can be computed through an expression of the form \eqref{eq:time_correlation}:
@@ -403,7 +437,7 @@ for any $1\leq i\leq N$ and $1\leq \alpha\leq d$. Thus, the mobility can be comp
 which is the Green-Kubo relation we use in our numerical experiments. 
 In Figure \ref{fig:gk_mobility}, we plot the velocity autocorrelation function used in the estimator \eqref{eq:diffusion_gk_scalar_product}, and its integral. 
 We used the same thermodynamics conditions as for the NEMD method \eqref{eq:reference_thermo_condition}. 
-In Figure \ref{fig:fit_gk_mobility}, we show the fitted non-linear least squares model \eqref{eq:time_correlation_parametric_model} for the autocorrelation function, using $m=4$ modes.
+In Figure \ref{fig:fit_gk_mobility}, we show the fitted non-linear least squares model \eqref{eq:time_correlation_parametric_model} for the autocorrelation function, using $m=4$ modes, trained using the Gauss-Newton algorithm.
 The estimated correlation function was obtained from a single numerical trajectory with a physical reduced time of $t_{\mathrm{fin}}=1.628 \times 10^5$.
 The corresponding estimated values for the mobility are $0.1218$ based on a trapezoid quadrature of the truncated autocorrelation function, and $0.1215$ for the analytic integral of the parametric model.
 
@@ -427,7 +461,131 @@ The corresponding estimated values for the mobility are $0.1218$ based on a trap
     \end{center}
   \end{figure}
 
-%%autocorr fit:0.121(5)
-%%autocorr int:0.121(8)
-%% time : 1.628 \times 10^5
+We conclude this section on mobility computations by the discussion of a final method, which yields a nice physical interpretation for the mobility.
+\begin{remark}[Einstein relation for mobility]
+    Recalling the computations in Section \ref{subsec:asymptotic_variance_cont}, we can write, for $R$ a centered response observable,
+    \begin{equation}
+        \E_\mu\left[\left(\frac1{\sqrt{T}}\int_0^T R(q_t,p_t)\,\dif t\right)^2\right]=2\int_0^T \E_\mu\left[R(q_t,p_t)R(q_0,p_0)\right]\left(1-\frac{t}T\right)\,\dif t.
+    \end{equation}
+    Assuming an exponential decay of the evolution semigroup, we get 
+
+    \begin{equation}
+        \label{eq:einstein_formula}
+        \int_0^\infty\E_\mu\left[R(q_t,p_t)R(q_0,p_0)\right]\,\dif t=\underset{T\to\infty}{\lim}\,\frac{1}{2T}\E_\mu\left[\left(\int_0^T R(q_t,p_t)\,\dif t\right)^2\right].
+    \end{equation}
+    This is the Einstein formula. In the case of mobility $R(q,p)=F\cdot M^{-1}p$, the right-hand side rewrites 
+    \begin{equation}
+        \label{eq:einstein_formula_mobility}
+        \underset{T\to\infty}{\lim}\,\frac{1}{2T}\E_\mu\left[\left(F\cdot \left(Q_T-Q_0\right)\right)^2\right],
+    \end{equation}
+    where 
+    \begin{equation}
+        \label{eq:self_diffusion_process}
+        Q_t=Q_0+\int_0^t M^{-1}p_s\,\dif s=\int_0^t \,\dif q_s
+    \end{equation}
+    is the so called \textbf{self-diffusion} process, which formally satisfies the same SDE as $q$, but in the unperiodic domain $\R^{dN}$. 
+    Its trajectories corresponds to the unwrapped or unperiodicized trajectories of the coordinates, which makes them particularly easy to keep compute throughout a numerical simulation.
+    This terminology is justified by a result (see Theorem 1 in \cite{R89}) asserting that the diffusively rescaled self-diffusion process 
+    \[\sqrt{\varepsilon}(Q_{\varepsilon^{-1}t}-Q_0)\]
+    converges in law to a Brownian motion with diffusion matrix $\mathfrak D$ characterized by
+    \begin{equation}
+        \label{eq:diffusion_tensor}
+        F\cdot \mathfrak D F= \underset{T\to\infty}{\lim}\,\frac{1}{T}\E_\mu\left[\left(F\cdot \left(Q_T-Q_0\right)\right)^2\right].
+    \end{equation}
+    In the case of an isotropic system, the diffusion matrix is characterized by a single number, the diffusion coefficient, which is given by the half normalized trace of the diffusion matrix.
+    \begin{equation}
+        \label{eq:diffusion_coefficient}
+        D=\frac{1}{2dN}\mathrm{Tr}(\mathfrak D)=\underset{T\to\infty}{\lim}\,\frac{1}{2dNT}\E_\mu\left[\left|Q_T-Q_0\right|^2\right]
+    \end{equation}
+    In view of the Einstein relation \eqref{eq:einstein_formula_mobility} and of the Green-Kubo relation \eqref{eq:green_kubo_mobility}, the mobility is linked to the diffusion coefficient through
+    \begin{equation}
+        \label{eq:mobility_from_einstein}
+        \rho_{F_{\mathrm{S}}}=\beta D.
+    \end{equation}
+\end{remark}
+    This yields a new family of estimators for the mobility, based on a computation of the self-diffusion coordinates expression \eqref{eq:diffusion_coefficient}.
+    In Figure \ref{fig:einstein_demo} we illustrate the strategy we used to compute the mobility using the Einstein formula, which we proceed to explain.
+    We define the mean-squared deviation as the process
+    \begin{equation}
+        \label{eq:mean_squared_deviation}
+        M_t=\frac{|Q_t-Q_0|^2}{dN}.
+    \end{equation}
+    Fixing a number of independent realizations $N_{\mathrm{run}}$ and a number of simulation iterations $N_{\mathrm{iter}}$, we consider, for each $i=1,\dots,N_{\mathrm{run}}$, a numerical trajectory of regularly sampled points from the mean-squared deviation,
+    $M^i=(M_i^{k})_{0\leq k\leq N_{\mathrm{iter}}}.$ 
+    These correspond to points sampled at regular time intervals $T_{\mathrm{samp}}=N_{\mathrm{samp}}\Dt$, where $\Dt$ is the simulation timestep, and computed from the numerical trajectory of the self-diffusion coordinates.
+    We then obtain $N_{\mathrm{run}}$ estimators for $D$ by a linear regression on the mean-squared deviation trajectories, 
+    \begin{equation}
+        \widehat{D}^i_{N_{\mathrm{iter}}}= \frac{1}{2|\tau|^2} \tau\cdot M^i,
+    \end{equation}
+    where \[\tau=(kT_{\mathrm{samp}})_{0\leq k\leq N_{\mathrm{iter}}}\]
+    is the vector of sampling times. An estimator for $D$, and thus for $\rho_{F_{\mathrm{S}}}$, is obtained by averaging over the number of independent runs:
+    \begin{equation}
+        \label{eq:diffusion_final_estimator}
+        \widehat{D}_{N_{\mathrm{iter}}}=\frac{1}{N_{\mathrm{run}}}\sum_{i=1}^{N_{\mathrm{run}}}\widehat{D}^i_{N_{\mathrm{iter}}}.
+    \end{equation}
+    Independent runs can be computed over a single trajectory, using the Markov property,
+    \[(Q_T-Q_0)_{T\geq 0} \sim (Q_(T+t)-Q_t)_{T\geq 0} \ind (Q_s)_{0\leq s\leq t}\,\forall\,T,t\geq 0.\]
+    This can be very simply exploited in a simulation, by resetting the self-diffusion coordinates to zero following each sample run. 
+    In practice, one has to take care to take $N_{\mathrm{samp}}$ large enough so that the mean-squared deviation behaves approximately linearly over the sample time range $[0,T_{\mathrm{samp}}]$.
+    In Figure \ref{fig:einstein_demo}, we illustrate the principle underlying this method. 
+    For our final computation, we used $N_{\mathrm{run}}=256$, $N_{\mathrm{iter}}=10^6$, $\Dt=10^{-3}$, $N_{\mathrm{samp}}=1$.
+    The estimated mobility is 
+    \begin{equation}
+        \label{eq:einstein_est_mobility}
+        \rho_{F_{\mathrm{S}}}=0.1214\pm 0.003.
+    \end{equation}
+
+\begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.8\linewidth]{figures/einstein_demo.pdf}
+      \caption{ \label{fig:einstein_demo}
+        Twenty independent realizations of the mean squared-deviation (in blue) superimposed with their corresponding linear regression lines (in red dotted lines).
+        The regression line corresponding to the final estimator \eqref{eq:diffusion_final_estimator} is plotted in bright green.
+      }
+    \end{center}
+  \end{figure}
 \subsection{Shear viscosity}
+We conclude by applying the Green-Kubo formula to shear viscosity computations. It asserts, with $\rho_{F,k}$ given by \eqref{eq:shear_viscosity_tranpsort_coefficient},
+\begin{equation}
+    \label{eq:green_kubo_viscosity}
+    \rho_{F,k}=\beta\int_0^\infty \E_\mu\left[R_k(q_t,p_t)\left(F(q_0)\cdot M^{-1}p_0\right)\right],
+\end{equation}
+where $R_k$ is given by \eqref{eq:nemd_shear_viscosity_response}.
+At this point, let us remark that we can, similar to the mobility case in \eqref{eq:diffusion_gk_scalar_product}, exploit the isotropy of the equilibrium measure to our statistical advantage.
+To do this let us define versions of the transverse forcing method for any pair of orthogonal canonical directions in $\R^d$. More precisely,
+we define, for any $1\leq \alpha \neq \beta \leq d$,
+\begin{align*}
+    &R_{k,\alpha\beta}(q,p)=\frac{1}N\sum_{i=1}^N\frac{p_{i\alpha}}{m}\exp\left(\frac{2ik\pi q_{i\beta}}{L}\right),\\
+    &F_{\alpha\beta}(q)_{i\beta}=F_y(q_{i\alpha}),\qquad F_{\alpha\beta}(q)_{i\delta}=0,\,\forall\, 1\leq i\leq N,\, \forall\, \delta \neq \beta.
+\end{align*}
+
+Then, by isotropy, we have
+\begin{equation}
+    \label{eq:green_kubo_viscosity}
+    \rho_{F,k}=\frac{2\beta}{d(d-1)}\sum_{1\leq \alpha\neq\beta \leq d}\int_0^\infty\E_\mu\left[R_{k,\alpha\beta}(q_t,p_t)\left(F_{\alpha\beta}(q_0)\cdot M^{-1}p_0\right)\right].
+\end{equation}
+
+This can be rewritten as an expression of the form \eqref{eq:time_correlation}, with $d(d-1)/2$-dimensional observables. 
+This is slightly theoretical since in practice $d$ is always $2$ or $3$. If $d=2$, there is nothing to gain from this method. 
+However, when $d=3$, the speedup in convergence is appreciable. 
+We also take advantage of this opportunity to showcase the power of the Green-Kubo method by computing transport coefficients for all three forcing profiles using a single numerical trajectory.
+In Figure \eqref{fig:sv_correlations}, we plot the correlation functions and corresponding integral for the three different forcing profiles.
+We note that the results are roughly consistent with the analytic computations of Figure \ref{tab:fourier_coefficients}, in the sense that the normalized transport coefficient 
+\[\frac{\rho_{F,k}}{F_k}\]
+should be real and positive. 
+The persistance of an imaginary component in the estimation of this normalized transport coefficient can be attributed to statistical error, and is useful as a direct empirical (albeit unrigorous) monitor for the convergence of the Green-Kubo estimator.
+Computations were run under the reference thermodynamic condition \eqref{eq:reference_thermo_condition_sv}, for a physical simulation time of $t_{\mathrm{fin}}=1.26\times 10^4$, with a timestep $\Dt=10^{-3}$ and a number of decorrelation steps $N_{\mathrm{corr}}=10^4$.
+The corresponding estimates for the shear viscosity, based on equation \eqref{eq:shear_viscosity_nemd_estimator}, are respectively $1.26$, $1.24$ and $1.15$ for the sinusoidal, piecewise constant and piecewise linear forcing profiles.
+Error bars are estimated from the 
+
+\begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.49\linewidth]{figures/sinus_corr.pdf} \includegraphics[width=0.49\linewidth]{figures/sinus_int_corr.pdf}
+      \includegraphics[width=0.49\linewidth]{figures/const_corr.pdf} \includegraphics[width=0.49\linewidth]{figures/const_int_corr.pdf}
+      \includegraphics[width=0.49\linewidth]{figures/lin_corr.pdf} \includegraphics[width=0.49\linewidth]{figures/lin_int_corr.pdf}
+      \caption{ \label{fig:sv_correlations}
+        Correlation functions (left) and corresponding integrated correlation functions (right) for the shear viscosity dynamics. Top row: sinusoidal forcing, middle row: piecewise constant forcing, bottom row: piecewise linear forcing.
+        Real parts are plotted in red and imaginary parts are plotted in blue. Integrals were obtained with a trapezoid rule.
+      }
+    \end{center}
+  \end{figure}
