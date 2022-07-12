@@ -524,15 +524,15 @@ We conclude this section on mobility computations by the discussion of a final m
         \widehat{D}_{N_{\mathrm{iter}}}=\frac{1}{N_{\mathrm{run}}}\sum_{i=1}^{N_{\mathrm{run}}}\widehat{D}^i_{N_{\mathrm{iter}}}.
     \end{equation}
     Independent runs can be computed over a single trajectory, using the Markov property,
-    \[(Q_T-Q_0)_{T\geq 0} \sim (Q_(T+t)-Q_t)_{T\geq 0} \ind (Q_s)_{0\leq s\leq t}\,\forall\,T,t\geq 0.\]
+    \[(Q_T-Q_0)_{T\geq 0} \sim (Q_{T+t}-Q_t)_{T\geq 0} \ind (Q_s)_{0\leq s\leq t}\,\forall\,T,t\geq 0.\]
     This can be very simply exploited in a simulation, by resetting the self-diffusion coordinates to zero following each sample run. 
     In practice, one has to take care to take $N_{\mathrm{samp}}$ large enough so that the mean-squared deviation behaves approximately linearly over the sample time range $[0,T_{\mathrm{samp}}]$.
     In Figure \ref{fig:einstein_demo}, we illustrate the principle underlying this method. 
-    For our final computation, we used $N_{\mathrm{run}}=256$, $N_{\mathrm{iter}}=10^6$, $\Dt=10^{-3}$, $N_{\mathrm{samp}}=1$.
+    For our final computation, we used $N_{\mathrm{run}}=337$, $N_{\mathrm{iter}}=10^6$, $\Dt=10^{-3}$, $N_{\mathrm{samp}}=1$.
     The estimated mobility is 
     \begin{equation}
         \label{eq:einstein_est_mobility}
-        \rho_{F_{\mathrm{S}}}=0.1214\pm 0.003.
+        \rho_{F_{\mathrm{S}}}=0.1214\pm 0.00014.
     \end{equation}
 
 \begin{figure}[htbp]
@@ -540,7 +540,7 @@ We conclude this section on mobility computations by the discussion of a final m
       \includegraphics[width=0.8\linewidth]{figures/einstein_demo.pdf}
       \caption{ \label{fig:einstein_demo}
         Twenty independent realizations of the mean squared-deviation (in blue) superimposed with their corresponding linear regression lines (in red dotted lines).
-        The regression line corresponding to the final estimator \eqref{eq:diffusion_final_estimator} is plotted in bright green.
+        The regression line corresponding to the corresponding estimator \eqref{eq:diffusion_final_estimator} is plotted in bright green.
       }
     \end{center}
   \end{figure}
@@ -556,27 +556,25 @@ To do this let us define versions of the transverse forcing method for any pair 
 we define, for any $1\leq \alpha \neq \beta \leq d$,
 \begin{align*}
     &R_{k,\alpha\beta}(q,p)=\frac{1}N\sum_{i=1}^N\frac{p_{i\alpha}}{m}\exp\left(\frac{2ik\pi q_{i\beta}}{L}\right),\\
-    &F_{\alpha\beta}(q)_{i\beta}=F_y(q_{i\alpha}),\qquad F_{\alpha\beta}(q)_{i\delta}=0,\,\forall\, 1\leq i\leq N,\, \forall\, \delta \neq \beta.
+    &F_{\alpha\beta}(q)_{i\alpha}=F_y(q_{i\beta}),\qquad F_{\alpha\beta}(q)_{i\delta}=0,\,\forall\, 1\leq i\leq N,\, \forall\, \delta \neq \beta.
 \end{align*}
 
 Then, by isotropy, we have
 \begin{equation}
-    \label{eq:green_kubo_viscosity}
-    \rho_{F,k}=\frac{2\beta}{d(d-1)}\sum_{1\leq \alpha\neq\beta \leq d}\int_0^\infty\E_\mu\left[R_{k,\alpha\beta}(q_t,p_t)\left(F_{\alpha\beta}(q_0)\cdot M^{-1}p_0\right)\right].
+    \label{eq:green_kubo_viscosity_isotropic}
+    \rho_{F,k}=\frac{\beta}{d(d-1)}\sum_{1\leq \alpha\neq\beta \leq d}\int_0^\infty\E_\mu\left[R_{k,\alpha\beta}(q_t,p_t)\left(F_{\alpha\beta}(q_0)\cdot M^{-1}p_0\right)\right].
 \end{equation}
 
-This can be rewritten as an expression of the form \eqref{eq:time_correlation}, with $d(d-1)/2$-dimensional observables. 
-This is slightly theoretical since in practice $d$ is always $2$ or $3$. If $d=2$, there is nothing to gain from this method. 
-However, when $d=3$, the speedup in convergence is appreciable. 
+This can be rewritten as an expression of the form \eqref{eq:time_correlation}, with $d(d-1)$-dimensional observables. 
+This is slightly theoretical since in practice $d$ is always $2$ or $3$. When $d=3$, the speedup in convergence is appreciable. 
 We also take advantage of this opportunity to showcase the power of the Green-Kubo method by computing transport coefficients for all three forcing profiles using a single numerical trajectory.
 In Figure \eqref{fig:sv_correlations}, we plot the correlation functions and corresponding integral for the three different forcing profiles.
 We note that the results are roughly consistent with the analytic computations of Figure \ref{tab:fourier_coefficients}, in the sense that the normalized transport coefficient 
 \[\frac{\rho_{F,k}}{F_k}\]
 should be real and positive. 
 The persistance of an imaginary component in the estimation of this normalized transport coefficient can be attributed to statistical error, and is useful as a direct empirical (albeit unrigorous) monitor for the convergence of the Green-Kubo estimator.
-Computations were run under the reference thermodynamic condition \eqref{eq:reference_thermo_condition_sv}, for a physical simulation time of $t_{\mathrm{fin}}=1.26\times 10^4$, with a timestep $\Dt=10^{-3}$ and a number of decorrelation steps $N_{\mathrm{corr}}=10^4$.
-The corresponding estimates for the shear viscosity, based on equation \eqref{eq:shear_viscosity_nemd_estimator}, are respectively $1.26$, $1.24$ and $1.15$ for the sinusoidal, piecewise constant and piecewise linear forcing profiles.
-Error bars are estimated from the 
+Computations were run under the reference thermodynamic condition \eqref{eq:reference_thermo_condition_sv}, for a physical simulation time of $t_{\mathrm{fin}}=1.68\times 10^4$, with a timestep $\Dt=10^{-3}$ and a number of decorrelation steps $N_{\mathrm{corr}}=10^4$.
+The corresponding estimates for the shear viscosity, based on equation \eqref{eq:shear_viscosity_nemd_estimator}, are respectively $1.25$, $1.24$ and $1.12$ for the sinusoidal, piecewise constant and piecewise linear forcing profiles.
 
 \begin{figure}[htbp]
     \begin{center}
