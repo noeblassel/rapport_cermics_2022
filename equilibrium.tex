@@ -555,11 +555,17 @@ These generators individually give rise to dynamics which we can express explici
 \end{aligned}\right.
 \end{equation}
 where $G$ is a standard $dN$-dimensional Gaussian. The third equality translates an equality in law between an Itô integral and a Gaussian random variable, and follows by applying Itô's formula to the rescaled process
-$$\e^{\gamma M^{-1}t}X_t,$$
-where $X_t$ is the Ornstein-Uhlenbeck process:
+$$\e^{\gamma M^{-1}t}p_t,$$
+where $p_t$ is the Ornstein-Uhlenbeck process:
 \begin{equation}
-    \dif X_t=-\gamma M^{-1}X_t\dif t+\sqrt{\frac{2\gamma}{\beta}}\dif W_t.
+    \dif p_t=-\gamma M^{-1}p_t\dif t+\sqrt{\frac{2\gamma}{\beta}}\dif W_t,
 \end{equation}
+then applying the following matrix form of Itô's isometric property 
+\begin{equation}
+    \label{eq:ito_isometry_matrix}
+    \int_0^t A_s\,\dif W_s \overset{\mathrm{law}}{=} \left(\int_0^t A_s A_s^\intercal \,\dif s\right)^{\frac12}\mathcal G
+\end{equation}
+to obtain the equality in law.
  The dynamics associated with the A and B part are deterministic Hamiltonian dynamics already identified in \eqref{eq:Lham_splitting_dynamics_solved}.
 Just as in the Hamiltonian case, we can define schemes for the Langevin dynamics based on approximating the evolution operator \eqref{eq:langevin_evolution_operator} over one timestep by splitting the generator $\cL_\gamma$, and combining the corresponding evolution operators \eqref{eq:propagators} in a sequence.
 We refer to such a splitting approximation by the sequence in which the individual propagators are composed. It is useful at this point to introduce the stochastic flow map associated with the Ornstein-Uhlenbeck dynamics.

@@ -126,7 +126,7 @@ If we make the approximation $\sigma_i^2 \approx \sigma_R^2$, which is good at f
 we can estimate an upper bound on the variance,
 \[ \mathrm{Var}(\widehat{\rho}_F) \lessapprox \frac{\sigma_R^2}{|\eta|^2N_{\mathrm{iter}}}.\]
 
-\subsection{Mobility}
+\subsection{Mobility}\label{subsec:mobility}
 As a first and simplest example, we introduce a method for computing the mobility. In this case the forcing is simply a constant vector, and the response is velocity in the direction $F$, which we may think of as the particle flux through $F$'s orthogonal hyperplane.
 The transport coefficient corresponding to the forcing
 \begin{equation}
@@ -182,7 +182,7 @@ and index the state as \[\left(q_{i\alpha}\right)_{\substack{\leq i\leq N\\1\leq
 The non-equilibrium dynamics is defined by the following expression for $F$:
 \begin{equation}
     \label{eq:shear_viscosity_forcing}
-    \forall\, 1\leq i\leq N,\,\forall\, 2\leq \alpha\leq d,\qquad F(q)_{i1}=F_y(q_{i2}),\qquad F(q)_{i\alpha}=0.
+    \forall\, 1\leq i\leq N,\,\forall\, 2\leq \alpha\leq d,\qquad F(q)_{i1}=f_y(q_{i2}),\qquad F(q)_{i\alpha}=0.
 \end{equation}
 The idea is that by imposing a forcing \textit{profile} in the x-direction, we observe a velocity profile in response, which depends on the $y$-coordinate.
 \begin{remark}[Anisotropic friction]
@@ -201,7 +201,7 @@ In practice, $u_x$ can be estimated from numerical trajectories by decomposing t
  The shear viscosity $\sigma$ is then defined by the differential equation
 \begin{equation}
     \label{eq:shear_viscosity_relation_diffeq}
-    \sigma u_x''(Y)+\gamma \rho u_x(Y)=\rho F_y(Y),
+    \sigma u_x''(Y)+\gamma \rho u_x(Y)=\rho f_y(Y),
 \end{equation}
 where $\rho= N/L^3$ is the particle density.
 In fact, the solutions to \eqref{eq:shear_viscosity_relation_diffeq} are periodic, thus the magnitude of the linear response can be estimated through Fourier-like coefficients.
@@ -229,13 +229,13 @@ The shear viscosity can then be computed from equation \eqref{eq:shear_viscosity
 \end{equation}
 by taking Fourier coefficients in equation \eqref{eq:shear_viscosity_relation_diffeq},
 where $F_k$ is the counterpart Fourier coefficient for the forcing,
-\[F_k=\frac 1L\int_0^L F_y(s)\exp\left(\frac{2ik\pi s}L\right)\,\dif s,\]
+\[F_k=\frac 1L\int_0^L f_y(s)\exp\left(\frac{2ik\pi s}L\right)\,\dif s,\]
 and again only considering $k=1$ in practice. Numerically, $\rho_{F,k}$ can be approximated by an estimator of the form \eqref{eq:rho_F_nemd_estimator}.
 In our numerical experiments, we consider the same three forcing profiles as in \cite{JS12}, namely:
 \begin{enumerate}[(i)]
-    \item A sinusoidal forcing profile \[F_y(u)=\sin\left(\frac{2\pi u}{L}\right),\]
-    \item a piecewise constant forcing profile \[F_y(u)=\1_{u<\frac{L}2}-\1_{u\geq \frac{L}2},\]
-    \item and a piecewise linear forcing profile \[F_y(u)=\frac{4}{L}\left(u-\frac{L}4\right)\1_{u<\frac{L}2}-\frac{4}L\left(\frac{3L}4-u\right)\1_{u\geq \frac{L}2}.\]
+    \item A sinusoidal forcing profile \[f_y(u)=\sin\left(\frac{2\pi u}{L}\right),\]
+    \item a piecewise constant forcing profile \[f_y(u)=\1_{u<\frac{L}2}-\1_{u\geq \frac{L}2},\]
+    \item and a piecewise linear forcing profile \[f_y(u)=\frac{4}{L}\left(u-\frac{L}4\right)\1_{u<\frac{L}2}-\frac{4}L\left(\frac{3L}4-u\right)\1_{u\geq \frac{L}2}.\]
 \end{enumerate}
 These forcings have the advantage that the Fourier coefficients can be analytically computed. We record in Figure \ref{tab:fourier_coefficients} the value of the first Fourier coefficient $F_1$ for each of these forcings.
 As in the case of mobility, we fix a reference thermodynamic condition,
@@ -360,16 +360,16 @@ However, these procedures introduce a truncation in time of the integral in \eqr
 Another approach consists of extrapolating the behavior of $\widehat{C}_{N_{\mathrm{iter}}}$ by fitting a parametric model 
 \begin{equation}
     \label{eq:time_correlation_parametric_model}
-    C_{\theta}(t)=\left(\sum_{k=1}^{m}a_k\e^{-\lambda_k t}\cos(f_k t)\right),
+    C_{\theta}(t)=\left(\sum_{k=1}^{m}a_k\e^{-\lambda_k t}\cos(f_k t+\omega_k)\right),
 \end{equation}
-where \[\theta=(\lambda_k,a_k,f_k)\in \left(\R_{>0}\times\R\times \R\right)^{m}\]
+where \[\theta=(\lambda_k,a_k,f_k,\omega_k)\in \left(\R_{>0}\times\R\times \R \times \R\right)^{m}\]
 is the parameter. The form of this model is justified empirically, although a formal argument based on a diagonalisation of the evolution semigroup can be made, and using the conjugate symmetry property
 $\cL_\gamma \overline{\psi}=\overline{\cL_\gamma \psi}$
 for $\psi$ a complex-valued observable.
 Rigorously justifying and quantifying the accuracy of this model requires fine knowledge of the spectrum of $\cL_\gamma$.
 At any rate, we can then fit the model in a least-squares sense,
 \begin{equation}
-    \theta^*=\underset{\theta\in \left(\R_{>0}\times\R\times \R\right)^{m}}{\mathrm{argmin}}\sum_{n=0}^{N_{\mathrm{corr}}}\left| C_{\theta}(n\Dt)-\widehat{C}_{N_{\mathrm{iter}}}(n\Dt) \right|^2,
+    \theta^*=\underset{\theta\in \left(\R_{>0}\times\R\times \R \times \R\right)^{m}}{\mathrm{argmin}}\sum_{n=0}^{N_{\mathrm{corr}}}\left| C_{\theta}(n\Dt)-\widehat{C}_{N_{\mathrm{iter}}}(n\Dt) \right|^2,
 \end{equation}
 using gradient descent, or the Gauss-Newton method, and deduce an estimator for the transport coefficient,
 \begin{equation}
@@ -379,7 +379,7 @@ using gradient descent, or the Gauss-Newton method, and deduce an estimator for 
 leveraging the simple identity
 \begin{equation}
     \label{eq:int_analytic_form}
-    \int_0^{\infty}\e^{-\lambda t}a\cos(ft)\,\dif t=\frac{a\lambda}{\lambda^2+f^2},
+    a\int_0^{\infty}\e^{-\lambda t}\cos(ft+\omega)\,\dif t=a\frac{\lambda\cos \omega - f\sin\omega}{\lambda^2+f^2},
 \end{equation}
 we get a closed form for the estimator,
 \[\widehat{\rho}^{\mathrm{GK}}_{F,N_{\mathrm{iter}}}=\sum_{k=1}^m\frac{a_k\lambda_k}{\lambda_k^2+f_k^2}.\]
@@ -439,7 +439,7 @@ In Figure \ref{fig:gk_mobility}, we plot the velocity autocorrelation function u
 We used the same thermodynamics conditions as for the NEMD method \eqref{eq:reference_thermo_condition}. 
 In Figure \ref{fig:fit_gk_mobility}, we show the fitted non-linear least squares model \eqref{eq:time_correlation_parametric_model} for the autocorrelation function, using $m=4$ modes, trained using the Gauss-Newton algorithm.
 The estimated correlation function was obtained from a single numerical trajectory with a physical reduced time of $t_{\mathrm{fin}}=1.628 \times 10^5$.
-The corresponding estimated values for the mobility are $0.1218$ based on a trapezoid quadrature of the truncated autocorrelation function, and $0.1215$ for the analytic integral of the parametric model.
+The corresponding estimated values for the mobility are $0.1218$ based on a trapezoid quadrature of the truncated autocorrelation function, and $0.1217$ for the analytic integral of the parametric model.
 
 
 \begin{figure}[htbp]
@@ -456,7 +456,7 @@ The corresponding estimated values for the mobility are $0.1218$ based on a trap
     \begin{center}
       \includegraphics[width=0.8\linewidth]{figures/autocorr_fit.pdf}
       \caption{ \label{fig:fit_gk_mobility}
-        Fitted autocorrelation function (in red) with a few data points from the numerically estimated autocorrelation function (in blue) for the Lennard-Jones system \eqref{eq:reference_thermo_condition}.
+        Fitted parametric model \eqref{eq:time_correlation_parametric_model} (in dotted line) superimposed on autocorrelation function from Figure \ref{fig:gk_mobility} (in black) for the Lennard-Jones system \eqref{eq:reference_thermo_condition}.
       }
     \end{center}
   \end{figure}
@@ -528,11 +528,11 @@ We conclude this section on mobility computations by the discussion of a final m
     This can be very simply exploited in a simulation, by resetting the self-diffusion coordinates to zero following each sample run. 
     In practice, one has to take care to take $N_{\mathrm{samp}}$ large enough so that the mean-squared deviation behaves approximately linearly over the sample time range $[0,T_{\mathrm{samp}}]$.
     In Figure \ref{fig:einstein_demo}, we illustrate the principle underlying this method. 
-    For our final computation, we used $N_{\mathrm{run}}=337$, $N_{\mathrm{iter}}=10^6$, $\Dt=10^{-3}$, $N_{\mathrm{samp}}=1$.
+    For our final computation, we used $N_{\mathrm{run}}=545$, $N_{\mathrm{iter}}=10^6$, $\Dt=10^{-3}$, $N_{\mathrm{samp}}=1$.
     The estimated mobility is 
     \begin{equation}
         \label{eq:einstein_est_mobility}
-        \rho_{F_{\mathrm{S}}}=0.1214\pm 0.00014.
+        \rho_{F_{\mathrm{S}}}=0.12157\pm 0.00011.
     \end{equation}
 
 \begin{figure}[htbp]
@@ -556,7 +556,7 @@ To do this let us define versions of the transverse forcing method for any pair 
 we define, for any $1\leq \alpha \neq \beta \leq d$,
 \begin{align*}
     &R_{k,\alpha\beta}(q,p)=\frac{1}N\sum_{i=1}^N\frac{p_{i\alpha}}{m}\exp\left(\frac{2ik\pi q_{i\beta}}{L}\right),\\
-    &F_{\alpha\beta}(q)_{i\alpha}=F_y(q_{i\beta}),\qquad F_{\alpha\beta}(q)_{i\delta}=0,\,\forall\, 1\leq i\leq N,\, \forall\, \delta \neq \beta.
+    &F_{\alpha\beta}(q)_{i\alpha}=f_y(q_{i\beta}),\qquad F_{\alpha\beta}(q)_{i\delta}=0,\,\forall\, 1\leq i\leq N,\, \forall\, \delta \neq \beta.
 \end{align*}
 
 Then, by isotropy, we have
@@ -573,8 +573,8 @@ We note that the results are roughly consistent with the analytic computations o
 \[\frac{\rho_{F,k}}{F_k}\]
 should be real and positive. 
 The persistance of an imaginary component in the estimation of this normalized transport coefficient can be attributed to statistical error, and is useful as a direct empirical (albeit unrigorous) monitor for the convergence of the Green-Kubo estimator.
-Computations were run under the reference thermodynamic condition \eqref{eq:reference_thermo_condition_sv}, for a physical simulation time of $t_{\mathrm{fin}}=1.68\times 10^4$, with a timestep $\Dt=10^{-3}$ and a number of decorrelation steps $N_{\mathrm{corr}}=10^4$.
-The corresponding estimates for the shear viscosity, based on equation \eqref{eq:shear_viscosity_nemd_estimator}, are respectively $1.25$, $1.24$ and $1.12$ for the sinusoidal, piecewise constant and piecewise linear forcing profiles.
+Computations were run under the reference thermodynamic condition \eqref{eq:reference_thermo_condition_sv}, for a physical simulation time of $t_{\mathrm{fin}}=2.46\times 10^4$, with a timestep $\Dt=10^{-3}$ and a number of decorrelation steps $N_{\mathrm{corr}}=10^4$.
+The corresponding estimates for the normalized transport coefficients are respectively $0.644$, $0.645$ and $0.655$ for the sinusoidal, piecewise constant and piecewise linear forcing profiles.
 
 \begin{figure}[htbp]
     \begin{center}

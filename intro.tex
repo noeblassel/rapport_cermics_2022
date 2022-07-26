@@ -240,7 +240,7 @@ We will also be considering the instantaneous pressure, which is given, for a pa
 $$P(q,p)=\frac{1}{|\mathcal D|}\left( Nk_B T_{\kappa} -\frac1d\sum_{i=1}^N q_i^\intercal\nabla_{q_i}V(q)\right).$$
 Neglecting the right-hand side gives the famous ideal gas law, $PV=Nk_BT$, which is a good approximation at low densities. The right hand side, otherwise known as the virial, appears to be problematic since the $q_i$ are not periodic functions of $q$, which would suggest $P$ is not a well-defined observable on $\mathcal D$.
 However, using the particular form of the potential, which is a function of the displacements $|q_i-q_j|$, and symmetry arising from Newton's third law, we can arrive at the following expression:
-$$P(q,p)=\frac1{d|\mathcal D|}\left( \sum_{i=1}^N \frac{|p_i|}{m_i}-\sum_{i \neq j}|q_i-q_j|v'(|q_i-q_j|)\right),$$
+\begin{equation}\label{eq:pressure}P(q,p)=\frac1{d|\mathcal D|}\left( \sum_{i=1}^N \frac{|p_i|}{m_i}-\sum_{i \neq j}|q_i-q_j|v'(|q_i-q_j|)\right),\end{equation}
 which is indeed a periodic function of $q$. In the NVT ensemble, the average of the kinetic part of the pressure is a known parameter, so we may replace it by its value, considering the observable:
 
 $$\frac{N}{\beta |\mathcal D|}- \frac{1}{d|\mathcal D|}\sum_{i=1}^N q_i^\intercal\nabla_{q_i}V(q).$$
