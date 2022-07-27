@@ -483,48 +483,118 @@ since $M$ is symmetric, which corresponds to the response observable for the mob
 Hence the A step \eqref{eq:norton_A_step} is analytically correct, with a vanishing Lagrange multiplier.
  We thus estimate the mean force through the estimator \eqref{eq:norton_mean_force_estimator_practical} with $\lambda^{k+\frac12}=0$.
 An estimator of \[\underset{r\to 0}{\lim}\,\frac{\E_r[\lambda]}{r}\] 
-can then be obtained in the same way as \eqref{eq:rho_F_nemd_estimator}, and the same analysis outputs an estimate of its variance.
-Supposing that $$(\widehat{\rho}_{F})^{-1}$$ is such an estimator with estimated variance $\sigma^2$, the Delta method yields an estimator 
-$\widehat{\rho}_F$
-of the transport coefficient $\rho_F$, with an estimated variance of
-\[\widehat{\rho}_F^4\sigma^2.\]
+can then be obtained in the same way as \eqref{eq:rho_F_nemd_estimator}, by 
 
-In Figure, we plot the response profile in the linear regime. The estimations are consistent with the quantities computed from the Thevenin and Green-Kubo methods.
-In Figure, we plot the response profile in the non-linear regime, and superimpose the response profile of the Thevenin system, already shown in Figure. 
-For the color drift, the two responses appear to coincide perfectly.
-In Figure , we show the computed asymptotic variance for estimators of $\rho_F$ based on the Thevenin methods and the Norton methods. 
-Asymptotic variances for estimators of the response and mean force were computed using block averages, and the corresponding asymptotic variance for the estimator of $\rho_F$ was obtained using the Delta method.
-It appears that the two methods are roughly equivalent in terms of asymptotic variance.
-In Figure, we recollect the results from all the different methods used for mobility computations.
+\begin{equation}
+    \label{eq:norton_rho_F_estimator}
+    \widehat{\rho}_F= |\widehat{\lambda}|^{-2}\widehat{\lambda}\cdot r= \underset{\rho \in \R}{\mathrm{argmin}} \left| \rho\widehat{\lambda} - r\right|^2,
+\end{equation}
+where $\widehat{\lambda} \in \R^k$ is a vector of $k$ ergodic averages of the form \eqref{eq:norton_mean_force_estimator_practical}, and $r$ is a vector containing the corresponding response intensities.
+Assuming, for simplicity's sake, that all ergodic averages are computed with the same number $N_{\mathrm{iter}}$ of time steps, and that $\widehat{\lambda}$ has a (diagonal) matrix of asymptotic variances $\Sigma_\lambda^2$, applying the delta-method to \eqref{eq:norton_rho_F_estimator} yields
+the following estimator for the asymptotic variance of $\widehat{\rho}_F$
+\[
+\sigma^2_{\rho_F}= \nabla g(\widehat{\lambda})^\intercal \Sigma^2_\lambda\nabla g(\widehat{\lambda}),
+\]
+where 
+\[g(y)=|y|^{-2}y\cdot r,\]
+which yields, after computation,
+
+\begin{equation}
+    \label{eq:norton_sv_av_estimator}
+    \sigma^2_{\rho_F} = \sum_{i=1}^k \Sigma_{\lambda,ii}^2\left(\frac{r_i|\widehat{\lambda}|^2-2\widehat{\lambda}_i(\widehat{\lambda}\cdot r)}{|\widehat{\lambda}|^4}\right)^2.
+\end{equation}
+In the case $k=1$, this becomes
+\begin{equation}
+    \label{eq:norton_sv_av_estimator_fd}
+    \sigma^2_{\rho_F}=\sigma_{\lambda}^2 r^2\widehat{\lambda}^{-4}.
+\end{equation}
+In Figure \ref{fig:norton_mobility_linear}, we plot the response-forcing diagram in the linear regime. 
+The estimated transport coefficient from the color drift is consistent with the results obtained from the Thevenin method. For the single drift, we observe a discrepancy in the linear response.
+In Figure \ref{fig:norton_mobility_full}, we plot the response-forcing curve in the non-linear regime, and superimpose the data obtained from the Thevenin method. 
+For the color drift, the two computed equations of state coincide perfectly. For the single drift, we again observe a small discrepancy.
+This leads us to speculate that the equivalence of non-linear responses may only hold in the thermodynamic limit, and for forcings which act on the bulk of the system, contrarily to the single drift forcing.
+In Figure \ref{fig:norton_avs} , we show the computed asymptotic variance for estimators of $\rho_F$ based on the Thevenin methods and the Norton methods. 
+Asymptotic variances for estimators of the response and mean force were computed using block averages, and the corresponding asymptotic variance for the Norton estimator of $\rho_F$ was obtained using \eqref{eq:norton_sv_av_estimator_fd}.
+It appears that the two methods are roughly equivalent in terms of asymptotic variance, and that the variance for the finite-difference estimator scales like the inverse square of the forcing intensity, consistent with the result expected in the Thevenin case, as noted in Remark \ref{rem:linear_regime}.
+
+The final estimates for the transport coefficients using the Norton method are 
+\[\rho_{F_{\mathrm{C}}} = 0.1211 \pm 0.0006,\qquad \rho_{F_{\mathrm{S}}}=0.1089\pm0.0005.\]
+Estimates of the transport coefficients were obtained using \eqref{eq:norton_rho_F_estimator}, and statistical error was estimated using \eqref{eq:norton_sv_av_estimator}
+
+\begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.9\linewidth]{figures/norton_mobility_plot.pdf}
+      \caption{ \label{fig:norton_mobility_linear}
+        Mobility response versus average forcing intensity in the linear regime. Least squares linear regression lines are plotted in dotted line, and the estimated transport coefficients are indicated in the legend.
+      }
+    \end{center}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.7\linewidth]{figures/norton_mobility_full.pdf}
+      \caption{ \label{fig:norton_mobility_full}
+        Comparison of the Thevenin and Norton mobility equations of state.
+      }
+    \end{center}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.7\linewidth]{figures/asymptotic_vars_mobility.pdf}
+      \caption{ \label{fig:norton_avs}
+       Plot of the asymptotic variance as a function of the forcing intensity for the different methods, on a log-log plot.
+       Results corresponding to a Thevenin estimator are denoted with a T, and those corresponding to the Norton estimator are denoted with a N. 
+      }
+    \end{center}
+  \end{figure}
 
 \subsection{Shear viscosity}
 The NEMD response observable \eqref{eq:nemd_shear_viscosity_response} for shear viscosity can be recovered in the form 
 \[R_k(q,p)= \widetilde{G}_k(q)\cdot p\]
  by setting
 \begin{equation}
-    \label{eq:shear_viscosity_forcing_alt}
+    \label{eq:shear_viscosity_response_alt}
     \forall\, 1\leq i\leq N,\,\forall\, 2\leq \alpha\leq d,\qquad \widetilde{G}_k(q)_{i1}=\frac{1}{m}\exp\left(\frac{2ik\pi q_{i2}}{L}\right),\qquad \widetilde{G}_k(q)_{i\alpha}=0.
 \end{equation}
 Thus we can apply the Norton method. In practice, to avoid dealing with a complex exponential, we rather define
 \begin{equation}
-    \label{eq:shear_viscosity_forcing}
+    \label{eq:shear_viscosity_response}
     \forall\, 1\leq i\leq N,\,\forall\, 2\leq \alpha\leq d,\qquad G_k(q)_{i1}=\frac{1}{m}\sin\left(\frac{2k\pi q_{i2}}{L}\right),\qquad G_k(q)_{i\alpha}=0.
 \end{equation}
 This can be achieved at no cost to generality by considering an appropriate translation of the forcing profile with respect to the results of Figure \ref{tab:fourier_coefficients}.
 Estimators for the transport coefficient \eqref{eq:shear_viscosity_tranpsort_coefficient} and estimates of the statistical error can be obtained identically to the mobility case.
-In Figure, we plot the response profile in the linear regime. The estimations are consistent with the quantities computed from the Thevenin and Green-Kubo methods.
-In Figure, we compare the non-linear response profiles between the Thevenin and Norton methods, for each of the forcing profiles. In every case, the responses coincide perfectly.
-In Figure, we compare asymptotic variances for the Thevenin and Norton methods. As with the mobility, there is no clear winner in terms of asymptotic variance.
-In Figure, we collect the estimations for the normalized transport coefficient obtained with each of the methods described above.
+All simulations were run in the reference thermodynamics condition \eqref{eq:reference_thermo_condition_sv} for a minimum length of $8\times 10^7$ timesteps.
 
+In Figure \ref{fig:norton_sv_linear_response}, we plot the normalized response \[\frac{R_1}{F_1}\] against the estimated average forcing $\langle \lambda \rangle$ in the linear regime, for the different forcing profiles.
+The estimated transport coefficients are consistent with one another, and agree with those obtained in the Thevenin and Green--Kubo setting.
+In Figure \ref{fig:norton_sv_nonlinear_response}, we compare the non-linear response profiles between the Thevenin and Norton methods, for each of the forcing profiles. In every case, the responses coincide perfectly throughout.
+In Figure \ref{fig:norton_avs_sv} we compare asymptotic variances of the finite difference estimators for the normalized response using the Thevenin and Norton method. The asymptotic variance was estimated directly from the response time series in the Thevenin case, using a block averaging procedure,
+and for the Norton method, a block averaging procedure on the forcing time series was combined with a delta-method. We find that the Norton estimators consistently outperform their Thevenin counterparts, and that not all forcing profiles are equal in terms of statistical error.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{figures/norton_sv_lin.pdf}
+    \caption{ \label{fig:norton_sv_linear_response}
+      Normalized Fourier response versus forcing intensity for the three transverse forcing profiles.
+      The size of the linear response regime is roughly the same for every type of forcing. Least squares linear regression lines on the 10 first values are plotted in dotted line, and estimated normalized transport coefficients are indicated in the legend.
+    }
+  \end{center}
+\end{figure}
 \begin{figure}[htbp]
     \begin{center}
-      \includegraphics[width=0.7\linewidth]{figures/sinusoidal_joint.pdf}
-      \includegraphics[width=0.7\linewidth]{figures/constant_joint.pdf}
-      \includegraphics[width=0.7\linewidth]{figures/linear_joint.pdf}
-      \caption{ \label{fig:norton_sv_nonlinear_responses}
-        Superposition of the forcing-response diagram for the transverse forcing profile perturbations, outside of the linear response regime.
-        For every type of forcing profile, the full response agrees.
+      \includegraphics[width=0.9\linewidth]{figures/norton_sv_avs.pdf}
+      \caption{ \label{fig:norton_avs_sv}
+        Scaling of the asymptotic variance for the finite difference estimator of the normalized transport coefficient for shear viscosity}
+    \end{center}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \begin{center}
+      \includegraphics[width=0.75\linewidth]{figures/sinusoidal_joint.pdf}
+      \includegraphics[width=0.75\linewidth]{figures/constant_joint.pdf}
+      \includegraphics[width=0.75\linewidth]{figures/linear_joint.pdf}
+      \caption{ \label{fig:norton_sv_nonlinear_response}
+        Norton and Thevenin equations of state for the shear-viscosity Fourier response, for each type of forcing profile.
       }
     \end{center}
   \end{figure}

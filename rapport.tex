@@ -93,7 +93,7 @@
   \vspace{1,5cm} \huge{\textbf{Stage de Master 2\\}}
   \vspace{0,7cm}\Large{\textbf{Noé Blassel\\}}
   \vspace{1cm}
-  \huge{\textbf{Non-equilibrium molecular dynamics and a Norton method for computing transport coefficients\\}}
+  \huge{\textbf{(Non)-equilibrium molecular dynamics and a Norton method for the estimation of transport coefficients\\}}
   \vspace{2cm}
   \large{\textbf{Projet réalisé  en collaboration avec le CERMICS\\ 
   Ecole Nationale des Ponts et Chaussées \\6 et 8 avenue Blaise Pascal\\
@@ -107,30 +107,35 @@
 \begin{document}
 
 \maketitle
- 
-\tableofcontents
 
+This document is the report for an internship which took place from February 1st to July 31st 2022, at the CERMICS laboratory in the École des Ponts. This is a research unit in applied mathematics,
+comprising of teams working on problems arising from probability theory and optimization, as well as, more directly relevant to us, material science and molecular simulations.
+It was conducted under the advisement of Gabriel Stoltz, and had two explicitly stated aims. 
 
-\chapter{Introduction to molecular dynamics}
-\input{intro.tex}
-\chapter{Sampling equilibrium properties}
-\input{equilibrium.tex}
-\chapter{Study of the BAOA scheme}
-\input{baoa_vs_baoab.tex}
-\chapter{Non-equilibrium Molecular Dynamics}
-\input{non_equilibrium.tex}
-\chapter{Norton dynamics}
-\input{norton.tex}
+One was to engage with Julia and its molecular simulation ecosystem by implementing various methods from equilibrium and non-equilibrium molecular dynamics inside the Molly package.
+Eventually, this approach resulted in a one-week stay with Molly's main author, to integrate some of the implementations developed during the course of the internship inside Molly.
 
-\appendix
-\chapter{Implementation details}
-\input{appendix.tex}
-\chapter{Notational conventions}
+A second aim, more prospective from the scientific point of view, was to advance the understanding of the Norton method, 
+which is a novel method for the computation of transport coefficients from molecular simulations, based on a dual approach from the standard non-equilibrium method, whereby the response is fixed and the average forcing needed to induce it is measured, instead of the usual reverse situation.
+As of the end of this internship, we have proposed a numerical integration strategy for a class of Norton dynamics, and applied it to the cases of mobility and shear viscosity computations. 
+Our numerical results suggest several avenues for future theoretical work, which will be continued in the PhD work of Shiva Darshan, starting from the fall of 2022.
 
+The report is divided into five chapters and one appendix. The first chapter is dedicated to a basic introduction to some concepts in statistical mechanics which are relevant to molecular simulation.
+The second and third chapter are dedicated to equilibrium averages, with the second's focus on a presentation of the different numerical methods involved, and the third's on answering a question that arose when examining's Molly native Langevin integrator,
+which coincidentally was also under investigation at the same time by a team of theoretical chemists, Bettina Keller and Stefanie Kieninger. It is essentially compiled from the written communication we sent to them, presenting our understanding of the BAOA scheme.
+The fourth and fifth chapters are dedicated to the non-equilibrium setting, with the fourth centered on a discussion of the standard methods (Thévenin and Green-Kubo), and the fifth on the presentation of the Norton method.
+All chapters are supplemented with numerical examples, which are destined to illustrate some theoretical properties, or the viability of a given numerical method.
+We conclude the report by a short appendix which highlight some of the thinking that went into the choice of Molly as a molecular simulation package, as well as pointing the reader to relevant source code.
 
+Every example on a realistic system was implemented within Molly, and thus we wish to thank Joe Greener for creating this very flexible and pleasant to work with package,
+ as well as for inviting us to stay for a fascinating week in Cambridge.
+We also take advantage of this short introduction to thank Gabriel Stoltz for trusting us with this subject, for his precious advice, and more generally for introducing us to the fun and mathematically rich subject that is molecular simulation.
+\newpage
 
-\section*{Notational conventions}
-We convene that the gradient of a function $\varphi : \R^n \mapsto \R$ is a column vector-valued function
+\begin{center}
+  \textbf{Notational conventions}
+\end{center}
+We convene that the gradient of a differentiable function $\varphi : \R^n \mapsto \R$ is a column vector-valued function
 $$\nabla \varphi : \R^n \mapsto \R^n \defeq \R^{n\times 1}$$
 Notationally,
 $$\nabla = \begin{pmatrix} \partial x_1 \\ \vdots \\ \partial x_n\end{pmatrix}$$
@@ -154,6 +159,23 @@ And for $f=(f_1,\dotsm, f_n)^\intercal: \R^n \mapsto \R^n$
 
 
 are respectively the Jacobian matrix and divergence of $f$.
+\tableofcontents
+
+\chapter{Introduction to molecular dynamics}
+\input{intro.tex}
+\chapter{Sampling equilibrium properties}
+\input{equilibrium.tex}
+\chapter{Study of the BAOA scheme}
+\input{baoa_vs_baoab.tex}
+\chapter{Non-equilibrium Molecular Dynamics}
+\input{non_equilibrium.tex}
+\chapter{Norton dynamics}
+\input{norton.tex}
+
+\appendix
+\chapter{Implementation details}
+\input{appendix.tex}
+
 \printbibliography
 %-------\input{bibilography.tex}
 \end{document}

@@ -56,7 +56,7 @@ These integrations include:
     \item An online ergodic average and asymptotic variance estimator for a user-specified observable.
 \end{enumerate}
 These were additionally documented, and non-regression tests were implemented for each of them. We refer the reader to the Molly documentation and source code for more details.
-Other implementations were to use-specific, not general enough to be integrated, or not mature enough to be integrated. These include
+Other implementations were too use-specific, not general or not mature enough to be integrated. These include
 \begin{enumerate}[i)]
     \item A pressure observable based on \eqref{eq:pressure},
     \item The implementation of NEMD force fields for mobility and shear viscosity computations,
@@ -67,4 +67,4 @@ These implementations are available in the repository \cite{myrepo}, although we
 We expect, especially for the pressure observable, that a future integration in Molly will be possible, for instance once long-range force contributions are implemented, as well as a more flexible interface for force computations.
 This will be a necessary step in the implementation of barostats, which are important in the context of biomolecular simulation, a use case Molly is particularly attuned to.
 On the other hand, non-equilibrium methods are unlikely to have a place in a general-purpose MD package.
-Instead, we might consider publishing in the future a standalone package that extends Molly for transport coefficient computations, once our understanding of the Norton method has matured.
+Instead, we might consider publishing in the future a standalone package that extends Molly for transport coefficient computations, once our understanding of the Norton method has cohered.
