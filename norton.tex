@@ -1,14 +1,13 @@
-\section{Introduction}
 We have considered so far two general methods for the computation of transport coefficients. The Green-Kubo method, which relies on analysis of autocorrelations in the fluctuation of zero-average equilibrium quantities, 
 and the NEMD method, which relies in measuring the ratio in the average of a given equilibrium-centered response observable under a driven steady-state and the magnitude of the driving force.
 In the case of mobility, we apply a small constant force, and measure the resulting particle flux in the direction of the perturbation. We can thus think of the mobility $\rho_F$ as measuring how \textit{responsive} the flux is to the forcing on the system.
 A natural question to ask is whether it is possible to measure the dual quantity, that is, how \textit{resistive} the system is to a given flux. One possible strategy to answer this question, in loose terms, would be to \textit{constrain} the response to be constant, and measure the average magnitude of the forcing needed to maintain it.
-In the limit of a small response, the linear dependency between these quantities can be hoped to provide an equivalent and reciprocal measure of the transport coefficient. By analogy with the Thevenin and Norton circuit theorems, we will from now on refer to the standard, constant-forcing method as the Thevenin method,
+In the limit of a small response, the linear dependency between these quantities can be hoped to provide an equivalent and reciprocal measure of the transport coefficient. By analogy with the Thévenin and Norton circuit theorems, we will from now on refer to the standard, constant-forcing method as the Thévenin method,
 and the dual, constant-response method as the Norton method. We will again be using the mobility and the shear viscosity as our examples, so as to leverage our previous calculations as ways to validate our method.
 
 
 \section{General framework}
-We first express the method in full generality, before specializing to the non-equilibrium molecular dynamics context.
+We first express the method in full generality, before specializing to the non-equilibrium molecular dynamics context. We consider the stochastic differential equation
 \begin{equation}
     \label{eq:norton_general_sde}
     \left\{\begin{aligned}
@@ -80,7 +79,7 @@ and as a consequence, we may compute the quadratic covariation bracket in \eqref
 where we use $P^\intercal_{A,B}=P_{B,A}$. Inserting equation \eqref{eq:constant_response_condition_bracket_solved} into \eqref{eq:norton_multiplier_sde} yields the full SDE for the forcing $\Lambda_t$ \eqref{eq:norton_sde_multiplier_solved} and the result follows by inserting the latter in \eqref{eq:norton_general_sde}.
 \end{proof}
 
-The Norton dynamics \eqref{eq:norton__dynamics_general} should be thought of as the constant-response counterpart to a corresponding Thevenin dynamics
+The Norton dynamics \eqref{eq:norton_general_sde} should be thought of as the constant-response counterpart to a corresponding Thévenin dynamics
 \begin{equation}
         \label{eq:thevenin_general_sde}
     \left\{\begin{aligned}
@@ -92,10 +91,10 @@ which is perturbed in the same direction, but with a constant forcing intensity 
 As stated above, we propose the Norton dynamics as a possible and alternative means of computing the linear response to a small perturbation of the equilibrium dynamics. 
 We finish this general introduction by evoking a few theoretical questions related to these dynamics.
 \begin{enumerate}[(i)]
-    \item Existence of a unique steady-state for the dynamics \eqref{eq:norton_general_sde} and \eqref{eq:thevenin_general_sde}. As mentioned in the previous chapter, some results already exist in the Thevenin case.
+    \item Existence of a unique steady-state for the dynamics \eqref{eq:norton_general_sde} and \eqref{eq:thevenin_general_sde}. As mentioned in the previous chapter, some results already exist in the Thévenin case.
     \item As before, proving the convergence of trajectory averages.
-    \item With respect to the steady states, whose corresponding expectations we denote by $\E_\eta$ in the Thevenin case, and $\E_r$ in the Norton case, equality of the transport coefficients \[\underset{\eta \to 0}{\lim}\frac{\E_\eta[R]}{\eta}\] and \[\underset{r\to 0}{\lim}\frac{r}{\E_r[\lambda]}.\] This is the question of equivalence of the linear responses.
-    \item Another natural question is that of the equivalence of the Norton and Thevenin equilibrium ensembles. This question asks about the existence of an asymptotic regime, or thermodynamic limit as $D\to\infty$, for which averages under the two equilibrium steady-states converge to a common value, for a sufficiently rich class of observables.
+    \item With respect to the steady states, whose corresponding expectations we denote by $\E_\eta$ in the Thévenin case, and $\E_r$ in the Norton case, equality of the transport coefficients \[\underset{\eta \to 0}{\lim}\frac{\E_\eta[R]}{\eta}\] and \[\underset{r\to 0}{\lim}\frac{r}{\E_r[\lambda]}.\] This is the question of equivalence of the linear responses.
+    \item Another natural question is that of the equivalence of the Norton and Thévenin equilibrium ensembles. This question asks about the existence of an asymptotic regime, or thermodynamic limit as $D\to\infty$, for which averages under the two equilibrium steady-states converge to a common value, for a sufficiently rich class of observables.
     \item On a related note, investigating the equivalence of the non-linear responses, that is the existence of a well-defined $r(\eta)$ such that the graphs $(\eta,\E_\eta[R])$ and $(\E_{r(\eta)}[\lambda],r(\eta))$ either agree or converge to a common value in some asymptotic regime when $D\to\infty$.
     \item Even more ambitiously, full equivalence of the non-equilibrium ensembles.
     \item Finally, we mention the question of finding a relation between the Norton equilibrium fluctuations of $\lambda$ and the linear response, in an analogy with the Green-Kubo formula.
@@ -117,7 +116,7 @@ We now turn to specialising the setting to the Norton counterpart of the dynamic
     \right.
 \end{equation}
 where $\Lambda_t$ is the magnitude of the perturbation, which is defined by the constraint $R(q_t,p_t)=r>0$.
-We may assume $\gamma$ is a positive semi-definite diagonal matrix, as in the Thevenin case. $R$ is the response observable, which we take of the form
+We may assume $\gamma$ is a positive semi-definite diagonal matrix, as in the Thévenin case. $R$ is the response observable, which we take of the form
 \[R(q,p)=G(q)\cdot p,\]
 with $G$ a smooth vector field. Note in particular that $\nabla_p R(q,p)=G(q)$, and $\nabla_p^2 R(q,p)=0$. Finally note that the forcing acts solely on the momenta.
 A SDE for $\Lambda_t$ can be obtained by applying Proposition \ref{prop:norton_sde}.
@@ -308,7 +307,7 @@ As a consequence of this computation, we may define a numerical strategy to inte
         \left\{
             \begin{aligned}
                 \widetilde{p}^{1} &= \alpha_{\Dt}p^0 +\sigma_{\Dt}\mathcal G^1,\\
-                p^{1} &= \widetilde{p}^{1} + \lambda^{1} F(q^{0}),
+                p^{1} &= \widetilde{p}^{1} + \Dt\lambda^{1} F(q^{0}),
             \end{aligned}
         \right.
     \end{equation}
@@ -319,7 +318,7 @@ Unfortunately, the A dynamics \eqref{eq:norton_A_dynamics} cannot be solved anal
 However, its general form is that of an infinitesimal Hamiltonian increment on the position coordinate, with an additional correction term in the direction $F$ on the momentum coordinate. 
 Furthermore, we know the response is conserved by the A dynamics. This naturally suggests the following scheme.
 
-\begin{algorithm}
+\begin{algorithm}[Norton A step]
     \begin{equation}
         \label{eq:norton_A_step}
         \left\{\begin{aligned}
@@ -509,13 +508,13 @@ In the case $k=1$, this becomes
     \sigma^2_{\rho_F}=\sigma_{\lambda}^2 r^2\widehat{\lambda}^{-4}.
 \end{equation}
 In Figure \ref{fig:norton_mobility_linear}, we plot the response-forcing diagram in the linear regime. 
-The estimated transport coefficient from the color drift is consistent with the results obtained from the Thevenin method. For the single drift, we observe a discrepancy in the linear response.
-In Figure \ref{fig:norton_mobility_full}, we plot the response-forcing curve in the non-linear regime, and superimpose the data obtained from the Thevenin method. 
+The estimated transport coefficient from the color drift is consistent with the results obtained from the Thévenin method. For the single drift, we observe a discrepancy in the linear response.
+In Figure \ref{fig:norton_mobility_full}, we plot the response-forcing curve in the non-linear regime, and superimpose the data obtained from the Thévenin method. 
 For the color drift, the two computed equations of state coincide perfectly. For the single drift, we again observe a small discrepancy.
 This leads us to speculate that the equivalence of non-linear responses may only hold in the thermodynamic limit, and for forcings which act on the bulk of the system, contrarily to the single drift forcing.
-In Figure \ref{fig:norton_avs} , we show the computed asymptotic variance for estimators of $\rho_F$ based on the Thevenin methods and the Norton methods. 
-Asymptotic variances for estimators of the response and mean force were computed using block averages, and the corresponding asymptotic variance for the Norton estimator of $\rho_F$ was obtained using \eqref{eq:norton_sv_av_estimator_fd}.
-It appears that the two methods are roughly equivalent in terms of asymptotic variance, and that the variance for the finite-difference estimator scales like the inverse square of the forcing intensity, consistent with the result expected in the Thevenin case, as noted in Remark \ref{rem:linear_regime}.
+In Figure \ref{fig:norton_avs} , we show the computed asymptotic variance for estimators of $\rho_F$ based on the Thévenin methods and the Norton methods. 
+Asymptotic variances for estimators of the response and mean force were computed using block averages as in \cite{FP89}, and the corresponding asymptotic variance for the Norton estimator of $\rho_F$ was obtained using \eqref{eq:norton_sv_av_estimator_fd}.
+It appears that the two methods are roughly equivalent in terms of asymptotic variance, and that the variance for the finite-difference estimator scales like the inverse square of the forcing intensity, consistent with the result expected in the Thévenin case, as noted in Remark \ref{rem:linear_regime}.
 
 The final estimates for the transport coefficients using the Norton method are 
 \[\rho_{F_{\mathrm{C}}} = 0.1211 \pm 0.0006,\qquad \rho_{F_{\mathrm{S}}}=0.1089\pm0.0005.\]
@@ -534,7 +533,7 @@ Estimates of the transport coefficients were obtained using \eqref{eq:norton_rho
     \begin{center}
       \includegraphics[width=0.7\linewidth]{figures/norton_mobility_full.pdf}
       \caption{ \label{fig:norton_mobility_full}
-        Comparison of the Thevenin and Norton mobility equations of state.
+        Comparison of the Thévenin and Norton mobility equations of state.
       }
     \end{center}
   \end{figure}
@@ -544,7 +543,7 @@ Estimates of the transport coefficients were obtained using \eqref{eq:norton_rho
       \includegraphics[width=0.7\linewidth]{figures/asymptotic_vars_mobility.pdf}
       \caption{ \label{fig:norton_avs}
        Plot of the asymptotic variance as a function of the forcing intensity for the different methods, on a log-log plot.
-       Results corresponding to a Thevenin estimator are denoted with a T, and those corresponding to the Norton estimator are denoted with a N. 
+       Results corresponding to a Thévenin estimator are denoted with a T, and those corresponding to the Norton estimator are denoted with a N. 
       }
     \end{center}
   \end{figure}
@@ -567,10 +566,10 @@ Estimators for the transport coefficient \eqref{eq:shear_viscosity_tranpsort_coe
 All simulations were run in the reference thermodynamics condition \eqref{eq:reference_thermo_condition_sv} for a minimum length of $8\times 10^7$ timesteps.
 
 In Figure \ref{fig:norton_sv_linear_response}, we plot the normalized response \[\frac{R_1}{F_1}\] against the estimated average forcing $\langle \lambda \rangle$ in the linear regime, for the different forcing profiles.
-The estimated transport coefficients are consistent with one another, and agree with those obtained in the Thevenin and Green--Kubo setting.
-In Figure \ref{fig:norton_sv_nonlinear_response}, we compare the non-linear response profiles between the Thevenin and Norton methods, for each of the forcing profiles. In every case, the responses coincide perfectly throughout.
-In Figure \ref{fig:norton_avs_sv} we compare asymptotic variances of the finite difference estimators for the normalized response using the Thevenin and Norton method. The asymptotic variance was estimated directly from the response time series in the Thevenin case, using a block averaging procedure,
-and for the Norton method, a block averaging procedure on the forcing time series was combined with a delta-method. We find that the Norton estimators consistently outperform their Thevenin counterparts, and that not all forcing profiles are equal in terms of statistical error.
+The estimated transport coefficients are consistent with one another, and agree with those obtained in the Thévenin and Green--Kubo setting.
+In Figure \ref{fig:norton_sv_nonlinear_response}, we compare the non-linear response profiles between the Thévenin and Norton methods, for each of the forcing profiles. In every case, the responses coincide perfectly throughout.
+In Figure \ref{fig:norton_avs_sv} we compare asymptotic variances of the finite difference estimators for the normalized response using the Thévenin and Norton method. The asymptotic variance was estimated directly from the response time series in the Thévenin case, using a block averaging procedure,
+and for the Norton method, a block averaging procedure on the forcing time series was combined with a delta-method. We find that the Norton estimators consistently outperform their Thévenin counterparts, and that not all forcing profiles are equal in terms of statistical error.
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=0.9\linewidth]{figures/norton_sv_lin.pdf}
@@ -594,7 +593,7 @@ and for the Norton method, a block averaging procedure on the forcing time serie
       \includegraphics[width=0.75\linewidth]{figures/constant_joint.pdf}
       \includegraphics[width=0.75\linewidth]{figures/linear_joint.pdf}
       \caption{ \label{fig:norton_sv_nonlinear_response}
-        Norton and Thevenin equations of state for the shear-viscosity Fourier response, for each type of forcing profile.
+        Norton and Thévenin equations of state for the shear-viscosity Fourier response, for each type of forcing profile.
       }
     \end{center}
   \end{figure}

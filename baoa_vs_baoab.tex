@@ -1,33 +1,37 @@
 We consider time discretization schemes of underdamped Langevin dynamics known as the BAOA and BAOAB schemes, in order to compare the sampling bias induced by the timestep $\Delta t$ for these two methods.
-Analysis of the timestep bias for the BAOAB scheme is given in \cite{LMS13}, however it does not appear that the BAOA bias is so well understood.
-It has been observed numerically in \cite{KK22} (Section III.B) that the bias on the kinetic marginal distribution is much lower using the BAOA method. We attempt to explain this from a theoretical point of view, before illustrating our results in numerical examples.
- Building on known results for the BAOAB scheme, we show the following results.
+Like other symmetric splittings, the BAOAB scheme has been well studied, and an analysis of the timestep bias for the BAOAB scheme is for instance given in \cite{LMS13}.
+Furthermore, it has been shown, see the discussion in \cite[Section 7.9.3]{LM15}, that the BAOAB scheme displays a property of superconvergence: the bias on configurational averages becomes $\mathrm{O}(\Dt^4)$ in the overdamped limit $\gamma\to\infty$, as well as displaying good stability properties.
+On the other hand, it appeared while studying the native Langevin integrator used by the Molecular Dynamics package Molly \cite{Molly}, itself based on an implementation in OpenMM, corresponds to a BAOA splitting. A recent preprint, \cite{KK22}, further shows that the BAOA splitting is used in the GROMACS Stochastic Dynamics integrator.
+So it appears that practionners of molecular simulations have somewhat widely adopted the BAOA scheme, while its bias properties are not so well understood from a theoretical point of view.
+It has been numerically observed in \cite[Section III.B]{KK22} that the bias on the kinetic marginal distribution is much lower using the BAOA method, while the bias on the configurational marginal as the same as for BAOAB.
+This gives a plausible explanation for why one might choose BAOA over the more theoretically grounded BAOAB, by comparing errors on kinetic and configurational observables individually.
+We attempt in this chapter to explain these observations mathematically, before illustrating our results in numerical examples.
+Building on known results for the BAOAB scheme, we show the following results.
 \begin{enumerate}[(i)]
-  \item In section \ref{relating invariant measures}, we express the invariant measure of the BAOA scheme in terms of the invariant measure of the BAOAB scheme (Proposition \ref{prop:mup_expression}), and using this expression, we show, as in \cite{KK22} (Section II.C), the equality between their respective configurational marginal distributions (Corollary \ref{corr marginal equality}). 
-  \item In section \ref{BAOA first order estimate}, we show that the dominant error term for BAOA averages is only of order one in $\Delta t$, confirming that the BAOAB method is in general of higher order (Corollary \ref{corr2 baoa expansion}). 
-  \item We show in section \ref{second order on the marginals} that for kinetic observables, however, the error is of second order in $\Delta t$, so that both marginal distibutions are second-order accurate (Corollary \ref{corr3 second order marginals}). 
-  \item In section \ref{BAOA kinetic second order estimate}, we give an expression for the dominant error term in the kinetic marginal distribution of the BAOA scheme (Proposition \ref{prop:kappa_p_second_order}). In fact, we conjecture that, at least in dimension one, this term cancels, leading to an order of at least $\Delta t^3$ (Conjecture \ref{conjecture}).
-  \item Lastly, in section \ref{discrepancy term kinetic}, we analyze the difference between the kinetic marginal distribution under the BAOA and BAOAB scheme (Proposition \ref{prop discrepancy term}), and explain why this difference leads to a systematic underestimation of the kinetic variance in BAOAB trajectories (Remark \ref{remark}).
+  \item In Section \ref{relating invariant measures}, we express the invariant measure of the BAOA scheme in terms of the invariant measure of the BAOAB scheme (Proposition \ref{prop:mup_expression}), and using this expression, we show, as in \cite[Section II.C]{KK22}, the equality between their respective configurational marginal distributions (Corollary \ref{corr marginal equality}). 
+  \item In Section \ref{BAOA first order estimate}, we show that the dominant error term for BAOA averages is only of order one in $\Delta t$, confirming that the BAOAB method is in general of higher order (Corollary \ref{corr2 baoa expansion}). 
+  \item We show in Section \ref{second order on the marginals} that for kinetic observables, however, the error is of second order in $\Delta t$, so that both marginal distibutions are second-order accurate (Corollary \ref{corr3 second order marginals}). 
+  \item In Section \ref{BAOA kinetic second order estimate}, we give an expression for the dominant error term in the kinetic marginal distribution of the BAOA scheme (Proposition \ref{prop:kappa_p_second_order}). In fact, we conjecture that, at least in dimension one, this term cancels, leading to an order of at least $\Delta t^3$ (Conjecture \ref{conjecture}).
+  \item Lastly, in Section \ref{discrepancy term kinetic}, we analyze the difference between the kinetic marginal distribution under the BAOA and BAOAB scheme (Proposition \ref{prop discrepancy term}), and explain why this difference leads to a systematic underestimation of the kinetic variance in BAOAB trajectories (Remark \ref{remark}).
 \end{enumerate}
 
-\subsection{Definitions and notations}\label{defs}
- We consider two splitting schemes for \eqref{eq:langevin}, as defined by the following evolution operators:
+We consider the two splitting schemes for \eqref{eq:langevin} defined by the following evolution operators:
 
 \begin{equation}
   \label{schemes}
   \left\{\begin{aligned}
     &P_{\Delta t}=\e^{\Delta t B}\e^{\frac{\Delta t}2A}\e^{\Delta t \gamma C}\e^{\frac{\Delta t}2A},\\
-    &Q_{\Delta t}=\e^{\frac{\Delta t}2B}\e^{\frac{\Delta t}2A}\e^{\Delta t \gamma C}\e^{\frac{\Delta t}2A}\e^{\frac{\Delta t}2B}.\\
+    &Q_{\Delta t}=\e^{\frac{\Delta t}2B}\e^{\frac{\Delta t}2A}\e^{\Delta t \gamma C}\e^{\frac{\Delta t}2A}\e^{\frac{\Delta t}2B},\\
 \end{aligned}\right.
 \end{equation}
-These correspond respectively to the BAOA and the BAOAB scheme.
-We also denote $\mu_{\Delta t,P}, \mu_{\Delta t, Q}$ the invariant measures for the Markov chains associated with \eqref{schemes}. We assume these have smooth densities which we also denote $\mu_{\Delta t,P}, \mu_{\Delta t,Q}$, and that a certain ergodicity condition holds (see Lemma \ref{TU_like_lemma}).
-Additionally we denote by $\nu_{\Delta t,P},\nu_{\Delta t,Q},\kappa_{\Delta t,P},\kappa_{\Delta t,Q}$ the associated marginals and densities with obvious notation inspired by \eqref{eq:tensor_form}.
+where we recall the notation from \eqref{eq:propagators}.
+They correspond respectively to the BAOA and the BAOAB scheme.
+We also denote by $\mu_{\Delta t,P}, \mu_{\Delta t, Q}$ the invariant measures for the Markov chains associated with \eqref{schemes}. We assume that they have smooth densities which we also denote by $\mu_{\Delta t,P}, \mu_{\Delta t,Q}$ with some abuse of notation, and that a certain ergodicity condition holds, see Lemma \ref{TU_like_lemma}.
+Additionally we denote by $\nu_{\Delta t,P},\nu_{\Delta t,Q},\kappa_{\Delta t,P},\kappa_{\Delta t,Q}$ the associated marginals and densities in the $q$ and $p$ variables respectively, with obvious notation inspired by \eqref{eq:tensor_form}.
 
-
-\subsection{Relating invariant measures of discretization schemes}\label{relating invariant measures}
+\section{Relating invariant measures of discretization schemes}\label{relating invariant measures}
 In this paragraph, we provide a formula for $\mu_{\Delta t,P}$ in terms of $\mu_{\Delta t,Q}$. This result allows one to very simply show the equality in the configurational marginals between these two measures, as noted in \cite{KK22}.
-The main tool is the following result, which is a reformulation of the TU lemma (Lemma 9 from \cite{LMS13}).
+The main tool is the following result, which is a reformulation of the TU lemma \cite[Lemma 2.12]{LMS13}.
 
 \begin{lemma}
   \label{TU_like_lemma}
@@ -35,35 +39,36 @@ The main tool is the following result, which is a reformulation of the TU lemma 
     Assume that, for any $n\geq 1$,
     $$ R_{\Delta t} P_{\Delta t}^n = Q_{\Delta t}^n S_{\Delta t},$$
     where $R_{\Delta t}$ and $S_{\Delta t}$ are bounded operators on $B^\infty (\mathcal E)$, such that $R_{\Delta t}\1=\1$, and that the following ergodic condition holds: for any $\varphi \in B^\infty(\mathcal E)$, and almost all $(q,p) \in \mathcal E$,
-    $$ \underset{n\to\infty}\lim P_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\,\mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p) $$
+    $$ \underset{n\to\infty}\lim P_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\,\mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p), $$
     $$ \underset{n\to\infty}\lim Q_{\Delta t}^n\varphi (q,p) = \int_{\mathcal E} \varphi(q,p)\,\mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p).$$
-    Then  we have the relation $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ via the following relation:
+    Then $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ are related as follows:
 
-    \begin{equation*}
+    \begin{equation}
       \label{TU_like_lemma_ccl}
-    \int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p)=\int_{\mathcal E} \left(S_{\Delta t}\varphi\right)(q,p) \mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p)
-    \end{equation*}
+    \forall \varphi \in B^\infty(\mathcal E),\qquad\int_{\mathcal E} \varphi(q,p) \mu_{\Delta t,P}(\mathrm{d} q,\mathrm{d} p)=\int_{\mathcal E} \left(S_{\Delta t}\varphi\right)(q,p) \mu_{\Delta t,Q}(\mathrm{d} q,\mathrm{d} p).
+    \end{equation}
 \end{lemma}
 \begin{proof}
   Fix an initial probability measure $\rho$ on $\mathcal E$, absolutely continuous with respect to the Lebesgue measure. Then we may write, using dominated convergence to pass to the limit:
 
   \begin{align*}
-      &\int_{\mathcal E}RP_{\Delta t}^n \varphi(q,p)\rho(\text d q,\text d p)\\
-      &=\int_{\mathcal E}P_{\Delta t}^n \varphi(q,p)R^{\dagger}\rho(\text d q,\text d p)\\
-      &\underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left(\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\right) R^\dagger \rho(\text d \tilde q,\text d \tilde p)\\
-      &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\int_{\mathcal E}R\1 \text d \rho\\
-      &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)
+      &\int_{\mathcal E}R_{\Dt}P_{\Delta t}^n \varphi(q,p)\rho(q,p)\,\dif q\,\dif p\\
+      &=\int_{\mathcal E}P_{\Delta t}^n \varphi(q,p)R_{\Dt}^{\dagger}\rho(q,p)\,\dif q\,\dif p\\
+      &\xrightarrow[n\to\infty]{}\int_{\mathcal E} \left(\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\tilde q,\tilde p)\,\dif\tilde q\,\dif \tilde p\right) R_{\Dt}^\dagger \rho(q,p)\,\dif q\,\dif p\\
+      &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(\text d q,\text d p)\int_{\mathcal E}R_{\Dt}\1\rho\\
+      &=\int_{\mathcal E}\varphi(q,p)\mu_{\Delta t,P}(q,p)\,\dif q\,\dif p
   \end{align*}
-  Furthermore, applying the ergodic condition to the bounded function $S\varphi$ gives
-
-  $$ \int_{\mathcal E} Q_{\Delta t}^n (S\varphi)(q,p) \rho(\text d q,\text d p) \text d q \text d p \underset{n\to\infty}{\longrightarrow}\int_{\mathcal E} \left (\int_{\mathcal E}S\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p)\right)\rho(\text d \tilde q,\text d \tilde p)=\int_{\mathcal E}S\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p).$$
-
-  Since $RP_{\Delta t}^n=Q_{\Delta t}^n S$, identifying the two limits yields \eqref{TU_like_lemma_ccl}
+  Furthermore, applying the ergodic condition to the bounded function $S_{\Dt}\varphi$ gives
+  \begin{align*}
+  \int_{\mathcal E} Q_{\Delta t}^n (S_{\Dt}\varphi)(q,p) \rho(q, p) \text d q \text d p &\xrightarrow[n\to\infty]{}\int_{\mathcal E} \left(\int_{\mathcal E}S_{\Dt}\varphi(\tilde q,\tilde p)\mu_{\Delta t,Q}(\tilde q,\tilde p)\,\dif \tilde q\, \dif \tilde p\right)\rho(q,p)\,\dif q\,\dif p\\
+  &=\int_{\mathcal E}S_{\Dt}\varphi(q,p)\mu_{\Delta t,Q}(\text d q,\text d p).
+  \end{align*}
+  Since $R_{\Dt}P_{\Delta t}^n=Q_{\Delta t}^n S_{\Dt}$, an identification of the two limits yields \eqref{TU_like_lemma_ccl}
 \end{proof}
 
-Applying Lemma \ref{TU_like_lemma} to \eqref{schemes} yields the following result.
+Applying Lemma \ref{TU_like_lemma} to \eqref{schemes} gives the following result.
 \begin{prop}\label{prop:mup_expression}
-  The following relation between the densities $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ holds.
+  The densities $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ satisfy the following equality:
 
   \begin{equation}
     \label{mu P expression}
@@ -71,28 +76,23 @@ Applying Lemma \ref{TU_like_lemma} to \eqref{schemes} yields the following resul
   \end{equation}
 \end{prop}
 \begin{proof}
-  From the expressions \eqref{schemes}, we immediately get:
-
-\begin{equation}
-  \label{TU relation}
-  P_{\Delta t}^n\e^{\frac{\Delta t}2B}=\e^{\frac{\Delta t}2B}Q_{\Delta t}^n,
-\end{equation}
+  From the expressions \eqref{schemes}, we immediately get $P_{\Delta t}^n\e^{\frac{\Delta t}2B}=\e^{\frac{\Delta t}2B}Q_{\Delta t}^n$,
 whereby applying Lemma \ref{TU_like_lemma}, we get for any test function $\varphi$,
 \begin{equation}
   \label{TU ccl}
-  \int_{\mathcal E}\mathrm e^{\frac{\Delta t}2B}\varphi\, \mathrm{d}\mu_{P,\Delta t}=\int_{\mathcal E}\varphi\, \mathrm{d}\mu_{Q,\Delta t}
+  \int_{\mathcal E}\mathrm e^{\frac{\Delta t}2B}\varphi\, \mathrm{d}\mu_{P,\Delta t}=\int_{\mathcal E}\varphi\, \mathrm{d}\mu_{Q,\Delta t}.
 \end{equation}
 Using equation \eqref{TU ccl} with $\psi=\e^{-\frac{\Delta t}2B}\varphi$ yields an exact expression for $\mu_{\Delta t,P}$ in terms of $\mu_{\Delta t,Q}$:
 \begin{equation}
   \label{pi P expression}
-  \int_{\mathcal E}\varphi\, \mathrm{d}\mu_{\Delta t,P} = \int_{\mathcal E}\e^{-\frac{\Delta t}2B}\varphi \mathrm{d}\mu_{\Delta t,Q}.
+  \int_{\mathcal E}\varphi\, \mathrm{d}\mu_{\Delta t,P} = \int_{\mathcal E}\e^{-\frac{\Delta t}2B}\varphi\, \mathrm{d}\mu_{\Delta t,Q}.
 \end{equation}
 Since $\varphi$ is arbitrary, we infer that at the level of densities,
 \begin{equation}
   \mu_{\Delta t,P}(q,p)=\left(\mathrm{e}^{-\frac{\Delta t}2B}\right)^\dagger\mu_{\Delta t,Q}(q,p),
 \end{equation}
 where $\dagger$ denotes the adjoint on the flat space $L^2(\mathcal E)$. A simple computation shows that 
-$$\mathrm e^{-\frac{\Delta t}2 B^\dagger}=\mathrm{e}^{\frac{\Delta t}2B},$$
+$\mathrm e^{-\frac{\Delta t}2 B^\dagger}=\mathrm{e}^{\frac{\Delta t}2B},$
 since $B^\dagger=-B$.
 Hence,
 \begin{equation}\label{prop1 ccl}
@@ -101,7 +101,7 @@ Hence,
 which is the desired conclusion.
 \end{proof}
 
-Relation \eqref{prop1 ccl} is enough to show an equality between the configurational marginal distributions $\nu_{\Delta t,P}$ and $\nu_{\Delta t,Q}$, as noted in \cite{KK22}.
+Relation \eqref{prop1 ccl} is sufficient to show an equality between the configurational marginal distributions $\nu_{\Delta t,P}$ and $\nu_{\Delta t,Q}$, as noted in \cite{KK22}.
 \begin{corollary}\label{corr marginal equality}
   The marginal distributions in the $q$ variable of $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$ coincide:
   \begin{equation}
@@ -114,28 +114,26 @@ Relation \eqref{prop1 ccl} is enough to show an equality between the configurati
   \begin{equation*}
     \label{corrolary 1 proof}
     \begin{aligned}
-    \nu_{\Delta t,Q}(q) &= \int_{\R^{dN}}\mu_{\Delta t,Q}(q,p)\mathrm{d}p\\
-    &=\int_{\R^{dN}}\mu_{\Delta t,Q}\left(q,p-\frac{\Delta t}2 \nabla V(q)\right)\mathrm{d}p\\
-    &=\int_{\R^{dN}}\mu_{\Delta t,P}(q,p)\,\mathrm{d}p\\
-    &= \nu_{\Delta t,P}(q),
+    \nu_{\Delta t,Q}(q) &= \int_{\R^{dN}}\mu_{\Delta t,Q}(q,p)\mathrm{d}p=\int_{\R^{dN}}\mu_{\Delta t,Q}\left(q,p-\frac{\Delta t}2 \nabla V(q)\right)\mathrm{d}p\\
+    &=\int_{\R^{dN}}\mu_{\Delta t,P}(q,p)\,\mathrm{d}p= \nu_{\Delta t,P}(q),
     \end{aligned}
   \end{equation*}
   which proves the claim.
 \end{proof}
 
 
-\subsection{Error estimate on the phase space measure}\label{BAOA first order estimate}
+\section{Error estimate on the phase space measure}\label{BAOA first order estimate}
 
 We now turn to obtaining the dominant order in the sampling bias of $\mu_{\Delta t,P}$, building on previously known results for $\mu_{\Delta t,Q}$, and the relation \eqref{mu P expression}.
 Error estimates on $\mu_{\Delta t,Q}$ have been investigated in \cite{LMS13} (Section 1.4). In particular, the following expansion of $\mu_{\Delta t,Q}$ is derived, which will be central in our analysis.
 
 \begin{theorem}[Theorem 13 in \cite{LMS13}]
   \label{thm:baoab_error}
-  There exists a smooth function $f_2$ such that for any smooth $\psi$,
+  There exists a smooth function $f_2$ such that for any $C^\infty$ compactly supported $\psi$,
 
   \begin{equation}
     \label{BAOAB expansion}
-   \int_{\mathcal E}\psi(q,p) \mu_{\Delta t,Q}(q,p) \text  dq \mathrm{d}p=\int_{\mathcal E}\psi(q,p)\mu(q,p)\mathrm{d}q \mathrm{d}p+\Delta t^2\int_{\mathcal E}\varphi(q,p) f_2(q,p)\mu(q,p)\mathrm{d}q \mathrm{d}p + \Delta t^4 r_{\psi,\gamma,\Delta t},
+   \int_{\mathcal E}\psi(q,p) \mu_{\Delta t,Q}(q,p) \dif q \mathrm{d}p=\int_{\mathcal E}\psi(q,p)\mu(q,p)\mathrm{d}q \mathrm{d}p+\Delta t^2\int_{\mathcal E}\varphi(q,p) f_2(q,p)\mu(q,p)\mathrm{d}q \mathrm{d}p + \Delta t^4 r_{\psi,\gamma,\Delta t},
   \end{equation}
   where the remainder $r_{\psi,\gamma,\Delta t}$ is uniformly bounded for $\Delta t$ sufficiently small. Moreover, an expression for the dominant error term is obtained, 
   
@@ -177,7 +175,7 @@ which proves the claim.
 \end{proof}
 
 
-\subsection{Error estimates on the kinetic marginal distributions}\label{second order on the marginals}
+\section{Error estimates on the kinetic marginal distributions}\label{second order on the marginals}
 Equation \eqref{corr2 ccl} expresses the fact that the invariant measure $\mu_{\Delta t,P}$ is only exact at first order in $\Delta t$, which is one less that $\mu_{\Delta t,Q}$.
 So in full generality, one can expect an error of order $\Delta t$ on averages obtained from BAOA trajectories, versus $\Delta t^2$ for averages computed from BAOAB trajectories. However, if we restrict ourselves to marginal observables, that is observables which only depend on the configurational coordinate or the kinetic coordinate, the first order error term vanishes.
 Indeed, we have the following.
@@ -203,7 +201,7 @@ by an integration by parts. By first integrating \eqref{corr2 term} over the coo
 Corollary 2 gives no new information concerning configurational observables, since we already know by Corollary 1 that these have the same averages under $\mu_{\Delta t,P}$ and $\mu_{\Delta t,Q}$, and that by Theorem \ref{thm:baoab_error}, these have error of order $\Delta t^2$.
 However, kinetic observables may yield different averages.
 
-\subsection{Analysis of the second order error term for kinetic averages under $\mu_{\Delta t,P}$}\label{BAOA kinetic second order estimate}
+\section{Analysis of the second order error term for kinetic averages under $\mu_{\Delta t,P}$}\label{BAOA kinetic second order estimate}
 It was observed numerically in \cite{KK22} that the averages of the kinetic and configurational temperatures computed with a BAOA scheme have a bias of order greater than $\Delta t$, as expected from the argument above.
 In fact, for the kinetic temperature, the order appears to  be greater than $\Delta t^2$, in contrast to averages computed with the BAOAB method.
 Understanding this behavior theoretically requires comparing second order error terms.
@@ -299,7 +297,7 @@ Numerical evidence (see Figure \ref{fig:gamma_effect}) suggests that the error o
   This would in particular imply that the kinetic marginal $\kappa_{\Delta t,P}$ is correct at order at least three in $\Delta t$, and is the subject of further investigation.
 \end{conjecture}
 
-\subsection{Analysis of the discrepancy between the dominant error terms on the kinetic marginals.}\label{discrepancy term kinetic}
+\section{Analysis of the discrepancy between the dominant error terms on the kinetic marginals.}\label{discrepancy term kinetic}
 Numerical evidence presented in \cite{KK22} shows a significant discrepancy between $\kappa_{\Delta t,P}$ and $\kappa_{\Delta t,Q}$.
 Specifically, $\kappa_{\Delta t,Q}$ in the case $d=N=1$ tends to present a sharper peak than $\kappa_{\Delta t,P}$, thus underestimating the variance in the kinetic marginal.
  We show this in this paragraph this behavior is generic, in the sense that it does not, up to a shape parameter, depend on $V$.

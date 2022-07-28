@@ -15,7 +15,7 @@ There are various ways to alter this procedure in order to make the modified pot
 Of course, this procedure alone does not solve anything, since one still needs to determine \textit{which} pairs of particles are neighbors, meaning they are closer apart than $r_c$, which still amounts to $\mathrm{O}(N^2)$ computations of the (squared) Euclidean norm.
 To make this viable, one has to store a list of neighbor pairs in an efficient data structure which only needs to be updated once every few simulation iterations, since the set of neighboring pairs tend not to drastically change over short time intervals.
 In practice, and depending on the timestep, the meaning of the word \textit{few} can sometimes be understood to be as large as $50$.
-There are various strategies to implement such a data structure, such as Verlet lists or cell lists, which are described in detail in (citer Allen and Tildesley eg).
+There are various strategies to implement such a data structure, such as Verlet lists or cell lists, which are described in detail in \cite[Section 5.3]{AT89}.
 At any rate, since the number of neighbors to a given particle should on average be close to $4\pi\rho r_c^3/3=\mathrm{O}(1)$, where $\rho$ is the particle density, the cost of computing $\nabla V$ becomes (ideally) \textbf{linear} in $N$,
 which makes long time simulations a practical possibility. 
 We mention the issue of short-range interactions since all our molecular simulations used $V$ of the Lennard-Jones form, but other methods exist in the case where $V$ decays slowly like the Coulomb electrostatic potential, relying in this case on a fast decay property in Fourier space.
