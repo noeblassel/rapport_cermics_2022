@@ -1,5 +1,8 @@
-We conclude this report by a short appendix dedicated to providing some details about the implementation of the methods we described in the previous chapters,
-both from a historical point of view, meaning that we will be documenting the process, as well as of implementing the methods we described, as well as filling in some methodological gaps.
+We conclude this report by a short appendix dedicated to providing some details about the concrete implementation of the methods we discussed throughout this report.
+We start by giving some informal ideas about where the computational cost of a molecular simulation is concentrated, before discussing the process of choosing a software to implement various non-equilibrium methods.
+We finally give a short summary of the implementations we made, pointing the reader to the relevant sources.
+
+\section{Scaling of the computational cost}
 Throughout this document, the reader will notice that little is said about $\nabla V$, meaning the methods we described simply invoked $\nabla V$ where it is needed, 
 without getting into the specifics of \textit{how} it is computed.
 For a pair interaction potential of the form \eqref{eq:lennard_jones}, the naive method of summing over all pairs of particles incurs a cost of
@@ -21,6 +24,7 @@ which makes long time simulations a practical possibility.
 We mention the issue of short-range interactions since all our molecular simulations used $V$ of the Lennard-Jones form, but other methods exist in the case where $V$ decays slowly like the Coulomb electrostatic potential, relying in this case on a fast decay property in Fourier space.
 Of course, many more tricks exists, which collectively form the whole craftsmanship of Molecular Dynamics (MD) simulations: finding efficient, approximate ways to compute $V$ and $\nabla V$.
 
+\section{Selecting a Molecular Dynamics package}
 The process of implementing from scratch these methods is time consuming, and unnecessary given the number of freely available MD packages. 
 However, some of these packages are quite ancient and heavily optimized so that the process of implementing new methods comes with quite a heavy learning overhead, as well as being harder to debug.
 Instead, we chose to make use of a Julia package for MD simulation, thus taking this opportunity to learn the programming language Julia \cite{bezanson2017julia}, which has been gaining a lot of traction in the scientific computing user base, 
@@ -44,7 +48,10 @@ Interestingly, even the naive double loop for Molly overtakes NBodySimulator in 
     \end{center}
   \end{figure}
 
-On this basis, we chose to implement our methods in Molly. Along the way, some of our implementations were integrated in the Molly source, in large part during a one-week stay in the MRC Laboratory of Molecular Biology in Cambridge, where the main author of Molly's source code, Joe Greener, works.
+On this basis, we chose to implement our methods in Molly.
+
+\section{Summary of implementations}
+Along the way, some of our implementations were integrated in the Molly source, in large part during a one-week stay in the MRC Laboratory of Molecular Biology in Cambridge, where the main author of Molly's source code, Joe Greener, works.
 These integrations include:
 \begin{enumerate}[i)]
     \item A cutoff strategy based on a cubic spline interpolation,

@@ -7,22 +7,32 @@ and the dual, constant-response method as the Norton method. We will again be us
 
 
 \section{General framework}
-We first express the method in full generality, before specializing to the non-equilibrium molecular dynamics context. We consider the stochastic differential equation
+We first express the method in full generality, before specializing to the non-equilibrium molecular dynamics context. We consider the stochastic differential equation:
 \begin{equation}
     \label{eq:norton_general_sde}
     \left\{\begin{aligned}
-        \dif X_t &= b(X_t)\dif t +\sigma(X_t)\dif W_t + \dif \Lambda_t F(X_t)\\
+        \dif X_t &= b(X_t)\,\dif t +\sigma(X_t)\,\dif W_t + \dif \Lambda_t F(X_t)\\
         R(X_t)&= r,
     \end{aligned}\right.
 \end{equation}
 where $b ,\sigma$ and $F$ are respectively $R^D,\, \R^{D\times E}$ and $\R^D$-valued functions, and $W$ is a $E$-dimensional Brownian motion.
 We interpret $F$ as a perturbation direction for an \textit{equilibrium SDE}, and $\Lambda$ is the perturbation intensity, which is determined in order to maintain the response observable $R$ constant equal to $r>0$ along the dynamic's trajectories.
+The Norton dynamics \eqref{eq:norton_general_sde} should be thought of as the constant-response counterpart to a corresponding Thévenin dynamics
+\begin{equation}
+        \label{eq:thevenin_general_sde}
+    \left\{\begin{aligned}
+        \dif X_t &= b(X_t)\,\dif t +\sigma(X_t)\,\dif W_t + \eta F(X_t),\\
+        \eta>0,
+    \end{aligned}\right.
+\end{equation}
+which is perturbed in the same direction, but with a constant forcing intensity $\eta$. Both these dynamics have a corresponding reference dynamics, respectively for $r=0$ and $\eta=0$,
+with the reference Thévenin dynamics simply being the equilibrium Langevin dynamics.
 For notational simplicity, let us introduce the following definitions:
 \begin{equation}
     \label{eq:norton_notation}
     b_t = b(X_t),\qquad \sigma_t = \sigma(X_t),\qquad F_t= F(X_t),\qquad \nabla R_t=\nabla R(X_t),\qquad \nabla^2 R_t = \nabla^2 R(X_t).
 \end{equation}
-For $A,B\in\R^{D}$, we denote by $P_{A,B}$ the projector onto $A$ orthogonally to $B$
+For $A,B\in\R^{D}$, such that $A\cdot B\neq 0$, we denote by $P_{A,B}$ the projector onto $A$ orthogonally to $B$
 \begin{equation}
     \label{eq:non_orthogonal_projector}
     P_{A,B}=\frac{A\otimes B}{A\cdot B}.
@@ -37,12 +47,12 @@ We can now state the following result, which follows by a simple application of 
    Provided it is well-posed, the solution of the following SDE solves \eqref{eq:norton_general_sde}
     \begin{equation}
         \label{eq:norton_general_sde_solved}
-        \dif X_t = \overline{P}_{F_t,\nabla R_t}\left[b_t\dif t + \sigma_t\dif W_t\right] - \frac{1}{2}\frac{\nabla^2 R_t : \left(\overline{P}_{F_t,\nabla R_t}\sigma_t \sigma_t^\intercal\overline{P}_{\nabla R_t,F_t}\right)}{F_t\cdot \nabla R_t}F_t\dif t,
+        \dif X_t = \overline{P}_{F_t,\nabla R_t}\left[b_t\,\dif t + \sigma_t\,\dif W_t\right] - \frac{1}{2}\frac{\nabla^2 R_t : \left(\overline{P}_{F_t,\nabla R_t}\sigma_t \sigma_t^\intercal\overline{P}_{\nabla R_t,F_t}\right)}{F_t\cdot \nabla R_t}F_t\,\dif t,
     \end{equation}
     with $\Lambda_t$ taken to be an Itô process defined by
     \begin{equation}
         \label{eq:norton_sde_multiplier_solved}
-        \dif \Lambda_t = -\frac{\nabla R_t \cdot b_t}{F_t\cdot \nabla R_t}\dif t-\frac{\nabla R_t\cdot \sigma_t\dif W_t}{F_t\cdot \nabla R_t}-\frac12\frac{\nabla^2 R_t : \left(\overline{P}_{F_t,\nabla R_t}\sigma_t\sigma_t^\intercal\overline{P}_{\nabla R_t,F_t}\right)}{F_t\cdot \nabla R_t}.
+        \dif \Lambda_t = -\frac{\nabla R_t \cdot b_t}{F_t\cdot \nabla R_t}\,\dif t-\frac{\nabla R_t\cdot \sigma_t\,\dif W_t}{F_t\cdot \nabla R_t}-\frac12\frac{\nabla^2 R_t : \left(\overline{P}_{F_t,\nabla R_t}\sigma_t\sigma_t^\intercal\overline{P}_{\nabla R_t,F_t}\right)}{F_t\cdot \nabla R_t}.
     \end{equation}
 \end{prop}
 \begin{proof}
@@ -56,38 +66,29 @@ where $\lambda$ is a bounded variation process and $\widetilde{\Lambda}$ is a ma
 We can apply Itô's formula to the constant response condition, to get
 \begin{equation}
     \label{eq:constant_response_condition}
-     \nabla R_t \cdot \dif X_t + \frac12\nabla^2 R_t:\left\langle\sigma_t\dif W_t + \dif\widetilde{\Lambda}_tF_t\right\rangle\dif t=0,
+     \nabla R_t \cdot \dif X_t + \frac12\nabla^2 R_t:\left\langle\sigma_t\,\dif W_t + \dif\widetilde{\Lambda}_tF_t\right\rangle=0,
 \end{equation}
-where the brackets denote the quadratic covariation of an Itô process. By identifying the martingale and bounded variation parts of the above process with $0$, we deduce an SDE for $\Lambda_t$,
+where the brackets denote the quadratic covariation of an Itô process. By identifying the martingale and bounded variation parts of the above process with $0$, we deduce an SDE for $\Lambda_t$:
 \begin{equation}
     \label{eq:norton_multiplier_sde}
     \left\{\begin{aligned}
-        &\nabla R_t \cdot \left( \sigma_t\dif W_t + F_t\dif \widetilde{\Lambda}_t\right)=0\\
-        &\nabla R_t \cdot \left( b_t + \lambda_t F_t\right)+\frac12\nabla^2 R_t: \left\langle\sigma_t\dif W_t + \dif\widetilde{\Lambda}_tF_t\right\rangle=0.
+        &\nabla R_t \cdot \left( \sigma_t\,\dif W_t + F_t\,\dif \widetilde{\Lambda}_t\right)=0\\
+        &\nabla R_t \cdot \left( b_t + \lambda_t F_t\right)+\frac12\nabla^2 R_t: \left\langle\sigma_t\,\dif W_t + \dif\widetilde{\Lambda}_tF_t\right\rangle=0.
     \end{aligned}\right.
 \end{equation}
-From the first equation, we deduce the expression of the martingale part of the forcing,
+From the first equation, we deduce the expression of the martingale part of the forcing:
 \begin{equation}
     \label{eq:norton_multiplier_martingale}
-    \dif \widetilde{\Lambda}_t = - \frac{\nabla R_t\cdot \sigma_t\dif W_t}{\nabla R_t\cdot F_t},
+    \dif \widetilde{\Lambda}_t = - \frac{\nabla R_t\cdot \sigma_t\,\dif W_t}{\nabla R_t\cdot F_t},
 \end{equation}
 and as a consequence, we may compute the quadratic covariation bracket in \eqref{eq:constant_response_condition},
 \begin{equation}
     \label{eq:constant_response_condition_bracket_solved}
-    \left\langle\sigma_t\dif W_t + \dif\widetilde{\Lambda}_tF_t\right\rangle=\left\langle\left(\Id-\frac{F_t\otimes \nabla R_t}{F_t\cdot \nabla R_t}\right)\sigma_t\dif W_t\right\rangle = \overline{P}_{F,_t\nabla R_t}\sigma_t\sigma_t^\intercal\overline{P}^\intercal_{F_t,\nabla R_t}\,\dif t,
+    \left\langle\sigma_t\,\dif W_t + \dif\widetilde{\Lambda}_tF_t\right\rangle=\left\langle\left(\Id-\frac{F_t\otimes \nabla R_t}{F_t\cdot \nabla R_t}\right)\sigma_t\,\dif W_t\right\rangle = \overline{P}_{F,_t\nabla R_t}\sigma_t\sigma_t^\intercal\overline{P}^\intercal_{F_t,\nabla R_t}\,\dif t,
 \end{equation}
 where we use $P^\intercal_{A,B}=P_{B,A}$. Inserting equation \eqref{eq:constant_response_condition_bracket_solved} into \eqref{eq:norton_multiplier_sde} yields the full SDE for the forcing $\Lambda_t$ \eqref{eq:norton_sde_multiplier_solved} and the result follows by inserting the latter in \eqref{eq:norton_general_sde}.
 \end{proof}
 
-The Norton dynamics \eqref{eq:norton_general_sde} should be thought of as the constant-response counterpart to a corresponding Thévenin dynamics
-\begin{equation}
-        \label{eq:thevenin_general_sde}
-    \left\{\begin{aligned}
-        \dif X_t &= b(X_t)\dif t +\sigma(X_t)\dif W_t + \eta F(X_t),\\
-        \eta>0,
-    \end{aligned}\right.
-\end{equation}
-which is perturbed in the same direction, but with a constant forcing intensity $\eta$. Both these dynamics have a corresponding equilibrium dynamics, respectively for $r=0$ and $\eta=0$. 
 As stated above, we propose the Norton dynamics as a possible and alternative means of computing the linear response to a small perturbation of the equilibrium dynamics. 
 We finish this general introduction by evoking a few theoretical questions related to these dynamics.
 \begin{enumerate}[(i)]
@@ -109,8 +110,8 @@ We now turn to specialising the setting to the Norton counterpart of the dynamic
     \label{eq:norton_dynamics_general}
     \left\{ 
         \begin{aligned}
-            &\dif q_t=m^{-1}p_t\dif t,\\
-            &\dif p_t=-\nabla V(q_t)\dif t-\gamma M^{-1}p_t\dif t +\sqrt{\frac{2\gamma}\beta}\dif W_t +\dif \Lambda_t F(q_t),\\
+            &\dif q_t=m^{-1}p_t\,\dif t,\\
+            &\dif p_t=-\nabla V(q_t)\,\dif t-\gamma M^{-1}p_t\,\dif t +\sqrt{\frac{2\gamma}\beta}\,\dif W_t +\dif \Lambda_t F(q_t),\\
             &R(q_t,p_t)=r,
         \end{aligned}
     \right.
@@ -126,7 +127,7 @@ It immediately implies
     \left\{
         \begin{aligned}
             \dif q_t &= M^{-1}p_t \,\dif t\\
-            \dif p_t &= \overline{P}_{F_t,G_t}\left[-\nabla V(q_t)-\dif t\gamma M^{-1}p_t\dif t + \sqrt{\frac{2\gamma}{\beta}}\dif W_t\right] - \frac{\nabla_q R_t\cdot M^{-1}p_t}{F_t\cdot G_t}F_t\,\dif t,
+            \dif p_t &= \overline{P}_{F_t,G_t}\left[-\nabla V(q_t)-\dif t\gamma M^{-1}p_t\,\dif t + \sqrt{\frac{2\gamma}{\beta}}\,\dif W_t\right] - \frac{\nabla_q R_t\cdot M^{-1}p_t}{F_t\cdot G_t}F_t\,\dif t,
         \end{aligned}\right.
 \end{equation}
 with an expression for the forcing term
@@ -146,7 +147,7 @@ We record the infinitesimal generator of the dynamics \eqref{eq:norton_dynamics_
     \label{eq:norton_general_generator}
     \cL_{\gamma}^{\mathrm{Norton}}\varphi = A \varphi - \left[\overline{P}_{F,G}\left(\nabla V+\gamma M^{-1}p\right)\right] \cdot \nabla_p\varphi - \frac{\nabla_q R \cdot M^{-1}p}{F\cdot G} F\cdot \nabla_p \varphi + \frac1\beta\nabla^2_p\varphi : \left[\overline{P}_{F,G}\gamma\overline{P}_{G,F}\right].
 \end{equation}
-Note $\overline{P}_{F,G}$ is a function of the coordinate variable in the equation above.
+Note $\overline{P}_{F,G}$ is a function of the coordinate variable in the equation above, and $A$ is as in \eqref{eq:Lham_splitting}.
 \begin{remark}
     \label{rem:norton_sv_well_posedness}
     Note that the $G(q_t)\cdot F(q_t)$ term in the denominator may pose a question of well-posedness of the dynamics. Let us always suppose in our computations that $G(q_t)\cdot F(q_t)>0$, but this is by no means automatic.
@@ -165,7 +166,7 @@ As in every case we considered so far, we will again rely on the fact that the N
         \label{eq:norton_A_dynamics}
         \left\{
             \begin{aligned}
-                \dif q_t &=M^{-1}p_t\dif_t\\
+                \dif q_t &=M^{-1}p_t\,\dif_t\\
                 \dif p_t &= -\frac{\nabla_q R(q_t,p_t)\cdot M^{-1}p_t}{F(q_t)\cdot G(q_t)}F(q_t)\,\dif t
             \end{aligned}
         \right.,
@@ -186,11 +187,11 @@ As in every case we considered so far, we will again rely on the fact that the N
         \left\{
             \begin{aligned}
                 \dif q_t &= 0\\
-                \dif p_t &= \overline{P}_{F_t,G_t}\left[\gamma M^{-1}p_t\dif t +\sqrt{\frac{2\gamma}\beta}\dif W_t\right],
+                \dif p_t &= \overline{P}_{F_t,G_t}\left[\gamma M^{-1}p_t\,\dif t +\sqrt{\frac{2\gamma}\beta}\,\dif W_t\right],
             \end{aligned}
         \right.
     \end{equation}
-    which additively combine to form the Norton dynamics \eqref{eq:norton_general_sde_solved}. By analogy with the equilibrium setting, we will respectively refer to \eqref{eq:norton_A_dynamics}, \eqref{eq:norton_B_dynamics} and \eqref{eq:norton_O_dynamics} as the (Norton) A,B and O dynamics.
+    which additively combine to form the Norton dynamics \eqref{eq:norton_general_sde_solved}. By analogy with the equilibrium setting, we will respectively refer to \eqref{eq:norton_A_dynamics}, \eqref{eq:norton_B_dynamics} and \eqref{eq:norton_O_dynamics} as the (Norton) $A$,$B$ and $O$ dynamics.
     At the level of the generator \eqref{eq:norton_general_generator}, this corresponds to a splitting into three operators,
     \[\cL_\gamma^{\mathrm{Norton}}=\cL_{A}^{\mathrm{Norton}}+\cL_{B}^{\mathrm{Norton}}+\cL_{\gamma,O}^{\mathrm{Norton}},\]
     with
@@ -208,7 +209,7 @@ As in every case we considered so far, we will again rely on the fact that the N
 
 The claim that these dynamics are structure-preserving is summed up in the following straightforward result.
 \begin{lemma}
-    Let $(q_t,p_t)$ refer to the solution of any of the Norton A,B or O dynamics. Then if $R(q_0,p_0)=r$, $R(q_t,p_t)=r$ for all $t>0$.
+    Let $(q_t,p_t)$ refer to the solution of any of the Norton $A$,$B$ or $O$ dynamics. Then if $R(q_0,p_0)=r$, $R(q_t,p_t)=r$ for all $t>0$.
 \end{lemma}
 \begin{proof}
     The result can be proven by three thoughtless applications of the chain rule or Itô's formula.
@@ -219,10 +220,16 @@ The claim that these dynamics are structure-preserving is summed up in the follo
         &=0,
     \end{align*}
     since $P_{G(q),F(q)}$ is a projector onto the one-dimensional subspace spanned by $G(q)$ and $\overline{P}_{G(q),F(q)}$ is its complement. Hence any dynamics of the form 
-    \[\dif q_t =0,\qquad \dif p_t = \overline{P}_{G_t,F_t}\left[b(q_t,p_t)\dif t +\sigma(q_t,p_t)\dif W_t\right]\]
+    \[\dif q_t =0,\qquad \dif p_t = \overline{P}_{G_t,F_t}\left[b(q_t,p_t)\,\dif t +\sigma(q_t,p_t)\,\dif W_t\right]\]
     preserves $R(q_t,p_t)=G(q_t)\cdot p_t$, by applying the Itô formula, since $\nabla_p R(q,p)=G(q)$ and $\nabla_p^2 R=0$.
-    This implies the result for the B and O dynamics. However, since the Norton dynamics also preserves $R(q_t,p_t)$ by construction, 
-    the preservation property for the A dynamics follows immediately, because the contributions of the A, B and O dynamics to $\dif R(q_t,p_t)=0$ for the full dynamics combine additively, again by Itô's formula in the absence of a quadratic covariation term.
+    This implies the result for the $B$ and $O$ dynamics. However, since the Norton dynamics also preserves $R(q_t,p_t)$ by construction, 
+    the preservation property for the $A$ dynamics follows immediately, from the response conservation property of the Norton dynamics in the case $V=0$ and $\gamma=0$.
+    For the more skeptical reader, we write, with $(q_t,p_t)$ a solution to the $A$ dynamics,
+    \begin{align*}
+        \frac{\dif}{\dif t} R(q_t,p_t) &= \nabla_q R(q_t,p_t)\cdot (M^{-1}p_t) -\nabla_p R(q_t,p_t)\cdot \left(\frac{\nabla_q R(q_t,p_t)\cdot M^{-1}p_t}{F(q_t)\cdot G(q_t)}F(q_t)\right)\\
+        &= \nabla_q R(q_t,p_t)\cdot (M^{-1}p_t)\left(1-\frac{G(q_t)\cdot F(q_t)}{F(q_t)\cdot G(q_t)}\right)\\
+        &=0
+    \end{align*}
 \end{proof}
 
 As before, this splitting allows us to define a variety of numerical schemes for the Norton dynamics, following the same strategy as in Section \ref{section:splitting_schemes_langevin}.
@@ -339,7 +346,7 @@ is that they immediately yield a discretization of the forcing intensity $\dif\L
 Indeed, observe from equation \eqref{eq:norton_forcing_term} that we can write
 \begin{equation}
     \label{eq:norton_forcing_splitting}
-    \dif \Lambda_t = \lambda^{\mathrm{A}}_t \dif t + \lambda^{\mathrm{B}}_t\dif t + \dif \Lambda_t^{\mathrm{O}},
+    \dif \Lambda_t = \lambda^{\mathrm{A}}_t \dif t + \lambda^{\mathrm{B}}_t\,\dif t + \dif \Lambda_t^{\mathrm{O}},
 \end{equation}
 with 
 \begin{equation}
@@ -348,7 +355,7 @@ with
     \begin{aligned}
         \lambda^{\mathrm{A}}_t &= -\frac{\nabla_q R(q_t,p_t)\cdot G(q_t)}{F(q_t)\cdot G(q_t)},\\
         \lambda^{\mathrm{B}}_t &= -\frac{\nabla V(q_t)\cdot G(q_t)}{F(q_t)\cdot G(q_t)},\\
-        \dif \Lambda_t^{\mathrm{O}} &= -\frac{\left[-\gamma M^{-1}p_t\dif t +\sqrt{\frac{2\gamma}\beta}\dif W_t \right]\cdot G(q_t)}{F(q_t)\cdot G(q_t)}.
+        \dif \Lambda_t^{\mathrm{O}} &= -\frac{\left[-\gamma M^{-1}p_t\,\dif t +\sqrt{\frac{2\gamma}\beta}\,\dif W_t \right]\cdot G(q_t)}{F(q_t)\cdot G(q_t)}.
     \end{aligned}
     \right.
 \end{equation}
@@ -386,7 +393,7 @@ This procedure can of course be generalized to other orderings of the operators 
     $\dif \Lambda^{\mathrm{O}}$,
     \[\lambda_t^{\mathrm{O}}=\frac{\gamma M^{-1}p_t\cdot G(q_t)}{F(q_t)\cdot G(q_t)},\]
     to obtain an estimator with a lower variance. For example, in our simulations, we took $M=m\Id$ and a constant $\gamma$, so that using the constant-response condition, 
-    \[\lambda_t^{\mathrm{O}}=\frac{\gamma m^{-1}}{F(q_t)\cdot G(q_t)}\],
+    \[\lambda_t^{\mathrm{O}}=\frac{\gamma m^{-1}}{F(q_t)\cdot G(q_t)},\]
     so that the mean force estimator we considered in practice was 
     \begin{equation}
         \label{eq:norton_mean_force_estimator_practical}
@@ -565,11 +572,11 @@ This can be achieved at no cost to generality by considering an appropriate tran
 Estimators for the transport coefficient \eqref{eq:shear_viscosity_tranpsort_coefficient} and estimates of the statistical error can be obtained identically to the mobility case.
 All simulations were run in the reference thermodynamics condition \eqref{eq:reference_thermo_condition_sv} for a minimum length of $8\times 10^7$ timesteps.
 
-In Figure \ref{fig:norton_sv_linear_response}, we plot the normalized response \[\frac{R_1}{F_1}\] against the estimated average forcing $\langle \lambda \rangle$ in the linear regime, for the different forcing profiles.
+In Figure \ref{fig:norton_sv_linear_response}, we plot the normalized response \[\frac{R_1}{c_1(f_y)}\] against the estimated average forcing $\langle \lambda \rangle$ in the linear regime, for the different forcing profiles.
 The estimated transport coefficients are consistent with one another, and agree with those obtained in the Thévenin and Green--Kubo setting.
 In Figure \ref{fig:norton_sv_nonlinear_response}, we compare the non-linear response profiles between the Thévenin and Norton methods, for each of the forcing profiles. In every case, the responses coincide perfectly throughout.
-In Figure \ref{fig:norton_avs_sv} we compare asymptotic variances of the finite difference estimators for the normalized response using the Thévenin and Norton method. The asymptotic variance was estimated directly from the response time series in the Thévenin case, using a block averaging procedure,
-and for the Norton method, a block averaging procedure on the forcing time series was combined with a delta-method. We find that the Norton estimators consistently outperform their Thévenin counterparts, and that not all forcing profiles are equal in terms of statistical error.
+In Figure \ref{fig:norton_avs_sv} we compare asymptotic variances of the finite difference estimators of the normalized response $\rho_{F,1}/c_1(f_y)$ using the Thévenin and Norton method. The asymptotic variance was estimated directly from the response time series in the Thévenin case, using a block averaging procedure,
+and for the Norton method, a block averaging procedure on the forcing time series was combined with a delta-method. We find that the Norton estimators consistently outperform their Thévenin counterparts. Furthermore, it appears not all forcing profiles are equal in terms of asymptotic variance.
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=0.9\linewidth]{figures/norton_sv_lin.pdf}
