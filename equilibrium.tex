@@ -484,8 +484,8 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
         One idea, exploited by Kliemann in \cite{K87}, is to recast the Langevin dynamics as a control equation (where $W_t$ acts as the control). 
         He is thus able to leverage criteria on $\cL_\gamma$ from geometric control theory to ensure the almost sure convergence of trajectory averages.
         Results such as (ii) depend on the functional setting. Let us simply state the following result, based on hypocoercive estimates. 
-        For an introduction to these ideas, and references, we point to Section 2.1.1 in \cite{LMS13}, and \cite[DMS15].
-        For any measure $\rho$ denote by $L^2_0(\rho)$ the space of centered $L^2$ observables with respect to $\rho$.
+        For an introduction to these ideas, and references, we point to Section 2.1.1 in \cite{LMS13}, and \cite{DMS15}.
+        For any measure $\rho$ denote by $L^2_0(\rho)$ the space of square-integrable observables with respect to $\rho$ and zero mean.
         \begin{prop}[Exponential decay rate of the Semigroup]
             Assume that the potential $V$ is smooth and that the configurational marginal $\nu$ of $\mu$ satisfies a Poincaré inequality:
             there exists a constant $R>0$ such that for all $\varphi \in L^2_0(\nu)$ such that $\nabla \varphi \in L^2(\nu)^{dN}$,
@@ -496,7 +496,7 @@ where the expectation is over all trajectories of the dynamics \eqref{eq:langevi
             Then there exist constants $C_\gamma,\lambda_\gamma >0$ such that 
             \begin{equation}
                 \label{eq:semigroup_exp_decay}
-                \|\e^{t\cL_\gamma}\|_{\mathcal{B}(L^2(\mu))}\leq C_\gamma \e^{-t\lambda_\gamma}.
+                \|\e^{t\cL_\gamma}\|_{\mathcal{B}(L_0^2(\mu))}\leq C_\gamma \e^{-t\lambda_\gamma}.
             \end{equation}
         \end{prop}
         For the overdamped case, exponential decay rates can also be obtained (much more directly) under the same conditions.
