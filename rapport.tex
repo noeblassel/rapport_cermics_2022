@@ -135,29 +135,26 @@ We also take advantage of this short introduction to thank Gabriel Stoltz for tr
   \textbf{Notational conventions}
 \end{center}
 We convene that the gradient of a differentiable function $\varphi : \R^n \mapsto \R$ is a column vector-valued function
-$$\nabla \varphi : \R^n \mapsto \R^n \defeq \R^{n\times 1}$$
+$$\nabla \varphi : \R^n \to \R^n \defeq \R^{n\times 1}.$$
 Notationally,
-$$\nabla = \begin{pmatrix} \partial x_1 \\ \vdots \\ \partial x_n\end{pmatrix}$$
+$$\nabla = \begin{pmatrix} \partial x_1 \\ \vdots \\ \partial x_n\end{pmatrix}.$$
 So that the Hessian operator writes
 $$\nabla^2 \defeq \nabla\nabla^\intercal = \begin{pmatrix}
-\partial{x_1}\partial_{x_1} & \dotsm & \partial{x_1}\partial{x_n} \\
+\partial^2_{x_1,x_1} & \dotsm & \partial^2{x_1,x_n}\\
  \vdots & \ddots & \vdots \\
- \partial{x_n}\partial{x_1} & \dotsm & \partial{x_n}\partial{x_1}    
+ \partial^2{x_n,x_1} & \dotsm & \partial^2{x_n,x_n}    
 \end{pmatrix}$$
-And for $f=(f_1,\dotsm, f_n)^\intercal: \R^n \mapsto \R^n$
+The gradient (also known as the Jacobian matrix) of a vector field $f=(f_1,\dotsm, f_n)^\intercal: \R^n \to \R^n$ is
 
 \begin{equation}
   \label{eq:jacobian}
-  \begin{aligned}
     \nabla f=\begin{pmatrix}
         \nabla^\intercal f_1 \\ \vdots \\ \nabla^\intercal f_n
-    \end{pmatrix}=(\nabla \otimes f)^\intercal, && 
-    \operatorname{div} f=\partial_{x_1}f_1+\dotsm+\partial_{x_n}f_n=\nabla^\intercal f
-    \end{aligned}
+    \end{pmatrix}=(\nabla \otimes f)^\intercal,
 \end{equation}
+while its divergence is 
+\[\operatorname{div} f=\partial_{x_1}f_1+\dotsm+\partial_{x_n}f_n=\nabla^\intercal f.\]
 
-
-are respectively the Jacobian matrix and divergence of $f$.
 \tableofcontents
 
 \chapter{Introduction to molecular dynamics}
